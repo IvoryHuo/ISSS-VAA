@@ -20,7 +20,8 @@ pacman::p_load(tidyverse)
 exam_data <- read_csv("data/Exam_data.csv")
 ```
 
-# Plotting a simple bar chart
+# Data Visualisation 
+## Plotting No_of_Stu for Different Races
 
 ```{r}
 ggplot(data = exam_data,
@@ -28,3 +29,105 @@ ggplot(data = exam_data,
   geom_bar()
 
 ```
+## Plotting Math Grades for students of different gender in each class
+
+```{r}
+ggplot(data = exam_data,
+       aes(x= CLASS,y=MATHS)) +
+  geom_boxplot() +
+  facet_grid(~GENDER)
+
+```
+
+```{r}
+ggplot(data = exam_data,
+       aes(x= CLASS,y=MATHS)) +
+  geom_boxplot() +
+  facet_grid(rows = vars(GENDER))
+```
+```{r}
+ggplot(data = exam_data,
+       aes(x= GENDER,y=MATHS)) +
+  geom_boxplot() +
+  facet_grid(rows = vars(GENDER),cols = vars(CLASS))+
+  theme(axis.text=element_text(size = 6))
+```
+```{r}
+ggplot(data = exam_data,
+       aes(x = RACE)) +
+  geom_bar() +
+  coord_flip()+
+  theme_minimal()+
+  theme(panel.background = element_rect(fill = "lightblue", color = "white"))
+```
+```{r}
+ggplot(data = exam_data,
+       aes(x = reorder(RACE,RACE,function(x)-length(x)))) +
+  geom_bar()+
+  labs(y = "No. of Pupils",x = "Race") 
+```
+
+```{r}
+ggplot(data = exam_data,
+       aes(x = fct_infreq(RACE)))+
+  geom_text(stat = 'count',aes(label = after_stat(count)),nudge_y = 5)+
+  geom_text(stat = 'count',aes(label = scales::percent(after_stat(count/sum(count)))), nudge_y = 15)+
+  geom_bar() +
+  labs(y = "No. of Pupils",x = "Race") +
+  theme(axis.title.y = element_text(hjust = 1)) 
+  
+
+
+
+```
+```{r}
+ggplot(data = exam_data,
+       aes(x=MATHS))+
+  geom_histogram(bins = 20,
+                 color = "black",
+                 fill = "light blue") +
+  geom_vline(xintercept = mean(exam_data$MATHS),
+             color = "red",
+             linetype = "longdash") +
+  geom_vline(xintercept = median(exam_data$MATHS),
+             color = "black",
+             linetype = "longdash")
+
+
+
+```
+
+Reference: https://drsimonj.svbtle.com/plotting-background-data-for-groups-with-ggplot2
+```{r}
+exam_without_gender = exam_data[,-3]
+ggplot(data=exam_data,
+       aes(x = ENGLISH, fill = GENDER)) +
+  geom_histogram(data = exam_without_gender,fill = "grey",binwidth = 2.5,alpha = 0.5) +
+  geom_histogram(binwidth = 2.5,color = "black") +
+  facet_wrap(~GENDER) +
+  ylim(0,30)+
+  guides(fill = FALSE) #remove legend
+
+```
+
+```{r}
+ggplot(data=exam_data,
+       aes(x = MATHS,y=ENGLISH)) +
+  geom_point()+
+  xlim(0,100)+
+  ylim(0,100)+
+  geom_vline(xintercept = 50,linetype = "longdash") +
+  geom_hline(yintercept = 50, linetype = "longdash")
+
+
+
+```
+
+
+
+
+
+
+
+
+
