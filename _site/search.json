@@ -14,13 +14,6 @@
     "text": "The code chunk below uses p_load() of pacman package to check if tidyverse packages are installed in the computer. If they are, then they will be launched into R.\n\npacman::p_load(tidyverse)\n\n\n\n\n\nexam_data <- read_csv(\"data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "ISSS-VAA",
-    "section": "",
-    "text": "Welcome to ISSS608 Visual Analytics and Applications homepage. In this website, you will find my coursework prepared for this course."
-  },
-  {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#plotting-no_of_stu-for-different-races",
     "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#plotting-no_of_stu-for-different-races",
     "title": "Hands-on Exercise 1",
@@ -33,5 +26,12 @@
     "title": "Hands-on Exercise 1",
     "section": "Plotting Math Grades for students of different gender in each class",
     "text": "Plotting Math Grades for students of different gender in each class\n\nggplot(data = exam_data,\n       aes(x= CLASS,y=MATHS)) +\n  geom_boxplot() +\n  facet_grid(~GENDER)\n\n\n\n\n\nggplot(data = exam_data,\n       aes(x= CLASS,y=MATHS)) +\n  geom_boxplot() +\n  facet_grid(rows = vars(GENDER))\n\n\n\n\n\nggplot(data = exam_data,\n       aes(x= GENDER,y=MATHS)) +\n  geom_boxplot() +\n  facet_grid(rows = vars(GENDER),cols = vars(CLASS))+\n  theme(axis.text=element_text(size = 6))\n\n\n\n\n\nggplot(data = exam_data,\n       aes(x = RACE)) +\n  geom_bar() +\n  coord_flip()+\n  theme_minimal()+\n  theme(panel.background = element_rect(fill = \"lightblue\", color = \"white\"))\n\n\n\n\n\nggplot(data = exam_data,\n       aes(x = reorder(RACE,RACE,function(x)-length(x)))) +\n  geom_bar()+\n  labs(y = \"No. of Pupils\",x = \"Race\") \n\n\n\n\n\nggplot(data = exam_data,\n       aes(x = fct_infreq(RACE)))+\n  geom_text(stat = 'count',aes(label = after_stat(count)),nudge_y = 5)+\n  geom_text(stat = 'count',aes(label = scales::percent(after_stat(count/sum(count)))), nudge_y = 15)+\n  geom_bar() +\n  labs(y = \"No. of Pupils\",x = \"Race\") +\n  theme(axis.title.y = element_text(hjust = 1)) \n\n\n\n\n\nggplot(data = exam_data,\n       aes(x=MATHS))+\n  geom_histogram(bins = 20,\n                 color = \"black\",\n                 fill = \"light blue\") +\n  geom_vline(xintercept = mean(exam_data$MATHS),\n             color = \"red\",\n             linetype = \"longdash\") +\n  geom_vline(xintercept = median(exam_data$MATHS),\n             color = \"black\",\n             linetype = \"longdash\")\n\n\n\n\nReference: https://drsimonj.svbtle.com/plotting-background-data-for-groups-with-ggplot2\n\nexam_without_gender = exam_data[,-3]\nggplot(data=exam_data,\n       aes(x = ENGLISH, fill = GENDER)) +\n  geom_histogram(data = exam_without_gender,fill = \"grey\",binwidth = 2.5,alpha = 0.5) +\n  geom_histogram(binwidth = 2.5,color = \"black\") +\n  facet_wrap(~GENDER) +\n  ylim(0,30)+\n  guides(fill = FALSE) #remove legend\n\nWarning: The `<scale>` argument of `guides()` cannot be `FALSE`. Use \"none\" instead as\nof ggplot2 3.3.4.\n\n\n\n\n\n\nggplot(data=exam_data,\n       aes(x = MATHS,y=ENGLISH)) +\n  geom_point()+\n  xlim(0,100)+\n  ylim(0,100)+\n  geom_vline(xintercept = 50,linetype = \"longdash\") +\n  geom_hline(yintercept = 50, linetype = \"longdash\")"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "ISSS-VAA",
+    "section": "",
+    "text": "Welcome to ISSS608 Visual Analytics and Applications homepage. In this website, you will find my coursework prepared for this course."
   }
 ]

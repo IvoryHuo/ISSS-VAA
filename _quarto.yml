@@ -7,8 +7,12 @@ website:
     left:
     - text: "Hands-on Exercise"
       menu: 
-        - text: "Hands-on Exercise 1"
+        - text: "Hands-on Ex01"
           href: "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html"
+    - text: "In-class Exercise"
+      menu:
+      - text: "In-class Ex01(Tableau)"
+        href: "https://public.tableau.com/app/profile/huoda1027/viz/In-class_Ex01_16736794987590/SalesandProfitSummary2019-2022"
     right:
       - href: index.qmd
         text: Home
