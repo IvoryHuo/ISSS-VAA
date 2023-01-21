@@ -20,7 +20,8 @@ pacman::p_load(tidyverse)
 exam_data <- read_csv("data/Exam_data.csv")
 ```
 
-# Data Visualisation 
+# Data Visualisation
+
 ## Plotting No_of_Stu for Different Races
 
 ```{r}
@@ -29,6 +30,7 @@ ggplot(data = exam_data,
   geom_bar()
 
 ```
+
 ## Plotting Math Grades for students of different gender in each class
 
 ```{r}
@@ -45,6 +47,7 @@ ggplot(data = exam_data,
   geom_boxplot() +
   facet_grid(rows = vars(GENDER))
 ```
+
 ```{r}
 ggplot(data = exam_data,
        aes(x= GENDER,y=MATHS)) +
@@ -52,6 +55,7 @@ ggplot(data = exam_data,
   facet_grid(rows = vars(GENDER),cols = vars(CLASS))+
   theme(axis.text=element_text(size = 6))
 ```
+
 ```{r}
 ggplot(data = exam_data,
        aes(x = RACE)) +
@@ -60,6 +64,7 @@ ggplot(data = exam_data,
   theme_minimal()+
   theme(panel.background = element_rect(fill = "lightblue", color = "white"))
 ```
+
 ```{r}
 ggplot(data = exam_data,
        aes(x = reorder(RACE,RACE,function(x)-length(x)))) +
@@ -80,6 +85,7 @@ ggplot(data = exam_data,
 
 
 ```
+
 ```{r}
 ggplot(data = exam_data,
        aes(x=MATHS))+
@@ -98,6 +104,7 @@ ggplot(data = exam_data,
 ```
 
 Reference: https://drsimonj.svbtle.com/plotting-background-data-for-groups-with-ggplot2
+
 ```{r}
 exam_without_gender = exam_data[,-3]
 ggplot(data=exam_data,
@@ -122,12 +129,3 @@ ggplot(data=exam_data,
 
 
 ```
-
-
-
-
-
-
-
-
-

@@ -33,5 +33,19 @@
     "title": "ISSS-VAA",
     "section": "",
     "text": "Welcome to ISSS608 Visual Analytics and Applications homepage. In this website, you will find my coursework prepared for this course."
+  },
+  {
+    "objectID": "Take-Home_Ex/Take-Home_Ex01/Take-Home_Ex01.html",
+    "href": "Take-Home_Ex/Take-Home_Ex01/Take-Home_Ex01.html",
+    "title": "Take-Home_Ex01",
+    "section": "",
+    "text": "Age-sex pyramid is an analytical visualisation commonly used by demographers to reveal the structure of population by gender and age group. In this take-home exercise, you are required to reveal the demographic structure of Singapore at planning area level by using age-sex pyramid method. Instead of plotting a single age-sex pyramid, however, you are required to display nine selected planning areas on a single view by using trellis display (also know as small-multiple plot).\nSingapore Residents by Planning Area / Subzone, Age Group, Sex and Type of Dwelling, June 2022 should be used to prepare the analytical visualisation. The data can be downloaded here."
+  },
+  {
+    "objectID": "Take-Home_Ex/Take-Home_Ex01/Take-Home_Ex01.html#use-tableau-prep-for-data-preparation",
+    "href": "Take-Home_Ex/Take-Home_Ex01/Take-Home_Ex01.html#use-tableau-prep-for-data-preparation",
+    "title": "Take-Home_Ex01",
+    "section": "4.1 Use Tableau Prep for data preparation",
+    "text": "4.1 Use Tableau Prep for data preparation\nThe flow of the data preparation is as shown below.\n\n\n\nFig 4.1.1 Data Preparation\n\n\n\n\n\n\n\n\n\n\nNo.\nStep\nScreenshot\n\n\n\n\n1\nLoad the originl data csv into Tableau Prep by click the plus symbol besides Connections, then choose Text File.\n\n\n\n2\nHide unnecessary columns by unclick the specific Field Name. In this task, the SZ(subzone), FA(floor area), Time(2022) are hided.\n\n\n\n3\n\n\n\n\n4\n\n\n\n\n5\n\n\n\n\n6"
   }
 ]
