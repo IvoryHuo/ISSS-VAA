@@ -20,6 +20,10 @@ pacman::p_load(tidyverse)
 exam_data <- read_csv("data/Exam_data.csv")
 ```
 
+Note that read_csv can deal with attribute with space in names, while read.csv cannot.
+
+For example, the attribute name is "Project Name". Using read.csv, then the name will be read as "Project.Name". Using read_csv, the name will be read as "Project Name", the space is retained back.
+
 # Data Visualisation
 
 ## Plotting No_of_Stu for Different Races

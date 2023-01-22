@@ -1,0 +1,10 @@
+---
+title: "Hands on Ex 2: Create Elegant Graphs using ggplot2"
+author: "Huo Da"
+---
+
+# Load Packages
+
+```{r}
+pacman::p_load(tidyverse)
+```

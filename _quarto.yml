@@ -9,14 +9,22 @@ website:
       menu: 
         - text: "Hands-on Ex01"
           href: "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html"
+        - text: "Hands-on_Ex02(ggplot2)"
+          href: "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html"
+    
     - text: "In-class Exercise"
       menu:
       - text: "In-class_Ex01(Tableau)"
         href: "https://public.tableau.com/app/profile/huoda1027/viz/In-class_Ex01_16736794987590/SalesandProfitSummary2019-2022"
+
+    
     - text: "Take-Home Exercise"
       menu:
       - text: "Take-Home_Ex01(Tableau)"
         href: "Take-Home_Ex/Take-Home_Ex01/Take-Home_Ex01.html"
+    
+    
+    
     right:
       - href: index.qmd
         text: Home

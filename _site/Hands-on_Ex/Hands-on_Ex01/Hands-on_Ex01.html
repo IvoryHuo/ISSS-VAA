@@ -153,6 +153,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html">
  <span class="dropdown-text">Hands-on Ex01</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html">
+ <span class="dropdown-text">Hands-on_Ex02(ggplot2)</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -265,6 +269,8 @@ dbl (3): ENGLISH, MATHS, SCIENCE
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 </div>
+<p>Note that read_csv can deal with attribute with space in names, while read.csv cannot.</p>
+<p>For example, the attribute name is “Project Name”. Using read.csv, then the name will be read as “Project.Name”. Using read_csv, the name will be read as “Project Name”, the space is retained back.</p>
 </section>
 </section>
 <section id="data-visualisation" class="level1">
