@@ -2,7 +2,7 @@
 title: "Take Home Exercise 02"
 subtitle: Remaking peer’s original design by improving chart’s clarity and aesthetics
 author: "Huo Da"
-date: published on 1/23/2023
+Published: "28 Jan 2023"
 ---
 
 # 1. Task
@@ -21,9 +21,11 @@ The Task In this take-home exercise, you are required to:
 
 The original design is as shown.
 
+::: column-page
 ![](image/critique.jpg)
+:::
 
-### Clarity
+## Clarity
 
 -   The **title** of dashboard is unclear. We are suppose to represent the distribution of a population by age and sex, but not 'age pyramid: sex pattern'.
 
@@ -35,19 +37,23 @@ The original design is as shown.
 
 -   The **label of the y-axis** of age is misleading. The age group should be represented by an interval (0 to 9, 10 to 19, 20 to 29, ...) instead of an integer(0,10,20,...). And it should no start at null and end at 80.
 
--   The **label of the x-axis** is hard to read. In fact, the gender can be represented by legend and the 'population' can be labeled just once.
-
--   The **1st dashboard** include overview of the Singapore population by PA and the age-sex pyramid of Singapore.Those diagrams should be displayed together with the main trellis at margin as reference.
-
--   The **3rd dashboard** include pyramids of 9 sub zones. It should be removed as the requirement states that the pyramids should be drawn at planning area level.
+-   The **label of the x-axis** is hard to read. In fact, the gender can be represented by legend and the 'population' can be labeled just once on x-axis.
 
 -   There is no **update date** and **data source**.
 
 ### Aesthetics
 
-The **arrangement** of pyramids is only in the diagonal of a matrix. The information is not displayed in one page as many space are wasted. We should display the 9 pyramids in 3 \* 3 matrix. It enables us to make comparisons quickly and easily.
+-   The **arrangement** of pyramids is only in the diagonal of a matrix. The information is not displayed in one page as many space are wasted. We should display the 9 pyramids in 3 \* 3 matrix. It enables us to make comparisons quickly and easily.
 
 # 3. Remake
+
+The final visualisation is as shown below.
+
+::: column-page
+![](images/final%20visual-01.jpg)
+:::
+
+The steps to build such visuallisation using tidyverse are described as follows.
 
 ## Install and Launching R packages
 
@@ -60,6 +66,7 @@ pacman::p_load(tidyverse)
 ## Importing the data
 
 ```{r}
+#| echo: false
 pop_data <- read_csv("data/respopagesexfa2022.csv")
 ```
 
@@ -69,7 +76,7 @@ pop_data <- read_csv("data/respopagesexfa2022.csv")
 
 ```{r}
 pop_data2 <- pop_data[,!names(pop_data) %in% c("SZ","FA","Time")]
-pop_data2
+head(pop_data2,5)
 ```
 
 2.  Add the ranking number to the PA to find the 9 most populated PA.
@@ -119,7 +126,7 @@ pop_data_mean <- pop_data_mean %>%
   mutate(
     Total_age_pa = ifelse(Pop == "Null", 0, AGE * Pop)
   )
-pop_data_mean
+head(pop_data_mean,5)
   
 ```
 
@@ -139,17 +146,21 @@ pa_mean <- pa_mean[order(pa_mean$mean_age_pa,decreasing=TRUE),]
 pa_mean[c(1,4)]
 
 ```
+
 ## Create Visualisation
-1.  Aggregate data using planning area and gender. Note that to build the age-sex pyramid, the male population should be equal to negative of the original value. 
+
+1.  Aggregate data using planning area and gender. Note that to build the age-sex pyramid, the male population should be equal to negative of the original value.
 
 ```{r}
 pop_data2$Population <- ifelse(pop_data2$Sex == "Males", (-1)*pop_data2$Pop,pop_data2$Pop)
 final_pop_data <- aggregate(Population~PA++AG+Sex,FUN = sum,data=pop_data2)
 most_populatedPA_pop_data <- final_pop_data%>%filter(final_pop_data$PA %in% chosen_PA)
 
-most_populatedPA_pop_data 
+head(most_populatedPA_pop_data,5)
 ```
-2. Due to the space constain, we creat a new age group, AGE, where the range of each interval increases from 5 to 10.
+
+2.  Due to the space constain, we creat a new age group, AGE, where the range of each interval increases from 5 to 10.
+
 ```{r}
 most_populatedPA_pop_data <- most_populatedPA_pop_data %>%
   mutate(
@@ -169,17 +180,19 @@ most_populatedPA_pop_data <- most_populatedPA_pop_data %>%
   
 most_populatedPA_pop_data <- aggregate(Population ~ PA + Sex + AGE, FUN = sum, data = most_populatedPA_pop_data)
 
-most_populatedPA_pop_data
+head(most_populatedPA_pop_data,5)
 
 ```
-3. Join the two dataset: most_populatedPA_pop_data and pa_mean, i.e. add the mean age of each PA to the above table.
+
+3.  Join the two dataset: most_populatedPA_pop_data and pa_mean, i.e. add the mean age of each PA to the above table.
+
 ```{r}
 most_populatedPA_pop_data <- left_join(most_populatedPA_pop_data,pa_mean)
-most_populatedPA_pop_data
+head(most_populatedPA_pop_data,5)
 ```
 
+4.  Visualise the 9 age-sex pyramids in a 3 \* 3 matrix.
 
-4. Visualise the 9 age-sex pyramids in a 3 * 3 matrix.
 ```{r}
 ggplot(most_populatedPA_pop_data, 
        aes(x = AGE, y = Population, fill = Sex)) + 
@@ -193,8 +206,9 @@ ggplot(most_populatedPA_pop_data,
   
 
 ```
-4. Note that the shape of the pyramid above is exactly as the original one. We notices that the order of the age group on y-axis is wrong. Hence, we need to reorder the age groups on y-axis as shown below.
-Moreover, the 9 most populated PA is arranged according to the mean age in descending order.
+
+5.  Note that the shape of the pyramid above is exactly as the original one. We notices that the order of the age group on y-axis is wrong. Hence, we need to reorder the age groups on y-axis as shown below. Moreover, the 9 most populated PA is arranged according to the mean age in descending order.
+
 ```{r}
 most_populatedPA_pop_data$AGE <- factor(most_populatedPA_pop_data$AGE,
                                        levels = c("0-9","10-19","20-29","30-39","40-49","50-59","60-69","70-79","80-89",">90"))
@@ -215,4 +229,44 @@ pyramids
 
 ```
 
+6.  The above diagram can be improved by adding the mean age in each PA as labels.
 
+```{r}
+labels <- c("Bedok\nMean:43.8","Hougang\nMean:42.6","Tampines\nMean:41.3",
+            "Jurong West\nMean:40.4","Yishun\nMean:40.2","Choa Chu Kang\nMean:39.3",
+            "Woodlands\nMean:38.8","Sengkang\nMean:37.3","Punggol\nMean:34.8")
+most_populatedPA_pop_data$PA <- factor(most_populatedPA_pop_data$PA, labels = labels)
+
+vis <- ggplot(most_populatedPA_pop_data, 
+       aes(x = AGE, y = Population, fill = Sex)) + 
+  geom_bar(data = subset(most_populatedPA_pop_data, Sex == "Females"), stat = "identity") +
+  geom_bar(data = subset(most_populatedPA_pop_data, Sex == "Males"), stat = "identity") + 
+  coord_flip()+
+  facet_wrap(~ PA,ncol = 3 ) +
+  labs(title="Age-sex Pyramids in 9 Most Populated PA, as of June 2022", 
+       subtitle = "Bedok has the oldest age structure while Punggol has the youngest",
+       x = "Age Group",y="Population") +
+  scale_y_continuous(breaks = seq(-20000, 20000, 10000), 
+                     labels = paste0(as.character(c('20k','10k','0','10k','20k')))) +
+  theme(
+    plot.title = element_text(size = 12, face = "bold",hjust = 0.5),
+    plot.subtitle = element_text(size = 10, color = "darkgrey",hjust = 0.5),
+    strip.text.x = element_text(size = 9),
+    axis.text=element_text(size=6)
+  )
+vis
+```
+
+*Data Source: Department of Statistics, Singapore*
+
+# 4. Learning Points
+
+Comparing my design with my classmates' designs provides me an opportunity to reflect on how does a good design facilitate interpretation of the results. For example,
+
+-   well worded title, clear annotation, labels as well as numeric values can tell a good data story.
+
+-   colors are pre-attentively processed and can be used to differentiate genders in the above example.
+
+-   arrangements of panel charts make comparisons easily.
+
+*I appreciate you taking the time to read this article and paying attention to it.*
