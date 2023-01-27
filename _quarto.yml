@@ -22,6 +22,8 @@ website:
       menu:
       - text: "Take-Home_Ex01(Tableau)"
         href: "Take-Home_Ex/Take-Home_Ex01/Take-Home_Ex01.html"
+      - text: "Take-Home_Ex02(R)"
+        href: "Take-Home_Ex/Take-Home_Ex02/Take-Home_Ex02.html"
     
     
     
