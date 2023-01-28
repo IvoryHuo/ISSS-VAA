@@ -16,7 +16,8 @@ website:
       menu:
       - text: "In-class_Ex01(Tableau)"
         href: "https://public.tableau.com/app/profile/huoda1027/viz/In-class_Ex01_16736794987590/SalesandProfitSummary2019-2022"
-
+      - text: "In-class_Ex03"
+        href: "In-class_Ex/In-class_Ex03/In-class_Ex03.html"
     
     - text: "Take-Home Exercise"
       menu:

@@ -1,0 +1,62 @@
+---
+title: "In-class Exercise 3"
+author: "Huo Da"
+date: 28 Janurary 2023
+date-modified: "`r Sys.Date()`"
+execute: 
+  echo: true
+  eval: true
+  warning: false
+format: html
+### if u need a odf/word version, can just modify the version of the format and click download
+editor: visual
+---
+
+# Getting Started
+
+## Installing and loading the R Packages
+
+Two packages will be installed and loaded. They are tidyverse and [ggiraph](https://davidgohel.github.io/ggiraph/).
+
+```{r}
+#always load the tidyverse lastly
+pacman::p_load(ggiraph,tidyverse)
+
+```
+
+Import data
+
+```{r}
+exam <- read_csv("data/Exam_data.csv")
+```
+
+## Create Vivuslisation
+
+```{r}
+plot1 <- ggplot(data = exam,
+                aes(x = MATHS)) +
+  geom_dotplot(dotsize=0.5) +
+  ggtitle("Distribution of Maths Scores")
+plot1
+```
+
+Create interactive dotplot
+
+```{r}
+plot2 <- ggplot(data = exam,
+                aes(x=MATHS)) +
+  geom_dotplot_interactive(
+    aes(tooltip = ID),
+    stackgroups = TRUE,
+    binwidth = 1,
+    method = "histodot") +
+  scale_y_continuous(NULL,breaks = NULL)
+                     
+girafe(
+  ggobj = plot2,
+  width_svg = 6,
+  height_svg = 6 *0.618
+)
+
+
+```

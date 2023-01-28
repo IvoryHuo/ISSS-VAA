@@ -168,6 +168,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="https://public.tableau.com/app/profile/huoda1027/viz/In-class_Ex01_16736794987590/SalesandProfitSummary2019-2022">
  <span class="dropdown-text">In-class_Ex01(Tableau)</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../In-class_Ex/In-class_Ex03/In-class_Ex03.html">
+ <span class="dropdown-text">In-class_Ex03</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -285,7 +289,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <section id="aesthetics" class="level3">
 <h3 class="anchored" data-anchor-id="aesthetics">Aesthetics</h3>
-<p>The <strong>arrangement</strong> of pyramids is only in the diagonal of a matrix. The information is not displayed in one page as many space are wasted. We should display the 9 pyramids in 3 * 3 matrix. It enables us to make comparisons quickly and easily.</p>
+<ul>
+<li>The <strong>arrangement</strong> of pyramids is only in the diagonal of a matrix. The information is not displayed in one page as many space are wasted. We should display the 9 pyramids in 3 * 3 matrix. It enables us to make comparisons quickly and easily.</li>
+</ul>
 </section>
 </section>
 </section>
@@ -306,16 +312,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="importing-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="importing-the-data">Importing the data</h2>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 75696 Columns: 7
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (5): PA, SZ, AG, Sex, FA
-dbl (2): Pop, Time
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pop_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/respopagesexfa2022.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="data-preparation" class="level2">

@@ -66,7 +66,7 @@ pacman::p_load(tidyverse)
 ## Importing the data
 
 ```{r}
-#| echo: false
+#| warning: false
 pop_data <- read_csv("data/respopagesexfa2022.csv")
 ```
 
