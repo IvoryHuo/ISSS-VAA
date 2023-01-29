@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Huo Da">
+<meta name="dcterms.date" content="2023-01-28">
 
 <title>ISSS608-VAA - Take Home Exercise 02</title>
 <style>
@@ -253,7 +254,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
   </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 28, 2023</p>
+    </div>
+  </div>
   
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">January 29, 2023</p>
+    </div>
+  </div>
     
   </div>
   
@@ -283,7 +296,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>The <strong>number of Planning Areas</strong> (PA) should be 9, but not all.</p></li>
 <li><p>There is <strong>no annotation, subtitles or note</strong> to tell data story. Central tendency measures such as median could be added to provide audience with better interpretation of the distribution.</p></li>
 <li><p>In a population pyramid, males are usually shown on the left by blue and females are usually shown on the right by pink/red. In the diagram, the different gender are represented by the same <strong>color</strong>.</p></li>
-<li><p>The <strong>label of the y-axis</strong> of age is misleading. The age group should be represented by an interval (0 to 9, 10 to 19, 20 to 29, …) instead of an integer(0,10,20,…). And it should no start at null and end at 80.</p></li>
+<li><p>The <strong>label of the y-axis</strong> of age is misleading. The age group should be represented by an interval (0 to 9, 10 to 19, 20 to 29, …) instead of an integer(0,10,20,…). The <strong>order of age group</strong> is wrong. And it should no start at null and end at 80. In fact, the ‘Null’ in the example should represent the group ‘90_and_above’.</p></li>
 <li><p>The <strong>label of the x-axis</strong> is hard to read. In fact, the gender can be represented by legend and the ‘population’ can be labeled just once on x-axis.</p></li>
 <li><p>There is no <strong>update date</strong> and <strong>data source</strong>.</p></li>
 </ul>
@@ -299,7 +312,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1>3. Remake</h1>
 <p>The final visualisation is as shown below.</p>
 <div class="column-page">
-<p><img src="images/final visual-01.jpg" class="img-fluid"></p>
+<p><img src="images/vis-01.jpg" class="img-fluid"></p>
 </div>
 <p>The steps to build such visuallisation using tidyverse are described as follows.</p>
 <section id="install-and-launching-r-packages" class="level2">
@@ -483,57 +496,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Join the two dataset: most_populatedPA_pop_data and pa_mean, i.e.&nbsp;add the mean age of each PA to the above table.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>most_populatedPA_pop_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(most_populatedPA_pop_data,pa_mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Joining, by = "PA"</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(most_populatedPA_pop_data,<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>             PA     Sex AGE Population    Pop Total_age_pa mean_age_pa
-1         Bedok Females &gt;90       1470 278870     12219740    43.81877
-2 Choa Chu Kang Females &gt;90        450 190460      7481970    39.28368
-3       Hougang Females &gt;90        880 227720      9692690    42.56407
-4   Jurong West Females &gt;90        600 258520     10443140    40.39587
-5       Punggol Females &gt;90        280 186250      6479300    34.78819</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#most_populatedPA_pop_data &lt;- left_join(most_populatedPA_pop_data,pa_mean)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">#head(most_populatedPA_pop_data,5)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="4" type="1">
 <li>Visualise the 9 age-sex pyramids in a 3 * 3 matrix.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(most_populatedPA_pop_data, </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> Population, <span class="at">fill =</span> Sex)) <span class="sc">+</span> </span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(most_populatedPA_pop_data, Sex <span class="sc">==</span> <span class="st">"Females"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(most_populatedPA_pop_data, Sex <span class="sc">==</span> <span class="st">"Males"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span> </span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> PA,<span class="at">ncol =</span> <span class="dv">3</span> ) <span class="sc">+</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Age-sex Pyramids in 9 Most Populated PA, as of June 2022"</span>, <span class="at">x =</span> <span class="st">"Age Group"</span>,<span class="at">y=</span><span class="st">"Population"</span>) <span class="sc">+</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">20000</span>, <span class="dv">20000</span>, <span class="dv">10000</span>), </span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">paste0</span>(<span class="fu">as.character</span>(<span class="fu">c</span>(<span class="st">'20k'</span>,<span class="st">'10k'</span>,<span class="st">'0'</span>,<span class="st">'10k'</span>,<span class="st">'20k'</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(most_populatedPA_pop_data, </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> Population, <span class="at">fill =</span> Sex)) <span class="sc">+</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(most_populatedPA_pop_data, Sex <span class="sc">==</span> <span class="st">"Females"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(most_populatedPA_pop_data, Sex <span class="sc">==</span> <span class="st">"Males"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span> </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> PA,<span class="at">ncol =</span> <span class="dv">3</span> ) <span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Age-sex Pyramids in 9 Most Populated PA, as of June 2022"</span>, <span class="at">x =</span> <span class="st">"Age Group"</span>,<span class="at">y=</span><span class="st">"Population"</span>) <span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">20000</span>, <span class="dv">20000</span>, <span class="dv">10000</span>), </span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">paste0</span>(<span class="fu">as.character</span>(<span class="fu">c</span>(<span class="st">'20k'</span>,<span class="st">'10k'</span>,<span class="st">'0'</span>,<span class="st">'10k'</span>,<span class="st">'20k'</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Take-Home_Ex02_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <ol start="5" type="1">
-<li>Note that the shape of the pyramid above is exactly as the original one. We notices that the order of the age group on y-axis is wrong. Hence, we need to reorder the age groups on y-axis as shown below. Moreover, the 9 most populated PA is arranged according to the mean age in descending order.</li>
+<li>We notices that the order of the age group on y-axis is wrong. Hence, we need to reorder the age groups on y-axis as shown below. Moreover, the 9 most populated PA is arranged according to the mean age in descending order.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>most_populatedPA_pop_data<span class="sc">$</span>AGE <span class="ot">&lt;-</span> <span class="fu">factor</span>(most_populatedPA_pop_data<span class="sc">$</span>AGE,</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"0-9"</span>,<span class="st">"10-19"</span>,<span class="st">"20-29"</span>,<span class="st">"30-39"</span>,<span class="st">"40-49"</span>,<span class="st">"50-59"</span>,<span class="st">"60-69"</span>,<span class="st">"70-79"</span>,<span class="st">"80-89"</span>,<span class="st">"&gt;90"</span>))</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>most_populatedPA_pop_data<span class="sc">$</span>PA <span class="ot">&lt;-</span> <span class="fu">factor</span>(most_populatedPA_pop_data<span class="sc">$</span>PA,<span class="at">levels =</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                                         <span class="fu">c</span>(<span class="st">"Bedok"</span>,<span class="st">"Hougang"</span>,<span class="st">"Tampines"</span>,<span class="st">"Jurong West"</span>,<span class="st">"Yishun"</span>,<span class="st">"Choa Chu Kang"</span>, <span class="st">"Woodlands"</span>,<span class="st">"Sengkang"</span>,<span class="st">"Punggol"</span>))</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>pyramids <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(most_populatedPA_pop_data, </span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> Population, <span class="at">fill =</span> Sex)) <span class="sc">+</span> </span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(most_populatedPA_pop_data, Sex <span class="sc">==</span> <span class="st">"Females"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(most_populatedPA_pop_data, Sex <span class="sc">==</span> <span class="st">"Males"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span> </span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> PA,<span class="at">ncol =</span> <span class="dv">3</span> ) <span class="sc">+</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Age-sex Pyramids in 9 Most Populated PA, as of June 2022"</span>, <span class="at">x =</span> <span class="st">"Age Group"</span>,<span class="at">y=</span><span class="st">"Population"</span>) <span class="sc">+</span></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">20000</span>, <span class="dv">20000</span>, <span class="dv">10000</span>), </span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">paste0</span>(<span class="fu">as.character</span>(<span class="fu">c</span>(<span class="st">'20k'</span>,<span class="st">'10k'</span>,<span class="st">'0'</span>,<span class="st">'10k'</span>,<span class="st">'20k'</span>))))</span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>pyramids</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>most_populatedPA_pop_data<span class="sc">$</span>AGE <span class="ot">&lt;-</span> <span class="fu">factor</span>(most_populatedPA_pop_data<span class="sc">$</span>AGE,</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"0-9"</span>,<span class="st">"10-19"</span>,<span class="st">"20-29"</span>,<span class="st">"30-39"</span>,<span class="st">"40-49"</span>,<span class="st">"50-59"</span>,<span class="st">"60-69"</span>,<span class="st">"70-79"</span>,<span class="st">"80-89"</span>,<span class="st">"&gt;90"</span>))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>most_populatedPA_pop_data<span class="sc">$</span>PA <span class="ot">&lt;-</span> <span class="fu">factor</span>(most_populatedPA_pop_data<span class="sc">$</span>PA,<span class="at">levels =</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                                         <span class="fu">c</span>(<span class="st">"Bedok"</span>,<span class="st">"Hougang"</span>,<span class="st">"Tampines"</span>,<span class="st">"Jurong West"</span>,<span class="st">"Yishun"</span>,<span class="st">"Choa Chu Kang"</span>, <span class="st">"Woodlands"</span>,<span class="st">"Sengkang"</span>,<span class="st">"Punggol"</span>))</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>pyramids <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(most_populatedPA_pop_data, </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> Population, <span class="at">fill =</span> Sex)) <span class="sc">+</span> </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(most_populatedPA_pop_data, Sex <span class="sc">==</span> <span class="st">"Females"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(most_populatedPA_pop_data, Sex <span class="sc">==</span> <span class="st">"Males"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span> </span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> PA,<span class="at">ncol =</span> <span class="dv">3</span> ) <span class="sc">+</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Age-sex Pyramids in 9 Most Populated PA, as of June 2022"</span>, <span class="at">x =</span> <span class="st">"Age Group"</span>,<span class="at">y=</span><span class="st">"Population"</span>) <span class="sc">+</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">20000</span>, <span class="dv">20000</span>, <span class="dv">10000</span>), </span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">paste0</span>(<span class="fu">as.character</span>(<span class="fu">c</span>(<span class="st">'20k'</span>,<span class="st">'10k'</span>,<span class="st">'0'</span>,<span class="st">'10k'</span>,<span class="st">'20k'</span>))))</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>pyramids</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Take-Home_Ex02_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -542,31 +544,102 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>The above diagram can be improved by adding the mean age in each PA as labels.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Bedok</span><span class="sc">\n</span><span class="st">Mean:43.8"</span>,<span class="st">"Hougang</span><span class="sc">\n</span><span class="st">Mean:42.6"</span>,<span class="st">"Tampines</span><span class="sc">\n</span><span class="st">Mean:41.3"</span>,</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Jurong West</span><span class="sc">\n</span><span class="st">Mean:40.4"</span>,<span class="st">"Yishun</span><span class="sc">\n</span><span class="st">Mean:40.2"</span>,<span class="st">"Choa Chu Kang</span><span class="sc">\n</span><span class="st">Mean:39.3"</span>,</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Woodlands</span><span class="sc">\n</span><span class="st">Mean:38.8"</span>,<span class="st">"Sengkang</span><span class="sc">\n</span><span class="st">Mean:37.3"</span>,<span class="st">"Punggol</span><span class="sc">\n</span><span class="st">Mean:34.8"</span>)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>most_populatedPA_pop_data<span class="sc">$</span>PA <span class="ot">&lt;-</span> <span class="fu">factor</span>(most_populatedPA_pop_data<span class="sc">$</span>PA, <span class="at">labels =</span> labels)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>vis <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(most_populatedPA_pop_data, </span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> Population, <span class="at">fill =</span> Sex)) <span class="sc">+</span> </span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(most_populatedPA_pop_data, Sex <span class="sc">==</span> <span class="st">"Females"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(most_populatedPA_pop_data, Sex <span class="sc">==</span> <span class="st">"Males"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span> </span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> PA,<span class="at">ncol =</span> <span class="dv">3</span> ) <span class="sc">+</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Age-sex Pyramids in 9 Most Populated PA, as of June 2022"</span>, </span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Bedok has the oldest age structure while Punggol has the youngest"</span>,</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Age Group"</span>,<span class="at">y=</span><span class="st">"Population"</span>) <span class="sc">+</span></span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">20000</span>, <span class="dv">20000</span>, <span class="dv">10000</span>), </span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">paste0</span>(<span class="fu">as.character</span>(<span class="fu">c</span>(<span class="st">'20k'</span>,<span class="st">'10k'</span>,<span class="st">'0'</span>,<span class="st">'10k'</span>,<span class="st">'20k'</span>)))) <span class="sc">+</span></span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"bold"</span>,<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"darkgrey"</span>,<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>),</span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">6</span>)</span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>vis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Bedok</span><span class="sc">\n</span><span class="st">Mean:43.8"</span>,<span class="st">"Hougang</span><span class="sc">\n</span><span class="st">Mean:42.6"</span>,<span class="st">"Tampines</span><span class="sc">\n</span><span class="st">Mean:41.3"</span>,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Jurong West</span><span class="sc">\n</span><span class="st">Mean:40.4"</span>,<span class="st">"Yishun</span><span class="sc">\n</span><span class="st">Mean:40.2"</span>,<span class="st">"Choa Chu Kang</span><span class="sc">\n</span><span class="st">Mean:39.3"</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Woodlands</span><span class="sc">\n</span><span class="st">Mean:38.8"</span>,<span class="st">"Sengkang</span><span class="sc">\n</span><span class="st">Mean:37.3"</span>,<span class="st">"Punggol</span><span class="sc">\n</span><span class="st">Mean:34.8"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>most_populatedPA_pop_data<span class="sc">$</span>PA <span class="ot">&lt;-</span> <span class="fu">factor</span>(most_populatedPA_pop_data<span class="sc">$</span>PA, <span class="at">labels =</span> labels)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>vis <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(most_populatedPA_pop_data, </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> Population, <span class="at">fill =</span> Sex)) <span class="sc">+</span> </span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(most_populatedPA_pop_data, Sex <span class="sc">==</span> <span class="st">"Females"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(most_populatedPA_pop_data, Sex <span class="sc">==</span> <span class="st">"Males"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span> </span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> PA,<span class="at">ncol =</span> <span class="dv">3</span> ) <span class="sc">+</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Age-sex Pyramids in 9 Most Populated PA, as of June 2022"</span>, </span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Bedok has the oldest age structure while Punggol has the youngest"</span>,</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Age Group"</span>,<span class="at">y=</span><span class="st">"Population"</span>) <span class="sc">+</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">20000</span>, <span class="dv">20000</span>, <span class="dv">10000</span>), </span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">paste0</span>(<span class="fu">as.character</span>(<span class="fu">c</span>(<span class="st">'20k'</span>,<span class="st">'10k'</span>,<span class="st">'0'</span>,<span class="st">'10k'</span>,<span class="st">'20k'</span>)))) <span class="sc">+</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"bold"</span>,<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"darkgrey"</span>,<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>),</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">6</span>)</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>vis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Take-Home_Ex02_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ol start="7" type="1">
+<li>A nice improvement is to add the complete data set (Singapore) in the background of each pyramid.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sg_pop_bg <span class="ot">&lt;-</span> most_populatedPA_pop_data[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(most_populatedPA_pop_data, </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> Population, <span class="at">fill =</span> Sex)) <span class="sc">+</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(sg_pop_bg, Sex <span class="sc">==</span> <span class="st">"Females"</span>), <span class="at">fill =</span> <span class="st">"grey"</span>,<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(sg_pop_bg, Sex <span class="sc">==</span> <span class="st">"Males"</span>), <span class="at">fill =</span> <span class="st">"grey"</span>,<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span> </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(most_populatedPA_pop_data, Sex <span class="sc">==</span> <span class="st">"Females"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(most_populatedPA_pop_data, Sex <span class="sc">==</span> <span class="st">"Males"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span> </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> PA,<span class="at">ncol =</span> <span class="dv">3</span> ) <span class="sc">+</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Age-sex Pyramids in 9 Most Populated PA, as of June 2022"</span>, </span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Bedok has the oldest age structure while Punggol has the youngest"</span>,</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Age Group"</span>,<span class="at">y=</span><span class="st">"Population"</span>) <span class="sc">+</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">20000</span>, <span class="dv">20000</span>, <span class="dv">10000</span>), </span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">paste0</span>(<span class="fu">as.character</span>(<span class="fu">c</span>(<span class="st">'20k'</span>,<span class="st">'10k'</span>,<span class="st">'0'</span>,<span class="st">'10k'</span>,<span class="st">'20k'</span>)))) <span class="sc">+</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"bold"</span>,<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"darkgrey"</span>,<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>),</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">6</span>)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Take-Home_Ex02_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ol start="8" type="1">
+<li>The pyramids of each PA is too narrow. We need to transform the Singapore population.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>sg_pop_bg <span class="ot">&lt;-</span> sg_pop_bg <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">trans_pop =</span> <span class="fu">ifelse</span>(Population <span class="sc">==</span> <span class="st">"Null"</span>, <span class="dv">0</span>, <span class="fl">0.2</span> <span class="sc">*</span> Population)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sg_pop_bg,<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Sex AGE Population trans_pop
+1 Females &gt;90       1470       294
+2 Females &gt;90        450        90
+3 Females &gt;90        880       176
+4 Females &gt;90        600       120
+5 Females &gt;90        280        56</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>vis <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(most_populatedPA_pop_data, </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> Population, <span class="at">fill =</span> Sex)) <span class="sc">+</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(sg_pop_bg, Sex <span class="sc">==</span> <span class="st">"Females"</span>), <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> trans_pop), <span class="at">fill =</span> <span class="st">"grey"</span>,<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(sg_pop_bg, Sex <span class="sc">==</span> <span class="st">"Males"</span>), <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> trans_pop), <span class="at">fill =</span> <span class="st">"grey"</span>,<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span> </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(most_populatedPA_pop_data, Sex <span class="sc">==</span> <span class="st">"Females"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data =</span> <span class="fu">subset</span>(most_populatedPA_pop_data, Sex <span class="sc">==</span> <span class="st">"Males"</span>), <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span> </span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> PA,<span class="at">ncol =</span> <span class="dv">3</span> ) <span class="sc">+</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Age-sex Pyramids in 9 Most Populated PA, as of June 2022"</span>, </span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Bedok has the oldest age structure while Punggol has the youngest"</span>,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Age Group"</span>,<span class="at">y=</span><span class="st">"Population"</span>) <span class="sc">+</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">20000</span>, <span class="dv">20000</span>, <span class="dv">10000</span>), </span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">paste0</span>(<span class="fu">as.character</span>(<span class="fu">c</span>(<span class="st">'20k'</span>,<span class="st">'10k'</span>,<span class="st">'0'</span>,<span class="st">'10k'</span>,<span class="st">'20k'</span>)))) <span class="sc">+</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"bold"</span>,<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"darkgrey"</span>,<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">6</span>)</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>vis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Take-Home_Ex02_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><em>Data Source: Department of Statistics, Singapore</em></p>

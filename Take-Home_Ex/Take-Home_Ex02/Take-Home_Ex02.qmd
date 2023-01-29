@@ -51,7 +51,7 @@ The original design is as shown.
 The final visualisation is as shown below.
 
 ::: column-page
-![](images/final%20visual-01.jpg)
+![](images/vis-01.jpg)
 :::
 
 The steps to build such visuallisation using tidyverse are described as follows.
@@ -260,7 +260,8 @@ vis <- ggplot(most_populatedPA_pop_data,
 vis
 ```
 
-7. A nice improvement is to add the complete data set (Singapore) in the background of each pyramid.
+7.  A nice improvement is to add the complete data set (Singapore) in the background of each pyramid.
+
 ```{r}
 sg_pop_bg <- most_populatedPA_pop_data[,-1]
 ggplot(most_populatedPA_pop_data, 
@@ -284,7 +285,8 @@ ggplot(most_populatedPA_pop_data,
   )
 ```
 
-8. The pyramids of each PA is too narrow. We need to transform the Singapore population.
+8.  The pyramids of each PA is too narrow. We need to transform the Singapore population.
+
 ```{r}
 sg_pop_bg <- sg_pop_bg %>%
     mutate(
@@ -296,8 +298,8 @@ head(sg_pop_bg,5)
 ```{r}
 vis <- ggplot(most_populatedPA_pop_data, 
        aes(x = AGE, y = Population, fill = Sex)) + 
-  geom_bar(data = subset(sg_pop, Sex == "Females"), aes(x = AGE, y = trans_pop), fill = "grey",stat = "identity") +
-  geom_bar(data = subset(sg_pop, Sex == "Males"), aes(x = AGE, y = trans_pop), fill = "grey",stat = "identity") + 
+  geom_bar(data = subset(sg_pop_bg, Sex == "Females"), aes(x = AGE, y = trans_pop), fill = "grey",stat = "identity") +
+  geom_bar(data = subset(sg_pop_bg, Sex == "Males"), aes(x = AGE, y = trans_pop), fill = "grey",stat = "identity") + 
   geom_bar(data = subset(most_populatedPA_pop_data, Sex == "Females"), stat = "identity") +
   geom_bar(data = subset(most_populatedPA_pop_data, Sex == "Males"), stat = "identity") + 
   coord_flip()+
@@ -310,7 +312,7 @@ vis <- ggplot(most_populatedPA_pop_data,
   theme(
     plot.title = element_text(size = 12, face = "bold",hjust = 0.5),
     plot.subtitle = element_text(size = 10, color = "darkgrey",hjust = 0.5),
-    strip.text.x = element_text(size = 9),
+    strip.text.x = element_text(size = 8),
     axis.text=element_text(size=6)
   )
 vis
