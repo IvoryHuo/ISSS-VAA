@@ -2,7 +2,8 @@
 title: "Take Home Exercise 02"
 subtitle: Remaking peer’s original design by improving chart’s clarity and aesthetics
 author: "Huo Da"
-Published: "28 Jan 2023"
+date: "28 Jan 2023"
+date-modified: "`r Sys.Date()`"
 ---
 
 # 1. Task
@@ -35,7 +36,7 @@ The original design is as shown.
 
 -   In a population pyramid, males are usually shown on the left by blue and females are usually shown on the right by pink/red. In the diagram, the different gender are represented by the same **color**.
 
--   The **label of the y-axis** of age is misleading. The age group should be represented by an interval (0 to 9, 10 to 19, 20 to 29, ...) instead of an integer(0,10,20,...). And it should no start at null and end at 80.
+-   The **label of the y-axis** of age is misleading. The age group should be represented by an interval (0 to 9, 10 to 19, 20 to 29, ...) instead of an integer(0,10,20,...). The **order of age group** is wrong. And it should no start at null and end at 80. In fact, the 'Null' in the example should represent the group '90_and_above'.
 
 -   The **label of the x-axis** is hard to read. In fact, the gender can be represented by legend and the 'population' can be labeled just once on x-axis.
 
@@ -187,13 +188,15 @@ head(most_populatedPA_pop_data,5)
 3.  Join the two dataset: most_populatedPA_pop_data and pa_mean, i.e. add the mean age of each PA to the above table.
 
 ```{r}
-most_populatedPA_pop_data <- left_join(most_populatedPA_pop_data,pa_mean)
-head(most_populatedPA_pop_data,5)
+#most_populatedPA_pop_data <- left_join(most_populatedPA_pop_data,pa_mean)
+#head(most_populatedPA_pop_data,5)
 ```
 
 4.  Visualise the 9 age-sex pyramids in a 3 \* 3 matrix.
 
 ```{r}
+
+
 ggplot(most_populatedPA_pop_data, 
        aes(x = AGE, y = Population, fill = Sex)) + 
   geom_bar(data = subset(most_populatedPA_pop_data, Sex == "Females"), stat = "identity") +
@@ -207,7 +210,7 @@ ggplot(most_populatedPA_pop_data,
 
 ```
 
-5.  Note that the shape of the pyramid above is exactly as the original one. We notices that the order of the age group on y-axis is wrong. Hence, we need to reorder the age groups on y-axis as shown below. Moreover, the 9 most populated PA is arranged according to the mean age in descending order.
+5.  We notices that the order of the age group on y-axis is wrong. Hence, we need to reorder the age groups on y-axis as shown below. Moreover, the 9 most populated PA is arranged according to the mean age in descending order.
 
 ```{r}
 most_populatedPA_pop_data$AGE <- factor(most_populatedPA_pop_data$AGE,
@@ -239,6 +242,62 @@ most_populatedPA_pop_data$PA <- factor(most_populatedPA_pop_data$PA, labels = la
 
 vis <- ggplot(most_populatedPA_pop_data, 
        aes(x = AGE, y = Population, fill = Sex)) + 
+  geom_bar(data = subset(most_populatedPA_pop_data, Sex == "Females"), stat = "identity") +
+  geom_bar(data = subset(most_populatedPA_pop_data, Sex == "Males"), stat = "identity") + 
+  coord_flip()+
+  facet_wrap(~ PA,ncol = 3 ) +
+  labs(title="Age-sex Pyramids in 9 Most Populated PA, as of June 2022", 
+       subtitle = "Bedok has the oldest age structure while Punggol has the youngest",
+       x = "Age Group",y="Population") +
+  scale_y_continuous(breaks = seq(-20000, 20000, 10000), 
+                     labels = paste0(as.character(c('20k','10k','0','10k','20k')))) +
+  theme(
+    plot.title = element_text(size = 12, face = "bold",hjust = 0.5),
+    plot.subtitle = element_text(size = 10, color = "darkgrey",hjust = 0.5),
+    strip.text.x = element_text(size = 9),
+    axis.text=element_text(size=6)
+  )
+vis
+```
+
+7. A nice improvement is to add the complete data set (Singapore) in the background of each pyramid.
+```{r}
+sg_pop_bg <- most_populatedPA_pop_data[,-1]
+ggplot(most_populatedPA_pop_data, 
+       aes(x = AGE, y = Population, fill = Sex)) + 
+  geom_bar(data = subset(sg_pop_bg, Sex == "Females"), fill = "grey",stat = "identity") +
+  geom_bar(data = subset(sg_pop_bg, Sex == "Males"), fill = "grey",stat = "identity") + 
+  geom_bar(data = subset(most_populatedPA_pop_data, Sex == "Females"), stat = "identity") +
+  geom_bar(data = subset(most_populatedPA_pop_data, Sex == "Males"), stat = "identity") + 
+  coord_flip()+
+  facet_wrap(~ PA,ncol = 3 ) +
+  labs(title="Age-sex Pyramids in 9 Most Populated PA, as of June 2022", 
+       subtitle = "Bedok has the oldest age structure while Punggol has the youngest",
+       x = "Age Group",y="Population") +
+  scale_y_continuous(breaks = seq(-20000, 20000, 10000), 
+                     labels = paste0(as.character(c('20k','10k','0','10k','20k')))) +
+  theme(
+    plot.title = element_text(size = 12, face = "bold",hjust = 0.5),
+    plot.subtitle = element_text(size = 10, color = "darkgrey",hjust = 0.5),
+    strip.text.x = element_text(size = 9),
+    axis.text=element_text(size=6)
+  )
+```
+
+8. The pyramids of each PA is too narrow. We need to transform the Singapore population.
+```{r}
+sg_pop_bg <- sg_pop_bg %>%
+    mutate(
+    trans_pop = ifelse(Population == "Null", 0, 0.2 * Population)
+  )
+head(sg_pop_bg,5)
+```
+
+```{r}
+vis <- ggplot(most_populatedPA_pop_data, 
+       aes(x = AGE, y = Population, fill = Sex)) + 
+  geom_bar(data = subset(sg_pop, Sex == "Females"), aes(x = AGE, y = trans_pop), fill = "grey",stat = "identity") +
+  geom_bar(data = subset(sg_pop, Sex == "Males"), aes(x = AGE, y = trans_pop), fill = "grey",stat = "identity") + 
   geom_bar(data = subset(most_populatedPA_pop_data, Sex == "Females"), stat = "identity") +
   geom_bar(data = subset(most_populatedPA_pop_data, Sex == "Males"), stat = "identity") + 
   coord_flip()+

@@ -1,9 +1,7 @@
 ---
 title: "Take Home Exercise 01"
 author: Huo Da
-format: 
-  html:
-    page-layout: article
+format: pdf-engine
 Published: "`r Sys.Date()`"
 tbl-colwidths: [10,30,60]
 ---
@@ -38,7 +36,7 @@ Note that We have arranged that the pyramids for each PA. The order is based on 
 
 In Bedok and in Hougang (top left corner), each consecutive age group moving up the pyramids gets broader from 0 to 69 years old and then gets narrower from 70 years old. This is a typical aging population. The population pyramid of Singapore shown on the right margin also has the same structure. The aging population mainly due to factors such as low fertility rate and high life expectancy.
 
-In Punggol and SengKang (bottom right corner), there are bulges in the age groups of 0 - 10 and 30 to 49. We can conclude that many of the residents living in these PA are young families with children. According to Straits Time, Punggol was dubbed as Singapore's baby town in 2017. 
+In Punggol and SengKang (bottom right corner), there are bulges in the age groups of 0 - 10 and 30 to 49. We can conclude that many of the residents living in these PA are young families with children. According to Straits Time, Punggol was dubbed as Singapore's baby town in 2017.
 
 The pyramids in other PAs have narrow base which represents a low birth rate. The population is mostly clustered around the age groups of 20 to 40 and 50 to 70. While in the younger PA such as Woodland, the peaks are at 20 to 29 and 50 to 59.
 
