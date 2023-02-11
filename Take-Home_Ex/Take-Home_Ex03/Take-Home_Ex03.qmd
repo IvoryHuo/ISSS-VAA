@@ -1,0 +1,218 @@
+---
+title: "Take Home Exercise 03"
+subtitle: Interactive Analytics on Resale Flat Prices, as of Singapore 2022
+author: "Huo Da"
+date: "28 Jan 2023"
+date-modified: "`r Sys.Date()`"
+---
+
+# Task
+
+To uncover the salient patterns of the resale prices of 3-room, 4-room and 5-room public housing property by residential towns and estates in Singapore.
+
+We will use appropriate analytically visualisation techniques as well as interactive techniques to enhance user and data discovery experiences.
+
+The data can be downloaded [here](https://data.gov.sg/dataset/resale-flat-prices).
+
+# The Analysis and Codes
+
+## 1a. Analysis of price psm of resale HDBs in each residential towns
+
+First load the r libraries.
+
+```{r}
+pacman::p_load(zoo,gifski,ggiraph, gapminder, ggridges,gganimate,tidyverse)
+
+```
+
+Read the data.
+
+```{r}
+prop_data <- read_csv("data/resale-flat-prices-based-on-registration-date-from-jan-2017-onwards.csv")
+```
+
+Plot the static ridgelines to show the distribution of average price/psm of flats from Jan 2017 to Feb 2023 in Singapore for each residential towns.
+
+```{r}
+ p1<- prop_data %>%
+  group_by(town) %>%
+  mutate(price_psm = resale_price/floor_area_sqm) %>%
+  ggplot(mapping = aes(x=price_psm, 
+                       y = reorder(as.factor(town),-price_psm),
+                       fill = after_stat(x)
+                       )
+         ) +
+  geom_density_ridges_gradient( color = "white") +
+  scale_fill_viridis_c(option = "C") +
+  theme_bw() +
+  
+  theme(legend.position = "none") +
+  theme(panel.grid = element_blank()) +
+  labs(title = "HDB resale prices by neighborhood, 2017 - 2023 Singapore", 
+       x = "Price psm (SGD)", 
+       y = "Planning Area")
+print(p1)
+```
+
+We can conclude that the resale of HDB in the areas such as woodlands, choa chu kang, jurong west are transacted at lower average price. And the price clustered around the average of \$4000 psm.
+
+While the price of resale HDB in Bukit merah, queenstown and central area not only have a higher price, but also scattered from \$4000 to \$12000.
+
+In general, HDBs in residential towns having lower price tend to have a lower variability.
+
+## 1b. Analysis of price psm of resale HDBs in each residential towns change over time
+
+Let us animate it.
+
+```{r}
+ani1 <- prop_data %>%
+  group_by(town) %>%
+  mutate(price_psm = resale_price/floor_area_sqm) %>%
+  mutate(date = as.Date(paste(month,"-01", sep=""))) %>%
+  ggplot(mapping = aes(x=price_psm, 
+                       y = reorder(as.factor(town),-price_psm),
+                       fill = after_stat(x)
+                       )
+         ) +
+  geom_density_ridges_gradient( color = "white") +
+  scale_fill_viridis_c(option = "C") +
+  theme_bw() +
+  
+  theme(legend.position = "none") +
+  theme(panel.grid = element_blank()) +
+  labs(title = "HDB resale prices in {frame_time} Singapore", 
+       x = "Price psm (SGD)", y = "") +
+  
+  transition_time(date)
+  anim_save('price_animation.gif',ani1)
+
+```
+
+![Source: HDB of Singapore 2023](price_animation.gif)
+
+From 2017 to 2020, the price is quite stable. Each curve stays at its original place. The shape of the curves with lower average price have much less change compares with those with higher average price.
+
+However, from 2020 onwards, the curve starts to move to right. The average price almost increases by \$1000 from 2020 to 2023.
+
+## 2. How does the resale price of HDB with different flat types change over time?
+
+```{r}
+prop_data <- prop_data %>%
+  mutate(price_psm = resale_price/floor_area_sqm) %>%
+  filter(flat_type == '3 ROOM' | flat_type == '4 ROOM' |flat_type =='5 ROOM') %>%
+  mutate(date = as.Date(paste(month,"-01", sep="")))
+```
+
+```{r}
+p2<- prop_data %>%
+  group_by(flat_type) %>%
+  filter(flat_type == '3 ROOM' | flat_type == '4 ROOM' |flat_type =='5 ROOM') %>%
+  ggplot() +
+  geom_boxplot(mapping = aes(x = flat_type, y = price_psm)) +
+  transition_time(date)
+
+anim_save('price2_animation.gif',p2)
+```
+
+![](price2_animation.gif)
+
+From the animation, we come to the same conclusion that the price goes up. However, if the check the different flat type in different residential towns, we could spot some differences.
+
+```{r}
+p2<- prop_data %>%
+  group_by(flat_type) %>%
+  filter(flat_type == '3 ROOM' | flat_type == '4 ROOM' |flat_type =='5 ROOM') %>%
+  ggplot() +
+  geom_boxplot(mapping = aes(x = flat_type, y = price_psm)) +
+  facet_wrap(~town)
+plot(p2)
+```
+
+```{r}
+p3<- prop_data %>%
+  group_by(flat_type) %>%
+  filter(flat_type == '3 ROOM' | flat_type == '4 ROOM' |flat_type =='5 ROOM') %>%
+  filter(town == 'WOODLANDS' | town == 'CENTRAL AREA') %>%
+  ggplot() +
+  geom_boxplot(mapping = aes(x = flat_type, y = price_psm)) +
+  facet_wrap(~town) +
+  theme_bw() +
+  
+  labs(title = "HDB resale prices in {frame_time} in Woodlands vs Central Area", 
+       x = "", y = "Price psm SGD")+
+  transition_time(date)
+
+anim_save('price3_animation.gif',p3)
+```
+
+![](price3_animation.gif)
+
+```{r}
+prop_data <- prop_data %>%
+  mutate(year = as.integer(substr(month,0,4)))
+```
+
+## Transaction volume
+
+```{r}
+p4 <- prop_data %>%
+  group_by(month) %>%
+  mutate(ave_trans_price = mean(resale_price)) %>%
+  ggplot(mapping = aes(x = prop_data$month)) +
+  geom_bar()+
+  theme_bw()+
+  
+  labs(title = "Monthly Sales Volume, from Jan 2017 to feb 2023", x = 'Time', y = 'Monthly Sales Volume',
+       caption = "Singapore circuit breaker measures · 2020-04-07 to 2020-06-01 (1 month, 3 weeks, and 4 days)") +
+  
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
+  geom_vline(aes(xintercept = '2020-04'),linetype = "dashed",color= 'red') +
+  annotate("text",label = "Circular Break", x = "2019-11",y=1000) +
+
+
+  facet_wrap(~flat_type, nrow = 3) 
+  
+p4
+
+```
+
+```{r}
+tooltip <- function(y,ymax,accuracy = 0.01) {
+  mean <- scales::number(y, accuracy = accuracy)
+  paste("Average transation price",mean)
+}
+
+
+p4 <- prop_data %>%
+  group_by(month) %>%
+  mutate(ave_trans_price = mean(resale_price)) %>%
+  ggplot(mapping = aes(x = prop_data$month)) 
+p4
+```
+
+
+p4 <- p4 +
+  stat_summary(aes(y=prop_data$))
+  theme_bw()+
+  
+  labs(title = "Monthly Sales Volume, from Jan 2017 to feb 2023", x = 'Time', y = 'Monthly Sales Volume',
+       caption = "Singapore circuit breaker measures · 2020-04-07 to 2020-06-01 (1 month, 3 weeks, and 4 days)") +
+  
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
+  geom_vline(aes(xintercept = '2020-04'),linetype = "dashed",color= 'red') +
+  annotate("text",label = "Circular Break", x = "2019-11",y=1000) +
+
+
+  facet_wrap(~flat_type, nrow = 3) 
+  
+p4
+
+
+
+
+
+

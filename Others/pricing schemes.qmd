@@ -1,0 +1,85 @@
+---
+title: "Pricing Schemes"
+author: "Huo Da"
+tbl-colwidths: [10,30,60]
+---
+
+## A. Design 3 pricing schemes.
+
+**Design**
+
+-   Flat: Delivery fee is fixed with a minimum order amount requirement.
+
+    For example, delivery = \$2.99 with minimum order requirement \$36.04.
+
+    Note: The flat rate can be designed based on the geographical location. The rate is higher in CBD where customers have higher personal income.
+
+-   Flexible: Delivery fee is calculated using the formula max(\$0.99, \$12 - OrderValue \* 0.25), where the minimum order amount required is \$28.04.
+
+-   Tiered: Based on the order values. For example,
+
+    -   if there are 2 categories:
+
+        \$0.99 for orders above \$44.04
+
+        \$4.99 for orders below \$44.04
+
+    -   If there are 3 categories:
+
+        \$0.99 for orders above \$44.04
+
+        \$3.99 for orders above \$32.04
+
+        \$4.99 for orders above \$28.04
+
+**Assumptions**
+
+-   average order value of \$40 .
+
+-   the new customers' behavior follow the existing customers.
+
+-   there is always a minimum order value requirement of 28.04 if not stated, as we do not want the delivery fee to eat into company's revenue.
+
+-   assume that when we cluster customer into 3 clusters, the most representative customer in each cluster spends \$28.04, \$32.04 and \$44.04.
+
+-   usually the delivery fee is distance-based. In the above settings, we assume that customer will always choose from the nearest pandamart vendor.
+
+## B. KPIs used to evaluate the pricing schemes
+
+1.  For different objectives, the KPIs are different. The objectives could be maximize revenue, convert the most number of new customer with the same revenue, maximize the number of orders with the same revenue, maximize the basket value with the same revenue and etc. One of the objective is chosen for this case study.
+
+    **Goal**: Maximize the number of orders while keeping the target revenue per order at \$12
+
+    That is, we need to determine the best delivery fee in order to achieve the revenue per order above \$12 with more orders.
+
+2.  **KPIs**
+
+    | Category       | Name                      | Objective                                                                                                                                                  |
+    |----------------|--------------|------------------------------------------|
+    | Revenue Leads  |                           |                                                                                                                                                            |
+    |                | Delivery Fee              | To find how much do customers willing to pay for a delivery charge, and how does each pricing schemes affect the willingness of paying for delivery charge |
+    |                | Revenue                   | To find if the new pricing scheme can generate more revenue                                                                                                |
+    |                | Number of orders          | To find if the new pricing scheme can generate more orders from customers                                                                                  |
+    |                | Basket value              | To find if the new pricing scheme can increase the basket value for an order                                                                               |
+    | App Engagement |                           |                                                                                                                                                            |
+    |                | time on page              | To find if the different pricing schemes affect the customer's time spent on each page, especially in the "cart" page.                                     |
+    |                | bounce rate               | To find if different schemes of delivery fee affect the percentage of visitors that leave the pandamart page without taking any action                     |
+    |                | click through probability | To find the probability that a customer click/goes to next step, especially from cart to checkout, and from checkout to finish payment                     |
+
+## C. A/B Test
+
+1.  The customers are picked randomly (or we can consider geo-based randomization) and been assigned to control or treatment group. The customers in control group will use the current pricing scheme, while the customers in treatment group will see the new pricing scheme. To keep providing consistent shopping experience, we define customer using their customer_id.
+
+2.  Hypothesis
+
+    The null hypothesis is that there is no difference in each of the KPIs. The alternative hypothesis can be one-sided or two-sided test. For example, we need to decide whether the new pricing scheme is a better choice to meet the goal stated in part B.
+
+    H0: There is no difference in number_of_orders.
+
+    H1: There is a significant increase in number_of_orders.
+
+3.  Calculate the sample size. Choose the significance level, power, minimum detectable difference. Once these inputs are finalized, we can use the formula to calculate the sample size.
+
+4.  Choose the duration of ab test. We could consider days of week effect, seasonality, frequency of purchasing groceries etc. The duration could be set for at least one week.
+
+5.  Analyse the results. We should first check the randomisation of sampling by comparing the baseline metrics between two groups. Then we should conduct statistitical test. Statistically, we could use p-values only to tell whether to reject the null hypothesis. Practically, we could compare the confidence interval with the minimum detectable difference used in industry to decide whether its a better pricing scheme or not.
