@@ -1,7 +1,7 @@
 ---
 title: "Take Home Exercise 01"
 author: Huo Da
-format: pdf-engine
+format: html
 Published: "`r Sys.Date()`"
 tbl-colwidths: [10,30,60]
 ---
