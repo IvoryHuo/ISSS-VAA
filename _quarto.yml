@@ -31,7 +31,7 @@ website:
       - text: "Take-Home_Ex02(R)"
         href: "Take-Home_Ex/Take-Home_Ex02/Take-Home_Ex02.html"
       - text: "Take-Home_Ex03(R)"
-        href: "Take-Home_Ex/Take-Home_Ex02/Take-Home_Ex02.html"
+        href: "Take-Home_Ex/Take-Home_Ex03/Take-Home_Ex03.html"
     
     
     
@@ -42,7 +42,7 @@ website:
 
 format:
   html:
-    theme: default
+    theme: minty
     css: styles.css
     toc: true
 
