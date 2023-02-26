@@ -1,0 +1,40 @@
+---
+title: "In Class Ex 06(Tableau for time series)"
+author: "Huo Da"
+---
+
+## Cycle Plot for time series
+
+arrival time series dataset could be downloaded [here](https://insights-ceicdata-com.libproxy.smu.edu.sg/login "ceicdata").
+
++------+------------------------------------------------------------------------------------+---------------------------------------------+
+| step | description                                                                        | screenshot                                  |
++======+====================================================================================+=============================================+
+| 0    | raw data                                                                           | ![](images/01-01.jpg)                       |
++------+------------------------------------------------------------------------------------+---------------------------------------------+
+| 1    | pivot long                                                                         | ![](images/05.jpg)                          |
++------+------------------------------------------------------------------------------------+---------------------------------------------+
+| 2    | add filters to plot the time series for each country for a specific range of time. | ![](images/02-02.jpg)                       |
++------+------------------------------------------------------------------------------------+---------------------------------------------+
+| 3    | split the trend and the seasonal using cyclical plot(year of individual month)     | ![](images/03-01.jpg)                       |
+|      |                                                                                    |                                             |
+|      | Findings: Italy August F1, drastic increase over the year in August in Italy       |                                             |
++------+------------------------------------------------------------------------------------+---------------------------------------------+
+| 4    | build a dashboard to gain a better understanding of the arrivals for each country. | ![](images/04.jpg)                          |
+|      |                                                                                    |                                             |
+|      | note: synchronize the filter of country and time range for both worksheets.        |                                             |
++------+------------------------------------------------------------------------------------+---------------------------------------------+
+
+The tableau dashboard can be access [here](https://public.tableau.com/app/profile/huoda1027/viz/Arrivals_16766973925310/Dashboard1?publish=yes).
+
+## Calender Heatmap for time series
+
+The tableau dashboard can be accessed here.
+
+## Slopegraphs for time series
+
+The tableau dashboard can be accessed here.
+
+## Animation using pages
+
+The tableau dashboard can be accessed here.

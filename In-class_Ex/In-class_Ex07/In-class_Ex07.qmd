@@ -1,0 +1,83 @@
+---
+title: "In-class Ex07 (Geospatial)"
+author: "Huo Da"
+---
+
+# Tableau
+
+Note: the link of the tableau dashboard of the first three dataset can be found [here](https://public.tableau.com/app/profile/huoda1027).
+
+## 1. SGPool
+
+Use Geographic Coordinates Systems
+
++-------------+------------------------------------------------------------------------------+-----------------------+
+| step        | desc                                                                         | screen                |
++=============+==============================================================================+=======================+
+| 1           | use projected coordinate system(svy21)                                       | ![](images/svy21.jpg) |
++-------------+------------------------------------------------------------------------------+-----------------------+
+| 2           | use coordinate system (wgs84)                                                |                       |
+|             |                                                                              |                       |
+|             | convert the Xcoord and Ycoord to geographic role x -: longitude, y- latitude |                       |
++-------------+------------------------------------------------------------------------------+-----------------------+
+
+## 2. Residential Transactions
+
+Use of postal code to plot map (use of [Onemap Geocode API](https://www.onemap.gov.sg/docs/#onemap-rest-apis))
+
+![](images/postal%20code%20conversion.jpg)
+
+## 3. Population
+
+Use of name of planning areas + [Singapore sub zone info](https://data.gov.sg/search?q=planning+subzone)
+
++------------+-------------------------------------------------------+-------------------------------------+
+| Step       | Desc                                                  | Screenshot                          |
++============+=======================================================+=====================================+
+| 1\.        | Try geojson                                           | ![](images/geojason.jpg)            |
+|            |                                                       |                                     |
+|            | (need the help from tableau prep to clean the desc)   |                                     |
++------------+-------------------------------------------------------+-------------------------------------+
+| 2          | Use .shp and join it with the specific aspatial data. | ![](images/join%20two%20tables.jpg) |
++------------+-------------------------------------------------------+-------------------------------------+
+|            |                                                       |                                     |
++------------+-------------------------------------------------------+-------------------------------------+
+
+# R
+
+load the libraries
+
+```{r}
+#stay with sf, do not use sp
+pacman::p_load(sf,tmap,tidyverse)
+```
+
+ggplot2 mapping function geom_map() is limited, suggest to use tmap which is more functional. Another advantage of the tmap is allow us to create static as well as interactive map, such as split the map into two and the results can be showed synchronize (leaflet js api).
+
+```{r}
+sgpools <- read_csv("data/aspatial/SGPools_svy21.csv")
+
+```
+
+Use xcoord and ycoord to convert tibble format to sf format.
+
+```{r}
+sgpools_sf <- st_as_sf(sgpools, 
+                       # The sequence of xcoord(longitude) and ycoord(latitude) is impt
+                       coords = c("XCOORD", "YCOORD"),
+                       #define the projection code that the country use
+                       crs= 3414)
+```
+
+Note: we can check the code: [EPSG.io](https://epsg.io/3414) The code is coded in sg and tmap.
+A new column called geometry is created in the list format.
+
+
+
+
+
+
+
+
+
+
