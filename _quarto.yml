@@ -36,12 +36,13 @@ website:
       menu:
       - text: "Take-Home_Ex01(Tableau)"
         href: "Take-Home_Ex/Take-Home_Ex01/Take-Home_Ex01.html"
-      - text: "Take-Home_Ex02(R)"
+      - text: "Take-Home_Ex02(R):Age-sex Pyramids in Singapore"
         href: "Take-Home_Ex/Take-Home_Ex02/Take-Home_Ex02.html"
-      - text: "Take-Home_Ex03(R)"
+      - text: "Take-Home_Ex03(R): Time Series Analysis of Singapore Resale HDB price"
         href: "Take-Home_Ex/Take-Home_Ex03/Take-Home_Ex03.html"
-      - text: "Take-Home_Ex04(R)"
+      - text: "Take-Home_Ex04(R): Time Series Analysis of Singapore Trade"
         href: "Take-Home_Ex/Take-Home_Ex04/Take_Home_Ex04.html" 
+        
     
     
     

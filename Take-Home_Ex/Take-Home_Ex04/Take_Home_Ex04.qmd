@@ -302,6 +302,10 @@ ggplotly(p1)
 ```
 :::
 
+Singapore has a 3 years in row of trade surplus. The trade plunnged in 2020 due to the travel restriction, but recovered sharply in 2021.
+In 2022 Feb, both import and export dropped and at the same time, the Russia-Ukraine War started.
+After the trading volume peaked at 3rd quarter of 2022, it started to drop untill the end of 2022.
+
 ### 3.1.2 Trade Balance of Manually Picked Countries
 
 First, we plot the trade balance between singapore and each trade partner and save the image as jpep.
@@ -389,6 +393,12 @@ patchwork + plot_annotation(
         axis.text.x = element_text(angle = 30, hjust = 1))
 
 ```
+Above are 8 major trade partners with high trading volume.
+Mainland China is Singapore largest trading partner, and the export to Mainland China reached new high in 2021 Q4 and 2022 Q2, started to fall in 2022 Q3. 
+Singapore's export to US, Korea and Japan did not recovered to 2022 Level.
+
+Singapore had 3 years in a row of trade deficit with Malaysia, and had 3 years in a row of trade surplus with Hong Kong, Indonesia and Australia， where the trade surplus with Hong Kong is the greatest. Singapore has a much more consistent import from HongKong than the export to Hong Kong.
+
 
 ### 3.2 Trade Balance of all countries by Horizon Plots
 
