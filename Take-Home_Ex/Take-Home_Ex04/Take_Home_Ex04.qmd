@@ -368,7 +368,7 @@ Let us focus one a few representative trading partners.
 
 # Manually choose a few countries, carefully set the theme of each one
 mcn <- plot("Mainland China") + theme(legend.position = "none")
-us <- plot("United States ")+ theme(legend.position = "none")+ theme(axis.text.y=element_blank(),axis.ticks.y=element_blank())
+us <- plot("United States")+ theme(legend.position = "none")+ theme(axis.text.y=element_blank(),axis.ticks.y=element_blank())
 kr <- plot("Republic Of Korea")+ theme(legend.position = "none")+ theme(axis.text.y=element_blank(),axis.ticks.y=element_blank())
 jp <- plot("Japan")+ theme(legend.position = "none")+ theme(axis.text.y=element_blank(),axis.ticks.y=element_blank())
 
@@ -479,7 +479,7 @@ Let us draw the horizon plot. The table can be viewed in the second tabset.
     ) +
     scale_x_date(expand=c(0,0), date_breaks = "3 month", date_labels = "%b%y") +
   labs(
-    title = "Singapore's Trade Balance against major trade partners with trade volume more than $1B",
+    title = "Singapore's Trade Balance against major partners with volume more than $1B",
     subtitle = "Singpore's Trade Voleme increased, but Surplus decreased",
     captions = "Red: trade surplus; Blue: trade deficit\nTrade partners are arranged by trade volumes"
   )
@@ -524,7 +524,6 @@ slope_yr<- sg_wide %>%
   ungroup(Year) %>%
   select(Year,country,yr_import,yr_export,yr_bal)
 slope_yr <- slope_yr[,-1]
-slope_yr
 ```
 
 ::: panel-tabset
@@ -712,7 +711,7 @@ balance_slope
 ```
 :::
 
-## 3.4 Animate Trade Performance between Singapore and its partners using Bubble Chart
+### 3.4 Animate Trade Performance between Singapore and its partners using Bubble Chart
 
 Finally, let us animate the export and import of major partners from 2020 to 2022.
 
