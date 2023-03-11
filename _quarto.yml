@@ -25,8 +25,6 @@ website:
         href: "In-class_Ex/In-class_Ex05/In-class_Ex05.html"
       - text: "In-class_Ex06"
         href: "In-class_Ex/In-class_Ex06/In-class_Ex06.html"
-      - text: "In-class_Ex07"
-        href: "In-class_Ex/In-class_Ex07/In-class_Ex07.html"
       - text: "In-class_Ex08"
         href: "In-class_Ex/In-class_Ex08/In-class_Ex08.html"
       - text: "In-class_Ex09"
@@ -41,7 +39,7 @@ website:
       - text: "Take-Home_Ex03(R): Time Series Analysis of Singapore Resale HDB price"
         href: "Take-Home_Ex/Take-Home_Ex03/Take-Home_Ex03.html"
       - text: "Take-Home_Ex04(R): Time Series Analysis of Singapore Trade"
-        href: " " 
+        href: "Take-Home_Ex/Take-Home_Ex04/Take-Home_Ex04.html"
         
     
     
