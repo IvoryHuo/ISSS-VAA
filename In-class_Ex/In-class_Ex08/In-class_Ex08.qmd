@@ -4,9 +4,11 @@ author: "Huo Da"
 date: 11 Mar 2023
 ---
 
-#Task In this hands-on exercise, you will learn how to model, analyse and visualise network data using R.
+# Task
 
-#Installing and launching R packages
+In this hands-on exercise, you will learn how to model, analyse and visualise network data using R.
+
+# Installing and launching R packages
 
 ```{r}
 #| code-fold: true
@@ -18,7 +20,7 @@ visNetwork, lubridate, clock,
 tidyverse, graphlayouts)
 ```
 
-#Data Wrangling
+# Data Wrangling
 
 ```{r}
 #| code-fold: true
@@ -81,7 +83,7 @@ DT::datatable(GAStech_edges_aggregated, options = list(pageLength = 5))
 
 ## Plot using tidygraph
 
-###Create tbl_graph network object from notes and edges data
+### Create tbl_graph network object from notes and edges data
 
 ```{r}
 #| code-fold: true
@@ -99,7 +101,7 @@ GAStech_graph%>%
 
 The above output reveals that there are 54 nodes with 1372 edges.
 
-###Overview of Network
+### Overview of Network
 
 ```{r}
 #| code-fold: true
@@ -118,7 +120,7 @@ g + labs(title = 'Network Analysis of GAStech',
        subtitle = 'Admin, Facilities and Engineering Dept connects within group closely')
 ```
 
-###Network on differet weekdays/weekends
+### Network on different weekdays/weekends
 
 ```{r}
 #| code-fold: true
@@ -132,7 +134,9 @@ g + facet_edges(~Weekday) +
 
 ```
 
-##Network Metrics Analysis \### Centrality
+## Network Metrics Analysis
+
+### Centrality
 
 ```{r}
 #| code-fold: true
@@ -158,9 +162,12 @@ c + theme_graph() +
 
 ```
 
-##Interactive Network with [visNetwork](http://datastorm-open.github.io/visNetwork/)
+## Interactive Network with [visNetwork](http://datastorm-open.github.io/visNetwork/)
+
 ### Data Preparation
+
 Data in visNetwork has a fixed structure, use from, to and group.
+
 ```{r}
 #| code-fold: true
 #| code-summary: "Show the code"
@@ -184,9 +191,11 @@ GAStech_nodes <- GAStech_nodes %>%
   rename(group = Department)
 ```
 
-###Plot interactive Network
-- The argument highlightNearest highlights nearest when clicking a node.
-- The argument nodesIdSelection adds an id node selection creating an HTML select element.
+### Plot interactive Network
+
+-   The argument highlightNearest highlights nearest when clicking a node.
+-   The argument nodesIdSelection adds an id node selection creating an HTML select element.
+
 ```{r}
  visNetwork(GAStech_nodes,
            GAStech_edges_aggregated_interactive) %>%
@@ -197,34 +206,3 @@ GAStech_nodes <- GAStech_nodes %>%
   visLayout(randomSeed = 123) #set a random seed to keep the layout consistent
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

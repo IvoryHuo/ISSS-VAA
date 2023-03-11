@@ -41,10 +41,10 @@ website:
       - text: "Take-Home_Ex04(R): Time Series Analysis of Singapore Trade"
         href: "Take-Home_Ex/Take-Home_Ex04/Take-Home_Ex04.html"
     
-    - text:"Project"
+    - text: "Project"
       menu: 
-        - text:"Singapore Bus Commuting Pattern (Shiny Apps)"
-          href: "https://3vm3r5-da-huo.shinyapps.io/huoda-SGBusCommutingPattern/"
+      - text: "Singapore Bus Commuting Pattern (Shiny Apps)"
+        href: "https://3vm3r5-da-huo.shinyapps.io/huoda-SGBusCommutingPattern/"
     
     
     right:
