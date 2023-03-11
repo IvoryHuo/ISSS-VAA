@@ -1,0 +1,230 @@
+---
+title: "In class Exercise 8: Network Visual Analytics"
+author: "Huo Da"
+date: 11 Mar 2023
+---
+
+#Task In this hands-on exercise, you will learn how to model, analyse and visualise network data using R.
+
+#Installing and launching R packages
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+pacman::p_load(igraph, tidygraph, ggraph,
+visNetwork, lubridate, clock,
+tidyverse, graphlayouts)
+```
+
+#Data Wrangling
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+GAStech_nodes <- read_csv("data/GAStech_email_node.csv")
+GAStech_edges <- read_csv("data/GAStech_email_edge-v2.csv")
+#glimpse(GAStech_nodes)
+#glimpse(GAStech_edges)
+
+#wrangling time
+GAStech_edges <- GAStech_edges %>%
+  #convert senddate from chr type to proper date
+  mutate(SendDate = dmy(SentDate)) %>% #lubridate function dmy https://lubridate.tidyverse.org/
+  #create mon, tues, wed, thurs and friday using wday
+  mutate(Weekday = wday(SentDate,      #https://rawgit.com/rstudio/cheatsheets/main/lubridate.pdf
+                        label = TRUE,  #convert from 1 to Monday
+                        abbr = FALSE))
+```
+
+::: panel-tabset
+## Nodes
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+DT::datatable(GAStech_nodes, options = list(pageLength = 5))
+```
+
+## Edges
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+DT::datatable(GAStech_edges, options = list(pageLength = 5))
+```
+:::
+
+## Create edges dataset
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+GAStech_edges_aggregated <- GAStech_edges %>%
+  filter(MainSubject == "Work related") %>%
+  group_by(source, target, Weekday) %>%
+    summarise(Weight = n()) %>%
+  filter(source!=target) %>%
+  filter(Weight > 1) %>%
+  ungroup()
+DT::datatable(GAStech_edges_aggregated, options = list(pageLength = 5))
+```
+
+## Plot using tidygraph
+
+###Create tbl_graph network object from notes and edges data
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+GAStech_graph <- tbl_graph(nodes = GAStech_nodes,
+                           edges = GAStech_edges_aggregated,
+                           directed = TRUE)
+
+GAStech_graph%>%
+  activate(edges) %>%
+  arrange(desc(Weight))
+```
+
+The above output reveals that there are 54 nodes with 1372 edges.
+
+###Overview of Network
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+
+set_graph_style()
+
+g <- ggraph(GAStech_graph,layout = 'nicely') +
+  geom_edge_link(aes(width = Weight),alpha = 0.2) +
+  scale_edge_width(range=c(0.1,5)) +
+  geom_node_point(aes(colour = Department), size = 3) +
+  theme(legend.position = "bottom")
+g + labs(title = 'Network Analysis of GAStech',
+       subtitle = 'Admin, Facilities and Engineering Dept connects within group closely')
+```
+
+###Network on differet weekdays/weekends
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+g + facet_edges(~Weekday) +
+  th_foreground(foreground = 'grey80',border = TRUE) +
+  labs(title = 'Network Analysis of GAStech on different weekdays',
+       subtitle = 'Saturday connections are weakeast')
+
+```
+
+##Network Metrics Analysis \### Centrality
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+#https://tidygraph.data-imaginist.com/reference/index.html Centrality
+c <- GAStech_graph %>%
+  # betweenness_centrality only on memory, did not change the data table
+  mutate(betweenness_centrality = centrality_betweenness()) %>% 
+  ggraph(layout = "fr") + 
+  geom_edge_link(aes(width=Weight), 
+                 alpha=0.2) +
+  scale_edge_width(range = c(0.1, 5)) +
+  geom_node_point(aes(colour = Department,
+            size=betweenness_centrality)) +
+  theme(legend.position = "bottom")
+  
+c + theme_graph() +
+  labs(title = "Betweenness Centrality of Nodes of GASTech",
+      subtitle = 'Admin Department has the highest betweenness centrality, connects different Depts.'
+  )
+
+```
+
+##Interactive Network with [visNetwork](http://datastorm-open.github.io/visNetwork/)
+### Data Preparation
+Data in visNetwork has a fixed structure, use from, to and group.
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+#rename the source and target to from and to
+GAStech_edges_aggregated_interactive <- GAStech_edges %>%
+  left_join(GAStech_nodes, by = c("sourceLabel" = "label")) %>%
+  rename(from = id) %>%
+  left_join(GAStech_nodes, by = c("targetLabel" = "label")) %>%
+  rename(to = id) %>%
+  filter(MainSubject == "Work related") %>%
+  group_by(from, to) %>%
+    summarise(weight = n()) %>%
+  filter(from!=to) %>%
+  filter(weight > 1) %>%
+  ungroup()
+DT::datatable(GAStech_edges_aggregated_interactive, options = list(pageLength = 5))
+#rename the department as group
+GAStech_nodes <- GAStech_nodes %>%
+  rename(group = Department)
+```
+
+###Plot interactive Network
+- The argument highlightNearest highlights nearest when clicking a node.
+- The argument nodesIdSelection adds an id node selection creating an HTML select element.
+```{r}
+ visNetwork(GAStech_nodes,
+           GAStech_edges_aggregated_interactive) %>%
+  visIgraphLayout(layout = "layout_with_fr") %>%
+  visOptions(highlightNearest = TRUE,
+             nodesIdSelection = TRUE) %>%
+  visLegend() %>%
+  visLayout(randomSeed = 123) #set a random seed to keep the layout consistent
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
