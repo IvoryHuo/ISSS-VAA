@@ -1,0 +1,294 @@
+---
+title: "In class Exercise 9: dashboard design"
+author: "Huo Da"
+---
+
+# Task
+
+In this exercise, we will be able to:
+
+-   create bullet chart using ggplot2
+
+-   create sparklines using ggplot2
+
+-   build industry standard dashboard by using R shiny
+
+# Installing and launching R packages
+
+## Convert mdb to rds data
+
+In the code chunk below, `odbcConnectAccess()` of [**RODBC**](https://cran.r-project.org/web/packages/RODBC/) package is used used to import a database query table into R. Note: Before running the code chunk, you need to change the R system to 32bit version. This is because the odbcConnectAccess() is based on 32bit and not 64bit.R 4.1 has to be downloaded as 4.2.2 does not support 32bits.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+#library(RODBC)
+#con <- odbcConnectAccess('data/Coffee Chain.mdb')
+#coffeechain <- sqlFetch(con, 'CoffeeChain Query')
+#write_rds(coffeechain, "data/CoffeeChain.rds")
+#odbcClose(con)
+```
+
+After you save the mdb data to rds, close the R and clear the memory, to switch back to 64bit.
+
+## Install Packages and Read data
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+pacman::p_load(lubridate, ggthemes, reactable,
+reactablefmtr, gt, gtExtras, tidyverse)
+coffeechain <- read_rds("data/CoffeeChain.rds")
+```
+
+## Bullet Chart
+
+### Data Wrangling
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+#Aggregate sales and budgeted sales at product level.
+product <- coffeechain %>%
+  group_by(`Product`) %>%
+  summarise(`target` = sum(`Budget Sales`),
+            `current` = sum(`Sales`)) %>%
+  ungroup()
+```
+
+### Plot
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+ggplot(product, aes(Product, current)) + 
+  #Add the backgrounds
+  geom_col(aes(Product, max(target) * 1.01),
+           fill="grey85", width=0.85) +
+  geom_col(aes(Product, target * 0.75),
+           fill="grey60", width=0.85) +
+  geom_col(aes(Product, target * 0.5),
+           fill="grey50", width=0.85) +
+  #add the current with thinner width
+  geom_col(aes(Product, current), 
+           width=0.35,
+           fill = "black") + 
+  #target line with min and max both equal to the target
+  geom_errorbar(aes(y = target,
+                    x = Product, 
+                    ymin = target,
+                    ymax= target), 
+                width = .4,
+                colour = "red",
+                linewidth = 1) +
+  #plot horizontal bars
+  coord_flip()
+```
+
+## Sparklines
+
+### Data Wrangling
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+#Aggregate sales by month per product
+sales_report <- coffeechain %>%
+  filter(Date >= "2013-01-01") %>%
+  #use libradate to create the month
+  mutate(Month = month(Date)) %>%
+  # then group by month and aggregate the sales values
+  group_by(Month, Product) %>%
+  summarise(Sales = sum(Sales)) %>%
+  ungroup() %>%
+  select(Month, Product, Sales)
+
+#Extract the min and max value
+mins <- group_by(sales_report, Product) %>% 
+  slice(which.min(Sales))
+maxs <- group_by(sales_report, Product) %>% 
+  slice(which.max(Sales))
+ends <- group_by(sales_report, Product) %>% 
+  filter(Month == max(Month))
+
+#Extract the quartile for each product
+quarts <- sales_report %>%
+  group_by(Product) %>%
+  summarise(quart1 = quantile(Sales, 
+                              0.25),
+            quart2 = quantile(Sales, 
+                              0.75)) %>%
+  right_join(sales_report)
+```
+
+### Plot the sparklines
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+#| fig-width: 12
+#| fig-height: 12
+ggplot(sales_report, aes(x=Month, y=Sales)) + 
+  facet_grid(Product ~ ., scales = "free_y") + 
+  geom_ribbon(data = quarts, aes(ymin = quart1, max = quart2), 
+              fill = 'grey90') +
+  geom_line(size=0.3) +
+  geom_point(data = mins, col = 'red') +
+  geom_point(data = maxs, col = 'blue') +
+  geom_text(data = mins, aes(label = Sales), vjust = -1) +
+  geom_text(data = maxs, aes(label = Sales), vjust = 2.5) +
+  geom_text(data = ends, aes(label = Sales), hjust = 0, nudge_x = 0.1) +
+  geom_text(data = ends, aes(label = Product), hjust = 0, nudge_x = 1.5) +
+  expand_limits(x = max(sales_report$Month) + 
+                  (0.25 * (max(sales_report$Month) - min(sales_report$Month)))) +
+  scale_x_continuous(breaks = seq(1, 12, 1)) +
+  scale_y_continuous(expand = c(0.1, 0)) +
+  theme_tufte(base_size = 3, base_family = "Helvetica") +
+  theme(axis.title=element_blank(), axis.text.y = element_blank(), 
+        axis.ticks = element_blank(), strip.text = element_blank())
+
+```
+
+## Dashboard using [gt](https://gt.rstudio.com/) and [gtExtras](https://jthomasmock.github.io/gtExtras/)
+
+### bullet chart
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+#less coding effort, just need to specify the value and the target.
+product %>%
+  gt::gt() %>%
+  gt_plt_bullet(column = current, 
+              target = target, 
+              width = 60,
+              palette = c("lightblue", 
+                          "black")) %>%
+  gt_theme_538()
+```
+### sparkline
+First, we prepare the datatable report.
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+report <- coffeechain %>%
+  mutate(Year = year(Date)) %>%
+  filter(Year == "2013") %>%
+  mutate (Month = month(Date, 
+                        label = TRUE, 
+                        abbr = TRUE)) %>%
+  group_by(Product, Month) %>%
+  summarise(Sales = sum(Sales)) %>%
+  ungroup()
+```
+Note that gtExtras require us to pass data.frame with list columns. Currently, it is at each row.
+
+
+Plot the graph.
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+report %>%
+  group_by(Product) %>%
+  summarize('Monthly Sales' = list(Sales), 
+            .groups = "drop") %>%
+   gt() %>%
+   gt_plt_sparkline('Monthly Sales',same_limit = FALSE)
+
+```
+Add statistics.
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+report %>% 
+  group_by(Product) %>% 
+  summarise("Min" = min(Sales, na.rm = T),
+            "Max" = max(Sales, na.rm = T),
+            "Average" = mean(Sales, na.rm = T)
+            ) %>%
+  gt() %>%
+  fmt_number(columns = 4,
+    decimals = 2)
+```
+Build the dashboard.
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+#sales values with sparklines
+spark <- report %>%
+  group_by(Product) %>%
+  summarize('Monthly Sales' = list(Sales), 
+            .groups = "drop")
+
+sales <- report %>% 
+  group_by(Product) %>% 
+  summarise("Min" = min(Sales, na.rm = T),
+            "Max" = max(Sales, na.rm = T),
+            "Average" = mean(Sales, na.rm = T)
+            )
+sales_data = left_join(sales, spark)
+
+sales_data %>%
+  gt() %>%
+  gt_plt_sparkline('Monthly Sales')
+
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| warning: false
+#| message: false
+#add bullet
+bullet <- coffeechain %>%
+  filter(Date >= "2013-01-01") %>%
+  group_by(`Product`) %>%
+  summarise(`Target` = sum(`Budget Sales`),
+            `Actual` = sum(`Sales`)) %>%
+  ungroup()
+
+sales_data = sales_data %>%
+  left_join(bullet)
+
+sales_data %>%
+  gt() %>%
+  gt_plt_sparkline('Monthly Sales') %>%
+  gt_plt_bullet(column = Actual, 
+                target = Target, 
+                width = 28,
+                palette = c("lightblue", 
+                          "black")) %>%
+  gt_theme_538()
+
+```
+
+
+
+
+
+
+
+
+
+
