@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Huo Da">
+
+<title>ISSS608-VAA - In class 10 (Stock Price)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="../../site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="../../site_libs/plotly-binding-4.10.1/plotly.js"></script>
+<script src="../../site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="../../site_libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="../../site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="../../site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="../../site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="../../site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">ISSS608-VAA</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hands-on-exercise" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Hands-on Exercise</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-hands-on-exercise">    
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html">
+ <span class="dropdown-text">Hands-on Ex01</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html">
+ <span class="dropdown-text">Hands-on_Ex02(ggplot2)</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-in-class-exercise" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">In-class Exercise</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-in-class-exercise">    
+        <li>
+    <a class="dropdown-item" href="https://public.tableau.com/app/profile/huoda1027/viz/TakeHome_Ex01_16742612602400/Dashboard1">
+ <span class="dropdown-text">In-class_Ex01(Tableau)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../In-class_Ex/In-class_Ex03/In-class_Ex03.html">
+ <span class="dropdown-text">In-class_Ex03</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../In-class_Ex/In-class_Ex04/In-class_Ex04.html">
+ <span class="dropdown-text">In-class_Ex04</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../In-class_Ex/In-class_Ex05/In-class_Ex05.html">
+ <span class="dropdown-text">In-class_Ex05</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../In-class_Ex/In-class_Ex06/In-class_Ex06.html">
+ <span class="dropdown-text">In-class_Ex06</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../In-class_Ex/In-class_Ex08/In-class_Ex08.html">
+ <span class="dropdown-text">In-class_Ex08</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../In-class_Ex/In-class_Ex09/In-class_Ex09.html">
+ <span class="dropdown-text">In-class_Ex09</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-take-home-exercise" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Take-Home Exercise</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-take-home-exercise">    
+        <li>
+    <a class="dropdown-item" href="../../Take-Home_Ex/Take-Home_Ex01/Take-Home_Ex01.html">
+ <span class="dropdown-text">Take-Home_Ex01(Tableau)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Take-Home_Ex/Take-Home_Ex02/Take-Home_Ex02.html">
+ <span class="dropdown-text">Take-Home_Ex02(R):Age-sex Pyramids in Singapore</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Take-Home_Ex/Take-Home_Ex03/Take-Home_Ex03.html">
+ <span class="dropdown-text">Take-Home_Ex03(R): Time Series Analysis of Singapore Resale HDB price</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Take-Home_Ex/Take-Home_Ex04/Take-Home_Ex04.html">
+ <span class="dropdown-text">Take-Home_Ex04(R): Time Series Analysis of Singapore Trade</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-project" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Project</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-project">    
+        <li>
+    <a class="dropdown-item" href="https://3vm3r5-da-huo.shinyapps.io/huoda-SGBusCommutingPattern/">
+ <span class="dropdown-text">Singapore Bus Commuting Pattern (Shiny Apps)</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#extract-data-from-yahoo-using-tidyquant" id="toc-extract-data-from-yahoo-using-tidyquant" class="nav-link" data-scroll-target="#extract-data-from-yahoo-using-tidyquant">Extract Data from Yahoo Using tidyquant</a>
+  <ul class="collapse">
+  <li><a href="#prepare-the-company-code" id="toc-prepare-the-company-code" class="nav-link" data-scroll-target="#prepare-the-company-code">Prepare the company code</a></li>
+  <li><a href="#crawl" id="toc-crawl" class="nav-link" data-scroll-target="#crawl">Crawl</a></li>
+  </ul></li>
+  <li><a href="#plot" id="toc-plot" class="nav-link" data-scroll-target="#plot">Plot</a>
+  <ul class="collapse">
+  <li><a href="#horizon-graph" id="toc-horizon-graph" class="nav-link" data-scroll-target="#horizon-graph">Horizon Graph</a></li>
+  <li><a href="#line-graph" id="toc-line-graph" class="nav-link" data-scroll-target="#line-graph">Line Graph</a>
+  <ul class="collapse">
+  <li><a href="#static-historical-price-of-a-stock." id="toc-static-historical-price-of-a-stock." class="nav-link" data-scroll-target="#static-historical-price-of-a-stock.">static historical price of a stock.</a></li>
+  <li><a href="#interactive-line-graph-using-plotly" id="toc-interactive-line-graph-using-plotly" class="nav-link" data-scroll-target="#interactive-line-graph-using-plotly">Interactive Line Graph using Plotly</a></li>
+  </ul></li>
+  <li><a href="#candlestick-using-tidyquant" id="toc-candlestick-using-tidyquant" class="nav-link" data-scroll-target="#candlestick-using-tidyquant">Candlestick using tidyquant()</a>
+  <ul class="collapse">
+  <li><a href="#simple-candlestick" id="toc-simple-candlestick" class="nav-link" data-scroll-target="#simple-candlestick">Simple candlestick</a></li>
+  <li><a href="#candlestick-with-moving-average" id="toc-candlestick-with-moving-average" class="nav-link" data-scroll-target="#candlestick-with-moving-average">candlestick with moving average</a></li>
+  <li><a href="#candlestick-with-rollinger-bands" id="toc-candlestick-with-rollinger-bands" class="nav-link" data-scroll-target="#candlestick-with-rollinger-bands">Candlestick with rollinger bands</a></li>
+  <li><a href="#interactie-candlestick" id="toc-interactie-candlestick" class="nav-link" data-scroll-target="#interactie-candlestick">Interactie candlestick</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">In class 10 (Stock Price)</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Huo Da </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="overview" class="level1">
+<h1>Overview</h1>
+<p>By the end of this hands-on exercise, you will be able to:</p>
+<ul>
+<li><p>plot horizon graph by using ggHoriPlot package,</p></li>
+<li><p>plot static and interactive stock prices line graph(s) by ggplot2 and plotly R packages,</p></li>
+<li><p>plot static candlestick chart by using tidyquant package,</p></li>
+<li><p>plot static bollinger bands by using <a href="https://business-science.github.io/tidyquant/">tidyquant</a>, and plot interactive candlestick chart by using ggplot2 and plotly R.</p></li>
+</ul>
+<p>Load the necessary libraries first.</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(lubridate, tidyquant, ggHoriPlot,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               timetk, ggthemes, plotly, tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="extract-data-from-yahoo-using-tidyquant" class="level1">
+<h1>Extract Data from Yahoo Using tidyquant</h1>
+<section id="prepare-the-company-code" class="level2">
+<h2 class="anchored" data-anchor-id="prepare-the-company-code">Prepare the company code</h2>
+<p>We would like to crawl web table from yahoo finance historical data. An example of DBS bank is as showb below. https://sg.finance.yahoo.com/quote/D05.SI/history?p=D05.SI</p>
+<p>First, we need to prepare a table with company name and the company code.</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>company <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/companySG.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>We select the top 40 companies symbol based on their marketcap.We only need the symbol when we crawl from yahoo finance.</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Top40 <span class="ot">&lt;-</span> company <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#select the top 40 companies symbol based on marketcap using slice_max</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="st">`</span><span class="at">marketcap</span><span class="st">`</span>, <span class="at">n=</span><span class="dv">40</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(symbol)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="crawl" class="level2">
+<h2 class="anchored" data-anchor-id="crawl">Crawl</h2>
+<p>Start crawling using <a href="https://business-science.github.io/tidyquant/reference/tq_get.html">tq_get()</a> to crawl from yahoo fiance API.</p>
+<p>Note that tq_get(x, get = …) the x is a single character string, which matches with what we have in Top40 Symbol.</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Stock40_daily <span class="ot">&lt;-</span> Top40 <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tq_get</span>(<span class="at">get =</span> <span class="st">"stock.prices"</span>, </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">from =</span> <span class="st">"2020-01-01"</span>, </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">to =</span> <span class="st">"2023-03-31"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(symbol) <span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">#reorganize the table</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tq_transmute</span>(<span class="at">select =</span> <span class="cn">NULL</span>, </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">mutate_fun =</span> to.period, </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>               <span class="co">#we can change days to such as 'weeks', but suggest to crawl at the days</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">period  =</span> <span class="st">"days"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>The error msg tells us that the company with the symbol ‘RW0U.SI’ is no longer available. We crawl 39 companies successfully.</p>
+</section>
+</section>
+<section id="plot" class="level1">
+<h1>Plot</h1>
+<section id="horizon-graph" class="level2">
+<h2 class="anchored" data-anchor-id="horizon-graph">Horizon Graph</h2>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Stock40_daily <span class="ot">&lt;-</span> Stock40_daily <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(company) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>, <span class="dv">11</span><span class="sc">:</span><span class="dv">12</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>Stock40_daily <span class="sc">%&gt;%</span> </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_horizon</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y=</span>adjusted), <span class="at">origin =</span> <span class="st">"midpoint"</span>, <span class="at">horizonscale =</span> <span class="dv">6</span>)<span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Name<span class="sc">~</span>.)<span class="sc">+</span> <span class="co">#&lt;&lt;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">as.Date</span>(<span class="st">"2020-03-11"</span>), <span class="at">colour =</span> <span class="st">"grey15"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">size =</span> <span class="fl">0.5</span>)<span class="sc">+</span> <span class="co">#&lt;&lt;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">as.Date</span>(<span class="st">"2020-12-14"</span>), <span class="at">colour =</span> <span class="st">"grey15"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">size =</span> <span class="fl">0.5</span>)<span class="sc">+</span> <span class="co">#&lt;&lt;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_few</span>() <span class="sc">+</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_hcl</span>(<span class="at">palette =</span> <span class="st">'RdBu'</span>) <span class="sc">+</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.spacing.y=</span><span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"lines"</span>),</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">angle =</span> <span class="dv">0</span>, <span class="at">hjust =</span> <span class="dv">0</span>),</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">'none'</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">7</span>),</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">expand=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">date_breaks =</span> <span class="st">"1 month"</span>, <span class="at">date_labels =</span> <span class="st">"%b%y"</span>) <span class="sc">+</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">'Daily Adjusted Prices (Jan 2020 to Mar 2022)'</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="In-class_Ex10_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="1344"></p>
+</div>
+</div>
+</section>
+<section id="line-graph" class="level2">
+<h2 class="anchored" data-anchor-id="line-graph">Line Graph</h2>
+<section id="static-historical-price-of-a-stock." class="level3">
+<h3 class="anchored" data-anchor-id="static-historical-price-of-a-stock.">static historical price of a stock.</h3>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Stock40_daily <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(symbol <span class="sc">==</span> <span class="st">"DBSDF"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> close)) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"DBS Group Holdings Ltd (DBSDF) Daily Stock Price"</span>, </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">"Closing Price"</span>, <span class="at">x =</span> <span class="st">""</span>) <span class="sc">+</span> </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_tq</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="In-class_Ex10_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="interactive-line-graph-using-plotly" class="level3">
+<h3 class="anchored" data-anchor-id="interactive-line-graph-using-plotly">Interactive Line Graph using Plotly</h3>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>selected_stocks <span class="ot">&lt;-</span>  Stock40_daily <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span> (<span class="st">`</span><span class="at">symbol</span><span class="st">`</span> <span class="sc">==</span> <span class="fu">c</span>(<span class="st">"C09.SI"</span>, <span class="st">"SINGF"</span>, <span class="st">"SNGNF"</span>, <span class="st">"C52.SI"</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(selected_stocks, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> adjusted)) <span class="sc">+</span> </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>() <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Name, <span class="at">scales =</span> <span class="st">"free_y"</span>,) <span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">#choose a theme of tq looks professional</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_tq</span>() <span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Daily stock prices of selected weak stocks"</span>, </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> <span class="st">"Adjusted Price"</span>) <span class="sc">+</span> </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>), </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>))</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="htmlwidget-42542ea223ea5022ce46" style="width:100%;height:464px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-42542ea223ea5022ce46">{"x":{"data":[{"x":[18263,18269,18275,18281,18285,18292,18298,18304,18310,18316,18320,18326,18332,18338,18344,18348,18354,18360,18367,18373,18379,18386,18393,18397,18403,18410,18416,18422,18428,18432,18438,18444,18450,18457,18463,18467,18473,18480,18487,18493,18499,18505,18509,18515,18521,18527,18533,18537,18543,18549,18555,18561,18565,18571,18577,18583,18589,18593,18599,18605,18611,18617,18624,18631,18635,18641,18647,18653,18659,18663,18669,18676,18682,18688,18694,18698,18704,18710,18716,18723,18729,18733,18739,18745,18751,18757,18764,18768,18775,18781,18787,18793,18799,18803,18809,18815,18821,18827,18834,18838,18844,18851,18857,18863,18869,18873,18879,18885,18891,18897,18901,18907,18913,18919,18925,18929,18936,18942,18948,18954,18960,18964,18970,18976,18982,18988,18992,18998,19004,19010,19016,19020,19030,19034,19040,19046,19052,19058,19062,19068,19074,19080,19086,19090,19096,19103,19109,19117,19123,19130,19136,19142,19146,19152,19158,19164,19170,19174,19180,19187,19193,19199,19205,19209,19216,19222,19228,19234,19240,19244,19250,19256,19262,19268,19272,19278,19284,19291,19297,19303,19307,19313,19319,19325,19331,19335,19341,19347,19354,19361,19367,19373,19377,19387,19391,19397,19403,19409,19415,19419,19425,19431,19437],"y":[10.750219,10.846374,10.980992,10.904068,10.500213,10.192515,10.577138,10.827143,10.50983,10.086743,9.394422,9.432884,8.586712,7.355919,5.990506,7.153991,6.72129,7.471305,7.192454,7.250147,7.298225,7.508673,7.770265,7.3149,7.363343,7.431164,8.400024,8.729438,8.070611,8.235317,8.119055,8.264383,8.546161,8.068122,8.116901,8.058366,7.980319,8.009586,8.253484,7.824225,7.853493,7.83398,7.755933,7.755933,7.824225,7.619351,7.521792,7.521792,7.609596,7.677886,7.443745,6.702297,6.185236,6.438889,7.014486,7.258383,7.707154,7.677886,7.492524,7.629107,7.755933,7.76569,7.843736,7.609596,7.17058,7.365698,7.453501,7.190092,7.014486,7.053509,7.004729,6.946194,7.151068,7.268138,7.238872,7.287651,7.424233,7.638863,7.785201,7.970563,7.853493,7.843736,7.746178,7.76569,7.629107,7.491822,7.178029,7.285895,7.482016,7.678137,7.511434,7.482016,7.207447,7.207447,7.05055,6.874042,6.825011,6.638696,6.687726,6.717144,6.62889,6.62889,6.903459,6.815248,6.864491,6.756155,6.50994,6.953128,7.071311,6.953128,6.706913,6.972826,7.248587,7.278132,7.337224,7.209193,7.120554,7.120554,7.140252,6.953128,6.894036,6.72661,6.923583,6.962977,6.549335,6.618275,6.706913,6.775853,6.79555,7.022069,7.012219,6.864491,6.992522,7.130403,7.199344,7.130403,7.061463,6.903885,7.179646,7.228889,7.337224,7.760715,7.86905,8.00693,8.233449,8.30239,8.30652,8.075721,7.789767,8.036279,7.977116,8.105303,8.105303,8.184186,7.957395,8.046139,8.085581,7.927814,7.829209,7.42493,7.622139,7.681302,7.701023,7.986977,8.223628,8.48,8.17,8.17,8.29,8.42,8.35,8.17,7.84,7.55,7.83,7.48,7.45,7.48,7.83,7.85,8.04,8.16,8.16,8.26,8.28,8.2,8.26,8.25,8.16,7.97,7.68,7.89,8.04,8.24,8.33,8.17,7.87,7.88,7.72,7.59,7.38,7.08,7.19],"text":["date: 2020-01-02<br />adjusted: 10.750219","date: 2020-01-08<br />adjusted: 10.846374","date: 2020-01-14<br />adjusted: 10.980992","date: 2020-01-20<br />adjusted: 10.904068","date: 2020-01-24<br />adjusted: 10.500213","date: 2020-01-31<br />adjusted: 10.192515","date: 2020-02-06<br />adjusted: 10.577138","date: 2020-02-12<br />adjusted: 10.827143","date: 2020-02-18<br />adjusted: 10.509830","date: 2020-02-24<br />adjusted: 10.086743","date: 2020-02-28<br />adjusted:  9.394422","date: 2020-03-05<br />adjusted:  9.432884","date: 2020-03-11<br />adjusted:  8.586712","date: 2020-03-17<br />adjusted:  7.355919","date: 2020-03-23<br />adjusted:  5.990506","date: 2020-03-27<br />adjusted:  7.153991","date: 2020-04-02<br />adjusted:  6.721290","date: 2020-04-08<br />adjusted:  7.471305","date: 2020-04-15<br />adjusted:  7.192454","date: 2020-04-21<br />adjusted:  7.250147","date: 2020-04-27<br />adjusted:  7.298225","date: 2020-05-04<br />adjusted:  7.508673","date: 2020-05-11<br />adjusted:  7.770265","date: 2020-05-15<br />adjusted:  7.314900","date: 2020-05-21<br />adjusted:  7.363343","date: 2020-05-28<br />adjusted:  7.431164","date: 2020-06-03<br />adjusted:  8.400024","date: 2020-06-09<br />adjusted:  8.729438","date: 2020-06-15<br />adjusted:  8.070611","date: 2020-06-19<br />adjusted:  8.235317","date: 2020-06-25<br />adjusted:  8.119055","date: 2020-07-01<br />adjusted:  8.264383","date: 2020-07-07<br />adjusted:  8.546161","date: 2020-07-14<br />adjusted:  8.068122","date: 2020-07-20<br />adjusted:  8.116901","date: 2020-07-24<br />adjusted:  8.058366","date: 2020-07-30<br />adjusted:  7.980319","date: 2020-08-06<br />adjusted:  8.009586","date: 2020-08-13<br />adjusted:  8.253484","date: 2020-08-19<br />adjusted:  7.824225","date: 2020-08-25<br />adjusted:  7.853493","date: 2020-08-31<br />adjusted:  7.833980","date: 2020-09-04<br />adjusted:  7.755933","date: 2020-09-10<br />adjusted:  7.755933","date: 2020-09-16<br />adjusted:  7.824225","date: 2020-09-22<br />adjusted:  7.619351","date: 2020-09-28<br />adjusted:  7.521792","date: 2020-10-02<br />adjusted:  7.521792","date: 2020-10-08<br />adjusted:  7.609596","date: 2020-10-14<br />adjusted:  7.677886","date: 2020-10-20<br />adjusted:  7.443745","date: 2020-10-26<br />adjusted:  6.702297","date: 2020-10-30<br />adjusted:  6.185236","date: 2020-11-05<br />adjusted:  6.438889","date: 2020-11-11<br />adjusted:  7.014486","date: 2020-11-17<br />adjusted:  7.258383","date: 2020-11-23<br />adjusted:  7.707154","date: 2020-11-27<br />adjusted:  7.677886","date: 2020-12-03<br />adjusted:  7.492524","date: 2020-12-09<br />adjusted:  7.629107","date: 2020-12-15<br />adjusted:  7.755933","date: 2020-12-21<br />adjusted:  7.765690","date: 2020-12-28<br />adjusted:  7.843736","date: 2021-01-04<br />adjusted:  7.609596","date: 2021-01-08<br />adjusted:  7.170580","date: 2021-01-14<br />adjusted:  7.365698","date: 2021-01-20<br />adjusted:  7.453501","date: 2021-01-26<br />adjusted:  7.190092","date: 2021-02-01<br />adjusted:  7.014486","date: 2021-02-05<br />adjusted:  7.053509","date: 2021-02-11<br />adjusted:  7.004729","date: 2021-02-18<br />adjusted:  6.946194","date: 2021-02-24<br />adjusted:  7.151068","date: 2021-03-02<br />adjusted:  7.268138","date: 2021-03-08<br />adjusted:  7.238872","date: 2021-03-12<br />adjusted:  7.287651","date: 2021-03-18<br />adjusted:  7.424233","date: 2021-03-24<br />adjusted:  7.638863","date: 2021-03-30<br />adjusted:  7.785201","date: 2021-04-06<br />adjusted:  7.970563","date: 2021-04-12<br />adjusted:  7.853493","date: 2021-04-16<br />adjusted:  7.843736","date: 2021-04-22<br />adjusted:  7.746178","date: 2021-04-28<br />adjusted:  7.765690","date: 2021-05-04<br />adjusted:  7.629107","date: 2021-05-10<br />adjusted:  7.491822","date: 2021-05-17<br />adjusted:  7.178029","date: 2021-05-21<br />adjusted:  7.285895","date: 2021-05-28<br />adjusted:  7.482016","date: 2021-06-03<br />adjusted:  7.678137","date: 2021-06-09<br />adjusted:  7.511434","date: 2021-06-15<br />adjusted:  7.482016","date: 2021-06-21<br />adjusted:  7.207447","date: 2021-06-25<br />adjusted:  7.207447","date: 2021-07-01<br />adjusted:  7.050550","date: 2021-07-07<br />adjusted:  6.874042","date: 2021-07-13<br />adjusted:  6.825011","date: 2021-07-19<br />adjusted:  6.638696","date: 2021-07-26<br />adjusted:  6.687726","date: 2021-07-30<br />adjusted:  6.717144","date: 2021-08-05<br />adjusted:  6.628890","date: 2021-08-12<br />adjusted:  6.628890","date: 2021-08-18<br />adjusted:  6.903459","date: 2021-08-24<br />adjusted:  6.815248","date: 2021-08-30<br />adjusted:  6.864491","date: 2021-09-03<br />adjusted:  6.756155","date: 2021-09-09<br />adjusted:  6.509940","date: 2021-09-15<br />adjusted:  6.953128","date: 2021-09-21<br />adjusted:  7.071311","date: 2021-09-27<br />adjusted:  6.953128","date: 2021-10-01<br />adjusted:  6.706913","date: 2021-10-07<br />adjusted:  6.972826","date: 2021-10-13<br />adjusted:  7.248587","date: 2021-10-19<br />adjusted:  7.278132","date: 2021-10-25<br />adjusted:  7.337224","date: 2021-10-29<br />adjusted:  7.209193","date: 2021-11-05<br />adjusted:  7.120554","date: 2021-11-11<br />adjusted:  7.120554","date: 2021-11-17<br />adjusted:  7.140252","date: 2021-11-23<br />adjusted:  6.953128","date: 2021-11-29<br />adjusted:  6.894036","date: 2021-12-03<br />adjusted:  6.726610","date: 2021-12-09<br />adjusted:  6.923583","date: 2021-12-15<br />adjusted:  6.962977","date: 2021-12-21<br />adjusted:  6.549335","date: 2021-12-27<br />adjusted:  6.618275","date: 2021-12-31<br />adjusted:  6.706913","date: 2022-01-06<br />adjusted:  6.775853","date: 2022-01-12<br />adjusted:  6.795550","date: 2022-01-18<br />adjusted:  7.022069","date: 2022-01-24<br />adjusted:  7.012219","date: 2022-01-28<br />adjusted:  6.864491","date: 2022-02-07<br />adjusted:  6.992522","date: 2022-02-11<br />adjusted:  7.130403","date: 2022-02-17<br />adjusted:  7.199344","date: 2022-02-23<br />adjusted:  7.130403","date: 2022-03-01<br />adjusted:  7.061463","date: 2022-03-07<br />adjusted:  6.903885","date: 2022-03-11<br />adjusted:  7.179646","date: 2022-03-17<br />adjusted:  7.228889","date: 2022-03-23<br />adjusted:  7.337224","date: 2022-03-29<br />adjusted:  7.760715","date: 2022-04-04<br />adjusted:  7.869050","date: 2022-04-08<br />adjusted:  8.006930","date: 2022-04-14<br />adjusted:  8.233449","date: 2022-04-21<br />adjusted:  8.302390","date: 2022-04-27<br />adjusted:  8.306520","date: 2022-05-05<br />adjusted:  8.075721","date: 2022-05-11<br />adjusted:  7.789767","date: 2022-05-18<br />adjusted:  8.036279","date: 2022-05-24<br />adjusted:  7.977116","date: 2022-05-30<br />adjusted:  8.105303","date: 2022-06-03<br />adjusted:  8.105303","date: 2022-06-09<br />adjusted:  8.184186","date: 2022-06-15<br />adjusted:  7.957395","date: 2022-06-21<br />adjusted:  8.046139","date: 2022-06-27<br />adjusted:  8.085581","date: 2022-07-01<br />adjusted:  7.927814","date: 2022-07-07<br />adjusted:  7.829209","date: 2022-07-14<br />adjusted:  7.424930","date: 2022-07-20<br />adjusted:  7.622139","date: 2022-07-26<br />adjusted:  7.681302","date: 2022-08-01<br />adjusted:  7.701023","date: 2022-08-05<br />adjusted:  7.986977","date: 2022-08-12<br />adjusted:  8.223628","date: 2022-08-18<br />adjusted:  8.480000","date: 2022-08-24<br />adjusted:  8.170000","date: 2022-08-30<br />adjusted:  8.170000","date: 2022-09-05<br />adjusted:  8.290000","date: 2022-09-09<br />adjusted:  8.420000","date: 2022-09-15<br />adjusted:  8.350000","date: 2022-09-21<br />adjusted:  8.170000","date: 2022-09-27<br />adjusted:  7.840000","date: 2022-10-03<br />adjusted:  7.550000","date: 2022-10-07<br />adjusted:  7.830000","date: 2022-10-13<br />adjusted:  7.480000","date: 2022-10-19<br />adjusted:  7.450000","date: 2022-10-26<br />adjusted:  7.480000","date: 2022-11-01<br />adjusted:  7.830000","date: 2022-11-07<br />adjusted:  7.850000","date: 2022-11-11<br />adjusted:  8.040000","date: 2022-11-17<br />adjusted:  8.160000","date: 2022-11-23<br />adjusted:  8.160000","date: 2022-11-29<br />adjusted:  8.260000","date: 2022-12-05<br />adjusted:  8.280000","date: 2022-12-09<br />adjusted:  8.200000","date: 2022-12-15<br />adjusted:  8.260000","date: 2022-12-21<br />adjusted:  8.250000","date: 2022-12-28<br />adjusted:  8.160000","date: 2023-01-04<br />adjusted:  7.970000","date: 2023-01-10<br />adjusted:  7.680000","date: 2023-01-16<br />adjusted:  7.890000","date: 2023-01-20<br />adjusted:  8.040000","date: 2023-01-30<br />adjusted:  8.240000","date: 2023-02-03<br />adjusted:  8.330000","date: 2023-02-09<br />adjusted:  8.170000","date: 2023-02-15<br />adjusted:  7.870000","date: 2023-02-21<br />adjusted:  7.880000","date: 2023-02-27<br />adjusted:  7.720000","date: 2023-03-03<br />adjusted:  7.590000","date: 2023-03-09<br />adjusted:  7.380000","date: 2023-03-15<br />adjusted:  7.080000","date: 2023-03-21<br />adjusted:  7.190000"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[18268,18274,18278,18284,18291,18297,18303,18309,18313,18319,18325,18331,18337,18341,18347,18353,18359,18366,18372,18376,18382,18390,18396,18402,18409,18415,18421,18425,18431,18437,18443,18449,18456,18460,18466,18472,18479,18486,18492,18498,18502,18508,18514,18520,18526,18530,18536,18542,18548,18554,18558,18564,18570,18576,18582,18586,18592,18598,18604,18610,18614,18620,18627,18634,18640,18646,18652,18656,18662,18668,18675,18681,18687,18691,18697,18703,18709,18715,18722,18726,18732,18738,18744,18750,18754,18761,18767,18774,18780,18786,18792,18796,18802,18808,18814,18820,18824,18831,18837,18843,18850,18856,18862,18866,18872,18878,18884,18890,18894,18900,18906,18912,18918,18922,18928,18934,18941,18947,18953,18957,18963,18969,18975,18981,18985,18991,18997,19003,19009,19013,19019,19027,19033,19039,19045,19051,19055,19061,19067,19073,19079,19083,19089,19095,19102,19108,19116,19122,19129,19135,19139,19145,19151,19157,19163,19167,19173,19179,19186,19192,19198,19202,19208,19215,19221,19227,19233,19237,19243,19249,19255,19261,19265,19271,19277,19283,19290,19296,19300,19306,19312,19318,19324,19328,19334,19340,19346,19353,19360,19366,19370,19376,19384,19390,19396,19402,19408,19412,19418,19424,19430,19436,19440],"y":[2.085162,2.031697,1.996053,1.960409,1.933676,1.906944,1.942587,1.862388,1.800012,1.791101,1.755457,1.666348,1.425752,1.300999,1.345553,1.30991,1.354464,1.399019,1.354464,1.274266,1.470307,1.46377,1.380916,1.426946,1.408534,1.424022,1.586495,1.538709,1.548266,1.481366,1.385794,1.452694,1.404908,1.366679,1.338008,1.290222,1.32845,1.347565,1.347565,1.357122,1.452694,1.443137,1.452694,1.424022,1.395351,1.376237,1.366679,1.376237,1.414465,1.414465,1.376237,1.32845,1.32845,1.443137,1.510037,1.576938,1.653395,1.548266,1.557823,1.634281,1.634281,1.586495,1.596052,1.605609,1.634281,1.615166,1.557823,1.510037,1.519594,1.510037,1.519594,1.510037,1.557823,1.538709,1.615166,1.596052,1.586495,1.662952,1.710738,1.67251,1.701181,1.67251,1.691624,1.615166,1.619561,1.523159,1.561719,1.60028,1.619561,1.609921,1.619561,1.59064,1.581,1.581,1.60028,1.561719,1.523159,1.523159,1.542439,1.523159,1.552079,1.561719,1.572336,1.591868,1.572336,1.552804,1.523506,1.474676,1.523506,1.474676,1.474676,1.523506,1.543038,1.523506,1.533272,1.56257,1.572336,1.474676,1.484442,1.435611,1.337951,1.367249,1.347717,1.318419,1.337951,1.367249,1.357483,1.318419,1.357483,1.347717,1.328185,1.367249,1.416079,1.435611,1.435611,1.377015,1.377015,1.357483,1.367249,1.386781,1.445377,1.455143,1.445377,1.46491,1.474676,1.445377,1.46491,1.436186,1.455995,1.455995,1.436186,1.446091,1.426281,1.376757,1.376757,1.366853,1.386662,1.366853,1.406472,1.406472,1.436186,1.406472,1.416376,1.446091,1.4659,1.43,1.41,1.38,1.37,1.39,1.4,1.36,1.32,1.29,1.26,1.27,1.25,1.27,1.32,1.36,1.23,1.25,1.23,1.24,1.24,1.24,1.24,1.24,1.23,1.23,1.17,1.14,1.21,1.19,1.19,1.19,1.17,1.2,1.19,1.19,1.16,1.16,1.19],"text":["date: 2020-01-07<br />adjusted:  2.085162","date: 2020-01-13<br />adjusted:  2.031697","date: 2020-01-17<br />adjusted:  1.996053","date: 2020-01-23<br />adjusted:  1.960409","date: 2020-01-30<br />adjusted:  1.933676","date: 2020-02-05<br />adjusted:  1.906944","date: 2020-02-11<br />adjusted:  1.942587","date: 2020-02-17<br />adjusted:  1.862388","date: 2020-02-21<br />adjusted:  1.800012","date: 2020-02-27<br />adjusted:  1.791101","date: 2020-03-04<br />adjusted:  1.755457","date: 2020-03-10<br />adjusted:  1.666348","date: 2020-03-16<br />adjusted:  1.425752","date: 2020-03-20<br />adjusted:  1.300999","date: 2020-03-26<br />adjusted:  1.345553","date: 2020-04-01<br />adjusted:  1.309910","date: 2020-04-07<br />adjusted:  1.354464","date: 2020-04-14<br />adjusted:  1.399019","date: 2020-04-20<br />adjusted:  1.354464","date: 2020-04-24<br />adjusted:  1.274266","date: 2020-04-30<br />adjusted:  1.470307","date: 2020-05-08<br />adjusted:  1.463770","date: 2020-05-14<br />adjusted:  1.380916","date: 2020-05-20<br />adjusted:  1.426946","date: 2020-05-27<br />adjusted:  1.408534","date: 2020-06-02<br />adjusted:  1.424022","date: 2020-06-08<br />adjusted:  1.586495","date: 2020-06-12<br />adjusted:  1.538709","date: 2020-06-18<br />adjusted:  1.548266","date: 2020-06-24<br />adjusted:  1.481366","date: 2020-06-30<br />adjusted:  1.385794","date: 2020-07-06<br />adjusted:  1.452694","date: 2020-07-13<br />adjusted:  1.404908","date: 2020-07-17<br />adjusted:  1.366679","date: 2020-07-23<br />adjusted:  1.338008","date: 2020-07-29<br />adjusted:  1.290222","date: 2020-08-05<br />adjusted:  1.328450","date: 2020-08-12<br />adjusted:  1.347565","date: 2020-08-18<br />adjusted:  1.347565","date: 2020-08-24<br />adjusted:  1.357122","date: 2020-08-28<br />adjusted:  1.452694","date: 2020-09-03<br />adjusted:  1.443137","date: 2020-09-09<br />adjusted:  1.452694","date: 2020-09-15<br />adjusted:  1.424022","date: 2020-09-21<br />adjusted:  1.395351","date: 2020-09-25<br />adjusted:  1.376237","date: 2020-10-01<br />adjusted:  1.366679","date: 2020-10-07<br />adjusted:  1.376237","date: 2020-10-13<br />adjusted:  1.414465","date: 2020-10-19<br />adjusted:  1.414465","date: 2020-10-23<br />adjusted:  1.376237","date: 2020-10-29<br />adjusted:  1.328450","date: 2020-11-04<br />adjusted:  1.328450","date: 2020-11-10<br />adjusted:  1.443137","date: 2020-11-16<br />adjusted:  1.510037","date: 2020-11-20<br />adjusted:  1.576938","date: 2020-11-26<br />adjusted:  1.653395","date: 2020-12-02<br />adjusted:  1.548266","date: 2020-12-08<br />adjusted:  1.557823","date: 2020-12-14<br />adjusted:  1.634281","date: 2020-12-18<br />adjusted:  1.634281","date: 2020-12-24<br />adjusted:  1.586495","date: 2020-12-31<br />adjusted:  1.596052","date: 2021-01-07<br />adjusted:  1.605609","date: 2021-01-13<br />adjusted:  1.634281","date: 2021-01-19<br />adjusted:  1.615166","date: 2021-01-25<br />adjusted:  1.557823","date: 2021-01-29<br />adjusted:  1.510037","date: 2021-02-04<br />adjusted:  1.519594","date: 2021-02-10<br />adjusted:  1.510037","date: 2021-02-17<br />adjusted:  1.519594","date: 2021-02-23<br />adjusted:  1.510037","date: 2021-03-01<br />adjusted:  1.557823","date: 2021-03-05<br />adjusted:  1.538709","date: 2021-03-11<br />adjusted:  1.615166","date: 2021-03-17<br />adjusted:  1.596052","date: 2021-03-23<br />adjusted:  1.586495","date: 2021-03-29<br />adjusted:  1.662952","date: 2021-04-05<br />adjusted:  1.710738","date: 2021-04-09<br />adjusted:  1.672510","date: 2021-04-15<br />adjusted:  1.701181","date: 2021-04-21<br />adjusted:  1.672510","date: 2021-04-27<br />adjusted:  1.691624","date: 2021-05-03<br />adjusted:  1.615166","date: 2021-05-07<br />adjusted:  1.619561","date: 2021-05-14<br />adjusted:  1.523159","date: 2021-05-20<br />adjusted:  1.561719","date: 2021-05-27<br />adjusted:  1.600280","date: 2021-06-02<br />adjusted:  1.619561","date: 2021-06-08<br />adjusted:  1.609921","date: 2021-06-14<br />adjusted:  1.619561","date: 2021-06-18<br />adjusted:  1.590640","date: 2021-06-24<br />adjusted:  1.581000","date: 2021-06-30<br />adjusted:  1.581000","date: 2021-07-06<br />adjusted:  1.600280","date: 2021-07-12<br />adjusted:  1.561719","date: 2021-07-16<br />adjusted:  1.523159","date: 2021-07-23<br />adjusted:  1.523159","date: 2021-07-29<br />adjusted:  1.542439","date: 2021-08-04<br />adjusted:  1.523159","date: 2021-08-11<br />adjusted:  1.552079","date: 2021-08-17<br />adjusted:  1.561719","date: 2021-08-23<br />adjusted:  1.572336","date: 2021-08-27<br />adjusted:  1.591868","date: 2021-09-02<br />adjusted:  1.572336","date: 2021-09-08<br />adjusted:  1.552804","date: 2021-09-14<br />adjusted:  1.523506","date: 2021-09-20<br />adjusted:  1.474676","date: 2021-09-24<br />adjusted:  1.523506","date: 2021-09-30<br />adjusted:  1.474676","date: 2021-10-06<br />adjusted:  1.474676","date: 2021-10-12<br />adjusted:  1.523506","date: 2021-10-18<br />adjusted:  1.543038","date: 2021-10-22<br />adjusted:  1.523506","date: 2021-10-28<br />adjusted:  1.533272","date: 2021-11-03<br />adjusted:  1.562570","date: 2021-11-10<br />adjusted:  1.572336","date: 2021-11-16<br />adjusted:  1.474676","date: 2021-11-22<br />adjusted:  1.484442","date: 2021-11-26<br />adjusted:  1.435611","date: 2021-12-02<br />adjusted:  1.337951","date: 2021-12-08<br />adjusted:  1.367249","date: 2021-12-14<br />adjusted:  1.347717","date: 2021-12-20<br />adjusted:  1.318419","date: 2021-12-24<br />adjusted:  1.337951","date: 2021-12-30<br />adjusted:  1.367249","date: 2022-01-05<br />adjusted:  1.357483","date: 2022-01-11<br />adjusted:  1.318419","date: 2022-01-17<br />adjusted:  1.357483","date: 2022-01-21<br />adjusted:  1.347717","date: 2022-01-27<br />adjusted:  1.328185","date: 2022-02-04<br />adjusted:  1.367249","date: 2022-02-10<br />adjusted:  1.416079","date: 2022-02-16<br />adjusted:  1.435611","date: 2022-02-22<br />adjusted:  1.435611","date: 2022-02-28<br />adjusted:  1.377015","date: 2022-03-04<br />adjusted:  1.377015","date: 2022-03-10<br />adjusted:  1.357483","date: 2022-03-16<br />adjusted:  1.367249","date: 2022-03-22<br />adjusted:  1.386781","date: 2022-03-28<br />adjusted:  1.445377","date: 2022-04-01<br />adjusted:  1.455143","date: 2022-04-07<br />adjusted:  1.445377","date: 2022-04-13<br />adjusted:  1.464910","date: 2022-04-20<br />adjusted:  1.474676","date: 2022-04-26<br />adjusted:  1.445377","date: 2022-05-04<br />adjusted:  1.464910","date: 2022-05-10<br />adjusted:  1.436186","date: 2022-05-17<br />adjusted:  1.455995","date: 2022-05-23<br />adjusted:  1.455995","date: 2022-05-27<br />adjusted:  1.436186","date: 2022-06-02<br />adjusted:  1.446091","date: 2022-06-08<br />adjusted:  1.426281","date: 2022-06-14<br />adjusted:  1.376757","date: 2022-06-20<br />adjusted:  1.376757","date: 2022-06-24<br />adjusted:  1.366853","date: 2022-06-30<br />adjusted:  1.386662","date: 2022-07-06<br />adjusted:  1.366853","date: 2022-07-13<br />adjusted:  1.406472","date: 2022-07-19<br />adjusted:  1.406472","date: 2022-07-25<br />adjusted:  1.436186","date: 2022-07-29<br />adjusted:  1.406472","date: 2022-08-04<br />adjusted:  1.416376","date: 2022-08-11<br />adjusted:  1.446091","date: 2022-08-17<br />adjusted:  1.465900","date: 2022-08-23<br />adjusted:  1.430000","date: 2022-08-29<br />adjusted:  1.410000","date: 2022-09-02<br />adjusted:  1.380000","date: 2022-09-08<br />adjusted:  1.370000","date: 2022-09-14<br />adjusted:  1.390000","date: 2022-09-20<br />adjusted:  1.400000","date: 2022-09-26<br />adjusted:  1.360000","date: 2022-09-30<br />adjusted:  1.320000","date: 2022-10-06<br />adjusted:  1.290000","date: 2022-10-12<br />adjusted:  1.260000","date: 2022-10-18<br />adjusted:  1.270000","date: 2022-10-25<br />adjusted:  1.250000","date: 2022-10-31<br />adjusted:  1.270000","date: 2022-11-04<br />adjusted:  1.320000","date: 2022-11-10<br />adjusted:  1.360000","date: 2022-11-16<br />adjusted:  1.230000","date: 2022-11-22<br />adjusted:  1.250000","date: 2022-11-28<br />adjusted:  1.230000","date: 2022-12-02<br />adjusted:  1.240000","date: 2022-12-08<br />adjusted:  1.240000","date: 2022-12-14<br />adjusted:  1.240000","date: 2022-12-20<br />adjusted:  1.240000","date: 2022-12-27<br />adjusted:  1.240000","date: 2023-01-03<br />adjusted:  1.230000","date: 2023-01-09<br />adjusted:  1.230000","date: 2023-01-13<br />adjusted:  1.170000","date: 2023-01-19<br />adjusted:  1.140000","date: 2023-01-27<br />adjusted:  1.210000","date: 2023-02-02<br />adjusted:  1.190000","date: 2023-02-08<br />adjusted:  1.190000","date: 2023-02-14<br />adjusted:  1.190000","date: 2023-02-20<br />adjusted:  1.170000","date: 2023-02-24<br />adjusted:  1.200000","date: 2023-03-02<br />adjusted:  1.190000","date: 2023-03-08<br />adjusted:  1.190000","date: 2023-03-14<br />adjusted:  1.160000","date: 2023-03-20<br />adjusted:  1.160000","date: 2023-03-24<br />adjusted:  1.190000"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x2","yaxis":"y2","hoverinfo":"text","frame":null},{"x":[18264,18270,18276,18283,18289,18295,18299,18305,18312,18318,18324,18330,18334,18340,18346,18352,18358,18365,18369,18375,18381,18387,18393,18397,18403,18410,18416,18422,18428,18432,18438,18444,18451,18457,18463,18467,18473,18479,18485,18491,18495,18501,18507,18514,18520,18526,18530,18536,18542,18548,18554,18558,18564,18570,18576,18582,18586,18593,18599,18605,18611,18617,18624,18631,18635,18641,18648,18654,18660,18666,18670,18677,18683,18689,18695,18701,18705,18711,18717,18724,18730,18736,18740,18746,18752,18758,18764,18768,18774,18781,18787,18793,18799,18803,18809,18816,18822,18828,18834,18838,18844,18850,18856,18862,18866,18872,18879,18885,18891,18897,18901,18907,18913,18919,18925,18929,18935,18941,18947,18953,18960,18964,18970,18976,18982,18989,18995,18999,19005,19012,19018,19024,19030,19034,19040,19047,19053,19059,19065,19069,19075,19081,19087,19093,19100,19104,19110,19116,19122,19128,19132,19138,19145,19151,19157,19164,19170,19174,19181,19187,19193,19199,19205,19209,19215,19221,19227,19233,19237,19244,19250,19256,19262,19268,19272,19278,19284,19290,19296,19300,19306,19312,19318,19325,19331,19335,19341,19347,19354,19361,19367,19374,19380,19384,19390,19396,19402,19409,19415,19419,19425,19431,19437],"y":[6.596605,6.596605,6.596605,6.596605,5.889826,6.076337,6.09597,6.09597,6.017439,5.801479,5.605151,5.035801,4.98672,4.407553,4.613697,4.014898,3.985449,4.250491,4.260308,4.240675,4.30939,4.152328,3.239404,2.827117,2.552258,2.719136,3.092159,3.121608,2.895831,2.827117,2.728953,2.660238,2.728953,2.679871,2.581707,2.60134,2.483543,2.542442,2.581707,2.689687,2.591524,2.620973,2.571891,2.571891,2.552258,2.463911,2.414829,2.473727,2.571891,2.562074,2.522809,2.591524,2.49336,2.552258,2.807484,2.895831,2.974362,3.347385,3.259037,3.209955,3.268853,3.17069,3.190323,3.180506,3.141241,3.180506,3.151057,3.072526,3.082343,3.219772,3.239404,3.200139,3.828387,3.828387,3.857836,4.073797,4.162144,3.975633,4.054164,4.083613,4.073797,3.828387,3.759672,3.779305,3.533896,3.63206,3.416099,3.504447,3.690958,3.749856,3.681141,3.730223,3.730223,3.582978,3.622243,3.63206,3.622243,3.514263,3.651692,3.641876,3.573161,3.681141,3.622243,3.524079,3.63206,3.641876,3.622243,3.651692,3.533896,3.641876,3.622243,3.63206,3.985449,4.024714,3.828387,3.759672,3.798938,3.956,3.887285,3.828387,3.533896,3.38665,3.602611,3.416099,3.514263,3.592794,3.63206,3.592794,3.651692,3.622243,3.582978,3.582978,3.828387,3.838204,3.926551,3.582978,3.671325,3.49463,3.514263,3.84802,3.965816,4.005082,4.014898,3.877469,3.897102,3.897102,3.838204,3.877469,3.63206,3.63206,3.808754,3.916734,3.877469,3.84802,3.602611,3.484814,3.563345,3.553528,3.63206,3.641876,3.690958,3.710591,3.828387,3.838204,3.828387,3.720407,3.700774,3.690958,3.700774,3.641876,3.661509,3.661509,3.474998,3.543712,3.445548,3.445548,3.396466,3.416099,3.622243,3.553528,3.828387,3.867653,3.789121,3.789121,4.024714,4.03,4,4,4.01,3.98,4.2,4.42,4.44,4.54,4.51,4.43,4.45,4.3,4.29,4.19,4.19,4.1,4.16],"text":["date: 2020-01-03<br />adjusted:  6.596605","date: 2020-01-09<br />adjusted:  6.596605","date: 2020-01-15<br />adjusted:  6.596605","date: 2020-01-22<br />adjusted:  6.596605","date: 2020-01-28<br />adjusted:  5.889826","date: 2020-02-03<br />adjusted:  6.076337","date: 2020-02-07<br />adjusted:  6.095970","date: 2020-02-13<br />adjusted:  6.095970","date: 2020-02-20<br />adjusted:  6.017439","date: 2020-02-26<br />adjusted:  5.801479","date: 2020-03-03<br />adjusted:  5.605151","date: 2020-03-09<br />adjusted:  5.035801","date: 2020-03-13<br />adjusted:  4.986720","date: 2020-03-19<br />adjusted:  4.407553","date: 2020-03-25<br />adjusted:  4.613697","date: 2020-03-31<br />adjusted:  4.014898","date: 2020-04-06<br />adjusted:  3.985449","date: 2020-04-13<br />adjusted:  4.250491","date: 2020-04-17<br />adjusted:  4.260308","date: 2020-04-23<br />adjusted:  4.240675","date: 2020-04-29<br />adjusted:  4.309390","date: 2020-05-05<br />adjusted:  4.152328","date: 2020-05-11<br />adjusted:  3.239404","date: 2020-05-15<br />adjusted:  2.827117","date: 2020-05-21<br />adjusted:  2.552258","date: 2020-05-28<br />adjusted:  2.719136","date: 2020-06-03<br />adjusted:  3.092159","date: 2020-06-09<br />adjusted:  3.121608","date: 2020-06-15<br />adjusted:  2.895831","date: 2020-06-19<br />adjusted:  2.827117","date: 2020-06-25<br />adjusted:  2.728953","date: 2020-07-01<br />adjusted:  2.660238","date: 2020-07-08<br />adjusted:  2.728953","date: 2020-07-14<br />adjusted:  2.679871","date: 2020-07-20<br />adjusted:  2.581707","date: 2020-07-24<br />adjusted:  2.601340","date: 2020-07-30<br />adjusted:  2.483543","date: 2020-08-05<br />adjusted:  2.542442","date: 2020-08-11<br />adjusted:  2.581707","date: 2020-08-17<br />adjusted:  2.689687","date: 2020-08-21<br />adjusted:  2.591524","date: 2020-08-27<br />adjusted:  2.620973","date: 2020-09-02<br />adjusted:  2.571891","date: 2020-09-09<br />adjusted:  2.571891","date: 2020-09-15<br />adjusted:  2.552258","date: 2020-09-21<br />adjusted:  2.463911","date: 2020-09-25<br />adjusted:  2.414829","date: 2020-10-01<br />adjusted:  2.473727","date: 2020-10-07<br />adjusted:  2.571891","date: 2020-10-13<br />adjusted:  2.562074","date: 2020-10-19<br />adjusted:  2.522809","date: 2020-10-23<br />adjusted:  2.591524","date: 2020-10-29<br />adjusted:  2.493360","date: 2020-11-04<br />adjusted:  2.552258","date: 2020-11-10<br />adjusted:  2.807484","date: 2020-11-16<br />adjusted:  2.895831","date: 2020-11-20<br />adjusted:  2.974362","date: 2020-11-27<br />adjusted:  3.347385","date: 2020-12-03<br />adjusted:  3.259037","date: 2020-12-09<br />adjusted:  3.209955","date: 2020-12-15<br />adjusted:  3.268853","date: 2020-12-21<br />adjusted:  3.170690","date: 2020-12-28<br />adjusted:  3.190323","date: 2021-01-04<br />adjusted:  3.180506","date: 2021-01-08<br />adjusted:  3.141241","date: 2021-01-14<br />adjusted:  3.180506","date: 2021-01-21<br />adjusted:  3.151057","date: 2021-01-27<br />adjusted:  3.072526","date: 2021-02-02<br />adjusted:  3.082343","date: 2021-02-08<br />adjusted:  3.219772","date: 2021-02-12<br />adjusted:  3.239404","date: 2021-02-19<br />adjusted:  3.200139","date: 2021-02-25<br />adjusted:  3.828387","date: 2021-03-03<br />adjusted:  3.828387","date: 2021-03-09<br />adjusted:  3.857836","date: 2021-03-15<br />adjusted:  4.073797","date: 2021-03-19<br />adjusted:  4.162144","date: 2021-03-25<br />adjusted:  3.975633","date: 2021-03-31<br />adjusted:  4.054164","date: 2021-04-07<br />adjusted:  4.083613","date: 2021-04-13<br />adjusted:  4.073797","date: 2021-04-19<br />adjusted:  3.828387","date: 2021-04-23<br />adjusted:  3.759672","date: 2021-04-29<br />adjusted:  3.779305","date: 2021-05-05<br />adjusted:  3.533896","date: 2021-05-11<br />adjusted:  3.632060","date: 2021-05-17<br />adjusted:  3.416099","date: 2021-05-21<br />adjusted:  3.504447","date: 2021-05-27<br />adjusted:  3.690958","date: 2021-06-03<br />adjusted:  3.749856","date: 2021-06-09<br />adjusted:  3.681141","date: 2021-06-15<br />adjusted:  3.730223","date: 2021-06-21<br />adjusted:  3.730223","date: 2021-06-25<br />adjusted:  3.582978","date: 2021-07-01<br />adjusted:  3.622243","date: 2021-07-08<br />adjusted:  3.632060","date: 2021-07-14<br />adjusted:  3.622243","date: 2021-07-20<br />adjusted:  3.514263","date: 2021-07-26<br />adjusted:  3.651692","date: 2021-07-30<br />adjusted:  3.641876","date: 2021-08-05<br />adjusted:  3.573161","date: 2021-08-11<br />adjusted:  3.681141","date: 2021-08-17<br />adjusted:  3.622243","date: 2021-08-23<br />adjusted:  3.524079","date: 2021-08-27<br />adjusted:  3.632060","date: 2021-09-02<br />adjusted:  3.641876","date: 2021-09-09<br />adjusted:  3.622243","date: 2021-09-15<br />adjusted:  3.651692","date: 2021-09-21<br />adjusted:  3.533896","date: 2021-09-27<br />adjusted:  3.641876","date: 2021-10-01<br />adjusted:  3.622243","date: 2021-10-07<br />adjusted:  3.632060","date: 2021-10-13<br />adjusted:  3.985449","date: 2021-10-19<br />adjusted:  4.024714","date: 2021-10-25<br />adjusted:  3.828387","date: 2021-10-29<br />adjusted:  3.759672","date: 2021-11-04<br />adjusted:  3.798938","date: 2021-11-10<br />adjusted:  3.956000","date: 2021-11-16<br />adjusted:  3.887285","date: 2021-11-22<br />adjusted:  3.828387","date: 2021-11-29<br />adjusted:  3.533896","date: 2021-12-03<br />adjusted:  3.386650","date: 2021-12-09<br />adjusted:  3.602611","date: 2021-12-15<br />adjusted:  3.416099","date: 2021-12-21<br />adjusted:  3.514263","date: 2021-12-28<br />adjusted:  3.592794","date: 2022-01-03<br />adjusted:  3.632060","date: 2022-01-07<br />adjusted:  3.592794","date: 2022-01-13<br />adjusted:  3.651692","date: 2022-01-20<br />adjusted:  3.622243","date: 2022-01-26<br />adjusted:  3.582978","date: 2022-02-01<br />adjusted:  3.582978","date: 2022-02-07<br />adjusted:  3.828387","date: 2022-02-11<br />adjusted:  3.838204","date: 2022-02-17<br />adjusted:  3.926551","date: 2022-02-24<br />adjusted:  3.582978","date: 2022-03-02<br />adjusted:  3.671325","date: 2022-03-08<br />adjusted:  3.494630","date: 2022-03-14<br />adjusted:  3.514263","date: 2022-03-18<br />adjusted:  3.848020","date: 2022-03-24<br />adjusted:  3.965816","date: 2022-03-30<br />adjusted:  4.005082","date: 2022-04-05<br />adjusted:  4.014898","date: 2022-04-11<br />adjusted:  3.877469","date: 2022-04-18<br />adjusted:  3.897102","date: 2022-04-22<br />adjusted:  3.897102","date: 2022-04-28<br />adjusted:  3.838204","date: 2022-05-04<br />adjusted:  3.877469","date: 2022-05-10<br />adjusted:  3.632060","date: 2022-05-16<br />adjusted:  3.632060","date: 2022-05-20<br />adjusted:  3.808754","date: 2022-05-26<br />adjusted:  3.916734","date: 2022-06-02<br />adjusted:  3.877469","date: 2022-06-08<br />adjusted:  3.848020","date: 2022-06-14<br />adjusted:  3.602611","date: 2022-06-21<br />adjusted:  3.484814","date: 2022-06-27<br />adjusted:  3.563345","date: 2022-07-01<br />adjusted:  3.553528","date: 2022-07-08<br />adjusted:  3.632060","date: 2022-07-14<br />adjusted:  3.641876","date: 2022-07-20<br />adjusted:  3.690958","date: 2022-07-26<br />adjusted:  3.710591","date: 2022-08-01<br />adjusted:  3.828387","date: 2022-08-05<br />adjusted:  3.838204","date: 2022-08-11<br />adjusted:  3.828387","date: 2022-08-17<br />adjusted:  3.720407","date: 2022-08-23<br />adjusted:  3.700774","date: 2022-08-29<br />adjusted:  3.690958","date: 2022-09-02<br />adjusted:  3.700774","date: 2022-09-09<br />adjusted:  3.641876","date: 2022-09-15<br />adjusted:  3.661509","date: 2022-09-21<br />adjusted:  3.661509","date: 2022-09-27<br />adjusted:  3.474998","date: 2022-10-03<br />adjusted:  3.543712","date: 2022-10-07<br />adjusted:  3.445548","date: 2022-10-13<br />adjusted:  3.445548","date: 2022-10-19<br />adjusted:  3.396466","date: 2022-10-25<br />adjusted:  3.416099","date: 2022-10-31<br />adjusted:  3.622243","date: 2022-11-04<br />adjusted:  3.553528","date: 2022-11-10<br />adjusted:  3.828387","date: 2022-11-16<br />adjusted:  3.867653","date: 2022-11-22<br />adjusted:  3.789121","date: 2022-11-29<br />adjusted:  3.789121","date: 2022-12-05<br />adjusted:  4.024714","date: 2022-12-09<br />adjusted:  4.030000","date: 2022-12-15<br />adjusted:  4.000000","date: 2022-12-21<br />adjusted:  4.000000","date: 2022-12-28<br />adjusted:  4.010000","date: 2023-01-04<br />adjusted:  3.980000","date: 2023-01-10<br />adjusted:  4.200000","date: 2023-01-17<br />adjusted:  4.420000","date: 2023-01-23<br />adjusted:  4.440000","date: 2023-01-27<br />adjusted:  4.540000","date: 2023-02-02<br />adjusted:  4.510000","date: 2023-02-08<br />adjusted:  4.430000","date: 2023-02-14<br />adjusted:  4.450000","date: 2023-02-21<br />adjusted:  4.300000","date: 2023-02-27<br />adjusted:  4.290000","date: 2023-03-03<br />adjusted:  4.190000","date: 2023-03-09<br />adjusted:  4.190000","date: 2023-03-15<br />adjusted:  4.100000","date: 2023-03-21<br />adjusted:  4.160000"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y3","hoverinfo":"text","frame":null},{"x":[18267,18271,18277,18284,18290,18296,18302,18306,18313,18319,18325,18331,18337,18341,18347,18353,18359,18366,18372,18376,18382,18388,18394,18400,18404,18411,18417,18423,18429,18435,18439,18445,18452,18458,18464,18470,18474,18480,18486,18492,18498,18502,18508,18515,18521,18527,18533,18537,18543,18549,18555,18561,18565,18571,18577,18583,18589,18596,18600,18606,18612,18618,18625,18632,18638,18642,18649,18655,18661,18667,18674,18680,18684,18690,18696,18702,18708,18712,18718,18725,18731,18737,18743,18747,18753,18759,18765,18771,18775,18782,18788,18794,18800,18806,18810,18817,18823,18829,18835,18841,18845,18851,18857,18863,18869,18873,18880,18886,18892,18898,18904,18908,18914,18920,18926,18932,18936,18942,18948,18954,18961,18967,18971,18977,18983,18990,18996,19002,19006,19013,19019,19025,19031,19037,19041,19048,19054,19060,19066,19072,19076,19082,19088,19094,19101,19107,19111,19117,19123,19129,19135,19139,19146,19152,19158,19165,19171,19178,19184,19188,19194,19200,19206,19212,19216,19222,19228,19234,19241,19247,19251,19257,19263,19269,19275,19279,19285,19291,19297,19303,19307,19313,19319,19326,19332,19338,19342,19348,19355,19362,19368,19375,19381,19387,19391,19397,19403,19410,19416,19422,19426,19432,19438],"y":[2.230068,2.176759,2.194529,2.150105,2.167875,2.167875,2.167875,2.052373,2.043488,1.945757,1.910217,1.910217,1.590367,1.457096,1.572598,1.599252,1.65256,1.794716,1.723638,1.696984,1.776946,1.723638,1.714753,1.65256,1.65256,1.554828,1.65256,1.679214,1.643675,1.617021,1.581482,1.643675,1.581482,1.608137,1.617021,1.599252,1.599252,1.581078,1.581078,1.544732,1.544732,1.499298,1.481125,1.499298,1.472039,1.435692,1.408432,1.435692,1.444779,1.472039,1.426605,1.417518,1.372085,1.481125,1.490212,1.571992,1.635598,1.642067,1.623513,1.642067,1.651345,1.623513,1.577127,1.651345,1.744117,1.725562,1.707008,1.669899,1.63279,1.707008,1.716285,1.623513,1.63279,1.604959,1.595681,1.63279,1.623513,1.586404,1.660622,1.669899,1.660622,1.707008,1.707008,1.762671,1.688453,1.63279,1.642067,1.669899,1.669899,1.679176,1.623513,1.651345,1.595681,1.586404,1.56785,1.604959,1.475078,1.502909,1.530741,1.512186,1.566595,1.585357,1.641641,1.632261,1.594737,1.613499,1.641641,1.651022,1.688545,1.697926,1.632261,1.679165,1.679165,1.679165,1.772973,1.772973,1.772973,1.73545,1.74483,1.707307,1.641641,1.660403,1.679165,1.679165,1.662918,1.643804,1.643804,1.605576,1.710703,1.701146,1.701146,1.682032,1.682032,1.806273,1.758488,1.844501,1.748931,1.729817,1.787159,1.81583,1.834944,1.863615,1.834944,1.834944,1.834944,1.834944,1.892286,1.834944,1.834944,1.834944,1.834944,1.892286,1.806273,1.787159,1.691589,1.748931,1.748931,1.748931,1.748931,1.844501,1.768045,1.768045,1.768045,1.802139,1.88007,1.899552,1.850846,1.850846,1.802139,1.889811,1.850846,1.850846,1.753433,1.782657,1.743692,1.743692,1.685244,1.685244,1.714468,1.685244,1.850846,1.958,1.93,1.96,1.92,1.92,1.86,1.89,1.86,1.86,1.85,1.85,1.85,1.85,1.85,1.91,1.85,1.83,1.83,1.83,1.83,1.73,1.8],"text":["date: 2020-01-06<br />adjusted:  2.230068","date: 2020-01-10<br />adjusted:  2.176759","date: 2020-01-16<br />adjusted:  2.194529","date: 2020-01-23<br />adjusted:  2.150105","date: 2020-01-29<br />adjusted:  2.167875","date: 2020-02-04<br />adjusted:  2.167875","date: 2020-02-10<br />adjusted:  2.167875","date: 2020-02-14<br />adjusted:  2.052373","date: 2020-02-21<br />adjusted:  2.043488","date: 2020-02-27<br />adjusted:  1.945757","date: 2020-03-04<br />adjusted:  1.910217","date: 2020-03-10<br />adjusted:  1.910217","date: 2020-03-16<br />adjusted:  1.590367","date: 2020-03-20<br />adjusted:  1.457096","date: 2020-03-26<br />adjusted:  1.572598","date: 2020-04-01<br />adjusted:  1.599252","date: 2020-04-07<br />adjusted:  1.652560","date: 2020-04-14<br />adjusted:  1.794716","date: 2020-04-20<br />adjusted:  1.723638","date: 2020-04-24<br />adjusted:  1.696984","date: 2020-04-30<br />adjusted:  1.776946","date: 2020-05-06<br />adjusted:  1.723638","date: 2020-05-12<br />adjusted:  1.714753","date: 2020-05-18<br />adjusted:  1.652560","date: 2020-05-22<br />adjusted:  1.652560","date: 2020-05-29<br />adjusted:  1.554828","date: 2020-06-04<br />adjusted:  1.652560","date: 2020-06-10<br />adjusted:  1.679214","date: 2020-06-16<br />adjusted:  1.643675","date: 2020-06-22<br />adjusted:  1.617021","date: 2020-06-26<br />adjusted:  1.581482","date: 2020-07-02<br />adjusted:  1.643675","date: 2020-07-09<br />adjusted:  1.581482","date: 2020-07-15<br />adjusted:  1.608137","date: 2020-07-21<br />adjusted:  1.617021","date: 2020-07-27<br />adjusted:  1.599252","date: 2020-07-31<br />adjusted:  1.599252","date: 2020-08-06<br />adjusted:  1.581078","date: 2020-08-12<br />adjusted:  1.581078","date: 2020-08-18<br />adjusted:  1.544732","date: 2020-08-24<br />adjusted:  1.544732","date: 2020-08-28<br />adjusted:  1.499298","date: 2020-09-03<br />adjusted:  1.481125","date: 2020-09-10<br />adjusted:  1.499298","date: 2020-09-16<br />adjusted:  1.472039","date: 2020-09-22<br />adjusted:  1.435692","date: 2020-09-28<br />adjusted:  1.408432","date: 2020-10-02<br />adjusted:  1.435692","date: 2020-10-08<br />adjusted:  1.444779","date: 2020-10-14<br />adjusted:  1.472039","date: 2020-10-20<br />adjusted:  1.426605","date: 2020-10-26<br />adjusted:  1.417518","date: 2020-10-30<br />adjusted:  1.372085","date: 2020-11-05<br />adjusted:  1.481125","date: 2020-11-11<br />adjusted:  1.490212","date: 2020-11-17<br />adjusted:  1.571992","date: 2020-11-23<br />adjusted:  1.635598","date: 2020-11-30<br />adjusted:  1.642067","date: 2020-12-04<br />adjusted:  1.623513","date: 2020-12-10<br />adjusted:  1.642067","date: 2020-12-16<br />adjusted:  1.651345","date: 2020-12-22<br />adjusted:  1.623513","date: 2020-12-29<br />adjusted:  1.577127","date: 2021-01-05<br />adjusted:  1.651345","date: 2021-01-11<br />adjusted:  1.744117","date: 2021-01-15<br />adjusted:  1.725562","date: 2021-01-22<br />adjusted:  1.707008","date: 2021-01-28<br />adjusted:  1.669899","date: 2021-02-03<br />adjusted:  1.632790","date: 2021-02-09<br />adjusted:  1.707008","date: 2021-02-16<br />adjusted:  1.716285","date: 2021-02-22<br />adjusted:  1.623513","date: 2021-02-26<br />adjusted:  1.632790","date: 2021-03-04<br />adjusted:  1.604959","date: 2021-03-10<br />adjusted:  1.595681","date: 2021-03-16<br />adjusted:  1.632790","date: 2021-03-22<br />adjusted:  1.623513","date: 2021-03-26<br />adjusted:  1.586404","date: 2021-04-01<br />adjusted:  1.660622","date: 2021-04-08<br />adjusted:  1.669899","date: 2021-04-14<br />adjusted:  1.660622","date: 2021-04-20<br />adjusted:  1.707008","date: 2021-04-26<br />adjusted:  1.707008","date: 2021-04-30<br />adjusted:  1.762671","date: 2021-05-06<br />adjusted:  1.688453","date: 2021-05-12<br />adjusted:  1.632790","date: 2021-05-18<br />adjusted:  1.642067","date: 2021-05-24<br />adjusted:  1.669899","date: 2021-05-28<br />adjusted:  1.669899","date: 2021-06-04<br />adjusted:  1.679176","date: 2021-06-10<br />adjusted:  1.623513","date: 2021-06-16<br />adjusted:  1.651345","date: 2021-06-22<br />adjusted:  1.595681","date: 2021-06-28<br />adjusted:  1.586404","date: 2021-07-02<br />adjusted:  1.567850","date: 2021-07-09<br />adjusted:  1.604959","date: 2021-07-15<br />adjusted:  1.475078","date: 2021-07-21<br />adjusted:  1.502909","date: 2021-07-27<br />adjusted:  1.530741","date: 2021-08-02<br />adjusted:  1.512186","date: 2021-08-06<br />adjusted:  1.566595","date: 2021-08-12<br />adjusted:  1.585357","date: 2021-08-18<br />adjusted:  1.641641","date: 2021-08-24<br />adjusted:  1.632261","date: 2021-08-30<br />adjusted:  1.594737","date: 2021-09-03<br />adjusted:  1.613499","date: 2021-09-10<br />adjusted:  1.641641","date: 2021-09-16<br />adjusted:  1.651022","date: 2021-09-22<br />adjusted:  1.688545","date: 2021-09-28<br />adjusted:  1.697926","date: 2021-10-04<br />adjusted:  1.632261","date: 2021-10-08<br />adjusted:  1.679165","date: 2021-10-14<br />adjusted:  1.679165","date: 2021-10-20<br />adjusted:  1.679165","date: 2021-10-26<br />adjusted:  1.772973","date: 2021-11-01<br />adjusted:  1.772973","date: 2021-11-05<br />adjusted:  1.772973","date: 2021-11-11<br />adjusted:  1.735450","date: 2021-11-17<br />adjusted:  1.744830","date: 2021-11-23<br />adjusted:  1.707307","date: 2021-11-30<br />adjusted:  1.641641","date: 2021-12-06<br />adjusted:  1.660403","date: 2021-12-10<br />adjusted:  1.679165","date: 2021-12-16<br />adjusted:  1.679165","date: 2021-12-22<br />adjusted:  1.662918","date: 2021-12-29<br />adjusted:  1.643804","date: 2022-01-04<br />adjusted:  1.643804","date: 2022-01-10<br />adjusted:  1.605576","date: 2022-01-14<br />adjusted:  1.710703","date: 2022-01-21<br />adjusted:  1.701146","date: 2022-01-27<br />adjusted:  1.701146","date: 2022-02-02<br />adjusted:  1.682032","date: 2022-02-08<br />adjusted:  1.682032","date: 2022-02-14<br />adjusted:  1.806273","date: 2022-02-18<br />adjusted:  1.758488","date: 2022-02-25<br />adjusted:  1.844501","date: 2022-03-03<br />adjusted:  1.748931","date: 2022-03-09<br />adjusted:  1.729817","date: 2022-03-15<br />adjusted:  1.787159","date: 2022-03-21<br />adjusted:  1.815830","date: 2022-03-25<br />adjusted:  1.834944","date: 2022-03-31<br />adjusted:  1.863615","date: 2022-04-06<br />adjusted:  1.834944","date: 2022-04-12<br />adjusted:  1.834944","date: 2022-04-19<br />adjusted:  1.834944","date: 2022-04-25<br />adjusted:  1.834944","date: 2022-04-29<br />adjusted:  1.892286","date: 2022-05-05<br />adjusted:  1.834944","date: 2022-05-11<br />adjusted:  1.834944","date: 2022-05-17<br />adjusted:  1.834944","date: 2022-05-23<br />adjusted:  1.834944","date: 2022-05-27<br />adjusted:  1.892286","date: 2022-06-03<br />adjusted:  1.806273","date: 2022-06-09<br />adjusted:  1.787159","date: 2022-06-15<br />adjusted:  1.691589","date: 2022-06-22<br />adjusted:  1.748931","date: 2022-06-28<br />adjusted:  1.748931","date: 2022-07-05<br />adjusted:  1.748931","date: 2022-07-11<br />adjusted:  1.748931","date: 2022-07-15<br />adjusted:  1.844501","date: 2022-07-21<br />adjusted:  1.768045","date: 2022-07-27<br />adjusted:  1.768045","date: 2022-08-02<br />adjusted:  1.768045","date: 2022-08-08<br />adjusted:  1.802139","date: 2022-08-12<br />adjusted:  1.880070","date: 2022-08-18<br />adjusted:  1.899552","date: 2022-08-24<br />adjusted:  1.850846","date: 2022-08-30<br />adjusted:  1.850846","date: 2022-09-06<br />adjusted:  1.802139","date: 2022-09-12<br />adjusted:  1.889811","date: 2022-09-16<br />adjusted:  1.850846","date: 2022-09-22<br />adjusted:  1.850846","date: 2022-09-28<br />adjusted:  1.753433","date: 2022-10-04<br />adjusted:  1.782657","date: 2022-10-10<br />adjusted:  1.743692","date: 2022-10-14<br />adjusted:  1.743692","date: 2022-10-20<br />adjusted:  1.685244","date: 2022-10-26<br />adjusted:  1.685244","date: 2022-11-01<br />adjusted:  1.714468","date: 2022-11-07<br />adjusted:  1.685244","date: 2022-11-11<br />adjusted:  1.850846","date: 2022-11-17<br />adjusted:  1.958000","date: 2022-11-23<br />adjusted:  1.930000","date: 2022-11-30<br />adjusted:  1.960000","date: 2022-12-06<br />adjusted:  1.920000","date: 2022-12-12<br />adjusted:  1.920000","date: 2022-12-16<br />adjusted:  1.860000","date: 2022-12-22<br />adjusted:  1.890000","date: 2022-12-29<br />adjusted:  1.860000","date: 2023-01-05<br />adjusted:  1.860000","date: 2023-01-11<br />adjusted:  1.850000","date: 2023-01-18<br />adjusted:  1.850000","date: 2023-01-24<br />adjusted:  1.850000","date: 2023-01-30<br />adjusted:  1.850000","date: 2023-02-03<br />adjusted:  1.850000","date: 2023-02-09<br />adjusted:  1.910000","date: 2023-02-15<br />adjusted:  1.850000","date: 2023-02-22<br />adjusted:  1.830000","date: 2023-02-28<br />adjusted:  1.830000","date: 2023-03-06<br />adjusted:  1.830000","date: 2023-03-10<br />adjusted:  1.830000","date: 2023-03-16<br />adjusted:  1.730000","date: 2023-03-22<br />adjusted:  1.800000"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x2","yaxis":"y4","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":55.4520547945205,"r":7.30593607305936,"b":21.8513906185139,"l":33.5408883354089},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(44,62,80,1)","family":"","size":14.6118721461187},"title":{"text":"Daily stock prices of selected weak stocks","font":{"color":"rgba(44,62,80,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,0.475162905773142],"automargin":true,"type":"linear","autorange":false,"range":[18204.15,19498.85],"tickmode":"array","ticktext":["2020","2021","2022","2023"],"tickvals":[18262,18628,18993,19358],"categoryorder":"array","categoryarray":["2020","2021","2022","2023"],"nticks":null,"ticks":"outside","tickcolor":"rgba(204,204,204,1)","ticklen":3.65296803652968,"tickwidth":0.22139200221392,"showticklabels":true,"tickfont":{"color":"rgba(44,62,80,1)","family":"","size":7.97011207970112},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(204,204,204,1)","gridwidth":0.22139200221392,"zeroline":false,"anchor":"y3","title":"","hoverformat":".2f"},"yaxis":{"domain":[0.531278089382663,1],"automargin":true,"type":"linear","autorange":false,"range":[5.7409817,11.2305163],"tickmode":"array","ticktext":["6","7","8","9","10","11"],"tickvals":[6,7,8,9,10,11],"categoryorder":"array","categoryarray":["6","7","8","9","10","11"],"nticks":null,"ticks":"outside","tickcolor":"rgba(204,204,204,1)","ticklen":3.65296803652968,"tickwidth":0.22139200221392,"showticklabels":true,"tickfont":{"color":"rgba(44,62,80,1)","family":"","size":7.97011207970112},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(204,204,204,1)","gridwidth":0.22139200221392,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"annotations":[{"text":"Adjusted Price","x":0,"y":0.5,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(44,62,80,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-90,"xanchor":"right","yanchor":"center","annotationType":"axis","xshift":-18.1984225819842},{"text":"City Developments","x":0.237581452886571,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(255,255,255,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"ComfortDelGro","x":0.762418547113429,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(255,255,255,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"Singapore Airlines","x":0.237581452886571,"y":0.468721910617337,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(255,255,255,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"Singtel","x":0.762418547113429,"y":0.468721910617337,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(255,255,255,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"}],"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(44,62,80,1)","width":0.33208800332088,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":0.475162905773142,"y0":0.531278089382663,"y1":1},{"type":"rect","fillcolor":"rgba(44,62,80,1)","line":{"color":"rgba(44,62,80,1)","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":0.475162905773142,"y0":0,"y1":24.9730178497302,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(44,62,80,1)","width":0.33208800332088,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0.524837094226858,"x1":1,"y0":0.531278089382663,"y1":1},{"type":"rect","fillcolor":"rgba(44,62,80,1)","line":{"color":"rgba(44,62,80,1)","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0.524837094226858,"x1":1,"y0":0,"y1":24.9730178497302,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(44,62,80,1)","width":0.33208800332088,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":0.475162905773142,"y0":0,"y1":0.468721910617337},{"type":"rect","fillcolor":"rgba(44,62,80,1)","line":{"color":"rgba(44,62,80,1)","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":0.475162905773142,"y0":0,"y1":24.9730178497302,"yanchor":0.468721910617337,"ysizemode":"pixel"},{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(44,62,80,1)","width":0.33208800332088,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0.524837094226858,"x1":1,"y0":0,"y1":0.468721910617337},{"type":"rect","fillcolor":"rgba(44,62,80,1)","line":{"color":"rgba(44,62,80,1)","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0.524837094226858,"x1":1,"y0":0,"y1":24.9730178497302,"yanchor":0.468721910617337,"ysizemode":"pixel"}],"xaxis2":{"type":"linear","autorange":false,"range":[18204.15,19498.85],"tickmode":"array","ticktext":["2020","2021","2022","2023"],"tickvals":[18262,18628,18993,19358],"categoryorder":"array","categoryarray":["2020","2021","2022","2023"],"nticks":null,"ticks":"outside","tickcolor":"rgba(204,204,204,1)","ticklen":3.65296803652968,"tickwidth":0.22139200221392,"showticklabels":true,"tickfont":{"color":"rgba(44,62,80,1)","family":"","size":7.97011207970112},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.524837094226858,1],"gridcolor":"rgba(204,204,204,1)","gridwidth":0.22139200221392,"zeroline":false,"anchor":"y4","title":"","hoverformat":".2f"},"yaxis2":{"type":"linear","autorange":false,"range":[1.0927419,2.1324201],"tickmode":"array","ticktext":["1.1","1.3","1.5","1.7","1.9","2.1"],"tickvals":[1.1,1.3,1.5,1.7,1.9,2.1],"categoryorder":"array","categoryarray":["1.1","1.3","1.5","1.7","1.9","2.1"],"nticks":null,"ticks":"outside","tickcolor":"rgba(204,204,204,1)","ticklen":3.65296803652968,"tickwidth":0.22139200221392,"showticklabels":true,"tickfont":{"color":"rgba(44,62,80,1)","family":"","size":7.97011207970112},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.531278089382663,1],"gridcolor":"rgba(204,204,204,1)","gridwidth":0.22139200221392,"zeroline":false,"anchor":"x2","title":"","hoverformat":".2f"},"yaxis3":{"type":"linear","autorange":false,"range":[2.2057402,6.8056938],"tickmode":"array","ticktext":["3","4","5","6"],"tickvals":[3,4,5,6],"categoryorder":"array","categoryarray":["3","4","5","6"],"nticks":null,"ticks":"outside","tickcolor":"rgba(204,204,204,1)","ticklen":3.65296803652968,"tickwidth":0.22139200221392,"showticklabels":true,"tickfont":{"color":"rgba(44,62,80,1)","family":"","size":7.97011207970112},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0,0.468721910617337],"gridcolor":"rgba(204,204,204,1)","gridwidth":0.22139200221392,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"yaxis4":{"type":"linear","autorange":false,"range":[1.32918585,2.27296715],"tickmode":"array","ticktext":["1.50","1.75","2.00","2.25"],"tickvals":[1.5,1.75,2,2.25],"categoryorder":"array","categoryarray":["1.50","1.75","2.00","2.25"],"nticks":null,"ticks":"outside","tickcolor":"rgba(204,204,204,1)","ticklen":3.65296803652968,"tickwidth":0.22139200221392,"showticklabels":true,"tickfont":{"color":"rgba(44,62,80,1)","family":"","size":7.97011207970112},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0,0.468721910617337],"gridcolor":"rgba(204,204,204,1)","gridwidth":0.22139200221392,"zeroline":false,"anchor":"x2","title":"","hoverformat":".2f"},"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(44,62,80,1)","family":"","size":11.689497716895}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"3b7c47695bc6":{"x":{},"y":{},"type":"scatter"}},"cur_data":"3b7c47695bc6","visdat":{"3b7c47695bc6":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+</section>
+<section id="candlestick-using-tidyquant" class="level2">
+<h2 class="anchored" data-anchor-id="candlestick-using-tidyquant">Candlestick using tidyquant()</h2>
+<section id="simple-candlestick" class="level3">
+<h3 class="anchored" data-anchor-id="simple-candlestick">Simple candlestick</h3>
+<p>By setting an end date, we can control how many historical data we want to see.</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#set an end date</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>end <span class="ot">&lt;-</span> <span class="fu">as_date</span>(<span class="st">"2023-03-01"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>Stock40_daily <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(symbol <span class="sc">==</span> <span class="st">"DBSDF"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> date, <span class="at">y =</span> close)) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_candlestick</span>(<span class="fu">aes</span>(</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">open =</span> open, <span class="at">high =</span> high, </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">low =</span> low, <span class="at">close =</span> close)) <span class="sc">+</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                          <span class="co">#control how many records you wanna retrieve</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_x_date</span>(<span class="at">xlim =</span> <span class="fu">c</span>(end <span class="sc">-</span> <span class="fu">weeks</span>(<span class="dv">12</span>), </span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>                          end),</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">35</span>),</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">expand =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"DBS Group Holdings Ltd (DBSDF) Daily Stock Price"</span>, </span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Closing Price"</span>, <span class="at">x =</span> <span class="st">""</span>) <span class="sc">+</span> </span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_tq</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="In-class_Ex10_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="candlestick-with-moving-average" class="level3">
+<h3 class="anchored" data-anchor-id="candlestick-with-moving-average">candlestick with moving average</h3>
+<p>Moving Average can be added using <a href="https://business-science.github.io/tidyquant/reference/geom_ma.html">gemo_ma()</a>.</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Stock40_daily <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(symbol <span class="sc">==</span> <span class="st">"DBSDF"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Plot candlestick first, or the ma lines with be above the candlestick</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> date, <span class="at">y =</span> close)) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_candlestick</span>(<span class="fu">aes</span>(</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">open =</span> open, <span class="at">high =</span> high, </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">low =</span> low, <span class="at">close =</span> close)) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">#add moving average using gemo_ma</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ma</span>(<span class="at">color =</span> <span class="st">"darkgreen"</span>, <span class="at">n =</span> <span class="dv">20</span>) <span class="sc">+</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ma</span>(<span class="at">color =</span> <span class="st">"lightgreen"</span>, <span class="at">n =</span> <span class="dv">5</span>) <span class="sc">+</span> </span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_x_date</span>(<span class="at">xlim =</span> <span class="fu">c</span>(end <span class="sc">-</span> <span class="fu">weeks</span>(<span class="dv">12</span>), </span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>                          end),</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">35</span>),</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>                 <span class="at">expand =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"DBS Group Holdings Ltd (DBSDF) Daily Stock Price"</span>,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"darkgreen = 1-day MA, lightgreen = 5-day MA"</span>,</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Closing Price"</span>, <span class="at">x =</span> <span class="st">""</span>) <span class="sc">+</span> </span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_tq</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="In-class_Ex10_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="candlestick-with-rollinger-bands" class="level3">
+<h3 class="anchored" data-anchor-id="candlestick-with-rollinger-bands">Candlestick with rollinger bands</h3>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Stock40_daily <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(symbol <span class="sc">==</span> <span class="st">"DBSDF"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>date, <span class="at">y=</span>close))<span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bbands</span>(<span class="fu">aes</span>(</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">high =</span> high, <span class="at">low =</span> low, <span class="at">close =</span> close), </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ma_fun =</span> SMA, <span class="at">sd =</span> <span class="dv">2</span>, <span class="at">n =</span> <span class="dv">20</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">0.75</span>, <span class="at">color_ma =</span> <span class="st">"blue"</span>, </span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color_bands =</span> <span class="st">"red1"</span>)<span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_x_date</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="st">"2020-02-01"</span>, </span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"2023-03-01"</span>), </span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">expand =</span> <span class="cn">TRUE</span>)<span class="sc">+</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"DBS Group Holdings Ltd (DBSDF) Daily Stock Price"</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">subtitle =</span> <span class="st">"dotted red lines = bollinger bands"</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">"Date"</span>, <span class="at">y =</span><span class="st">"Price"</span>) <span class="sc">+</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="In-class_Ex10_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="interactie-candlestick" class="level3">
+<h3 class="anchored" data-anchor-id="interactie-candlestick">Interactie candlestick</h3>
+<p>As Plotly does not support tidyquant(). Therefore, we need to use ggplot to plot candlestick. First, we write a function to plot the candlestick. Then, we use ggplotly to plot an interactive candlestick. An example for DBS for YTD is as shown below.</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>candleStick_plot<span class="ot">&lt;-</span><span class="cf">function</span>(symbol, from, to){</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tq_get</span>(symbol, <span class="at">from =</span> from, <span class="at">to =</span> to, <span class="at">warnings =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">greenRed=</span><span class="fu">ifelse</span>(open<span class="sc">-</span>close<span class="sc">&gt;</span><span class="dv">0</span>, <span class="st">"Red"</span>, <span class="st">"Green"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">xend=</span>date, <span class="at">y =</span>open, <span class="at">yend =</span>close, <span class="at">colour=</span>greenRed), </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_tq</span>()<span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">xend=</span>date, <span class="at">y =</span>high, <span class="at">yend =</span>low, <span class="at">colour=</span>greenRed))<span class="sc">+</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"ForestGreen"</span>,<span class="st">"Red"</span>))<span class="sc">+</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="fu">paste0</span>(symbol,<span class="st">" ("</span>,from,<span class="st">" - "</span>,to,<span class="st">")"</span>))<span class="sc">+</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span><span class="st">"none"</span>,</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>          <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>          <span class="at">axis.title.x=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>          <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">0</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust=</span><span class="dv">1</span>),</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>          <span class="at">plot.title=</span> <span class="fu">element_text</span>(<span class="at">hjust=</span><span class="fl">0.5</span>))</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">candleStick_plot</span>(<span class="st">"DBSDF"</span>,</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>                      <span class="at">from =</span> <span class="st">'2023-01-01'</span>,</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>                      <span class="at">to =</span> <span class="fu">today</span>())</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="htmlwidget-45cb3724d5677ca5b8b3" style="width:100%;height:464px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-45cb3724d5677ca5b8b3">{"x":{"data":[{"x":[19361,19361,null,19362,19362,null,19363,19363,null,19366,19366,null,19367,19367,null,19370,19370,null,19374,19374,null,19376,19376,null,19377,19377,null,19384,19384,null,19387,19387,null,19388,19388,null,19389,19389,null,19391,19391,null,19394,19394,null,19396,19396,null,19397,19397,null,19398,19398,null,19402,19402,null,19403,19403,null,19409,19409,null,19410,19410,null,19412,19412,null,19416,19416,null,19418,19418,null,19422,19422,null,19423,19423,null,19432,19432,null,19433,19433,null,19439,19439],"y":[24.969999,24.969999,null,25.889999,25.91,null,26.040001,26.299999,null,26.5,26.84,null,25.76,26.26,null,26.219999,26.469999,null,26.49,26.780001,null,26.01,26.35,null,25.940001,26.1,null,27.32,27.34,null,27.25,27.25,null,27.209999,27.209999,null,27.41,27.530001,null,26.860001,27,null,26.91,27.08,null,27.25,27.35,null,27.299999,27.34,null,27.139999,27.27,null,26.26,26.41,null,25.82,26.18,null,25.99,26.059999,null,25.93,26.02,null,25.290001,25.4,null,25.379999,25.379999,null,24.84,25.059999,null,25.24,25.24,null,24.940001,25.200001,null,23.9,24.42,null,23.809999,24.25,null,25.17,25.450001],"text":["date: 2023-01-04<br />open: 24.97<br />date: 19361<br />close: 24.97<br />greenRed: Green","date: 2023-01-04<br />open: 24.97<br />date: 19361<br />close: 24.97<br />greenRed: Green",null,"date: 2023-01-05<br />open: 25.89<br />date: 19362<br />close: 25.91<br />greenRed: Green","date: 2023-01-05<br />open: 25.89<br />date: 19362<br />close: 25.91<br />greenRed: Green",null,"date: 2023-01-06<br />open: 26.04<br />date: 19363<br />close: 26.30<br />greenRed: Green","date: 2023-01-06<br />open: 26.04<br />date: 19363<br />close: 26.30<br />greenRed: Green",null,"date: 2023-01-09<br />open: 26.50<br />date: 19366<br />close: 26.84<br />greenRed: Green","date: 2023-01-09<br />open: 26.50<br />date: 19366<br />close: 26.84<br />greenRed: Green",null,"date: 2023-01-10<br />open: 25.76<br />date: 19367<br />close: 26.26<br />greenRed: Green","date: 2023-01-10<br />open: 25.76<br />date: 19367<br />close: 26.26<br />greenRed: Green",null,"date: 2023-01-13<br />open: 26.22<br />date: 19370<br />close: 26.47<br />greenRed: Green","date: 2023-01-13<br />open: 26.22<br />date: 19370<br />close: 26.47<br />greenRed: Green",null,"date: 2023-01-17<br />open: 26.49<br />date: 19374<br />close: 26.78<br />greenRed: Green","date: 2023-01-17<br />open: 26.49<br />date: 19374<br />close: 26.78<br />greenRed: Green",null,"date: 2023-01-19<br />open: 26.01<br />date: 19376<br />close: 26.35<br />greenRed: Green","date: 2023-01-19<br />open: 26.01<br />date: 19376<br />close: 26.35<br />greenRed: Green",null,"date: 2023-01-20<br />open: 25.94<br />date: 19377<br />close: 26.10<br />greenRed: Green","date: 2023-01-20<br />open: 25.94<br />date: 19377<br />close: 26.10<br />greenRed: Green",null,"date: 2023-01-27<br />open: 27.32<br />date: 19384<br />close: 27.34<br />greenRed: Green","date: 2023-01-27<br />open: 27.32<br />date: 19384<br />close: 27.34<br />greenRed: Green",null,"date: 2023-01-30<br />open: 27.25<br />date: 19387<br />close: 27.25<br />greenRed: Green","date: 2023-01-30<br />open: 27.25<br />date: 19387<br />close: 27.25<br />greenRed: Green",null,"date: 2023-01-31<br />open: 27.21<br />date: 19388<br />close: 27.21<br />greenRed: Green","date: 2023-01-31<br />open: 27.21<br />date: 19388<br />close: 27.21<br />greenRed: Green",null,"date: 2023-02-01<br />open: 27.41<br />date: 19389<br />close: 27.53<br />greenRed: Green","date: 2023-02-01<br />open: 27.41<br />date: 19389<br />close: 27.53<br />greenRed: Green",null,"date: 2023-02-03<br />open: 26.86<br />date: 19391<br />close: 27.00<br />greenRed: Green","date: 2023-02-03<br />open: 26.86<br />date: 19391<br />close: 27.00<br />greenRed: Green",null,"date: 2023-02-06<br />open: 26.91<br />date: 19394<br />close: 27.08<br />greenRed: Green","date: 2023-02-06<br />open: 26.91<br />date: 19394<br />close: 27.08<br />greenRed: Green",null,"date: 2023-02-08<br />open: 27.25<br />date: 19396<br />close: 27.35<br />greenRed: Green","date: 2023-02-08<br />open: 27.25<br />date: 19396<br />close: 27.35<br />greenRed: Green",null,"date: 2023-02-09<br />open: 27.30<br />date: 19397<br />close: 27.34<br />greenRed: Green","date: 2023-02-09<br />open: 27.30<br />date: 19397<br />close: 27.34<br />greenRed: Green",null,"date: 2023-02-10<br />open: 27.14<br />date: 19398<br />close: 27.27<br />greenRed: Green","date: 2023-02-10<br />open: 27.14<br />date: 19398<br />close: 27.27<br />greenRed: Green",null,"date: 2023-02-14<br />open: 26.26<br />date: 19402<br />close: 26.41<br />greenRed: Green","date: 2023-02-14<br />open: 26.26<br />date: 19402<br />close: 26.41<br />greenRed: Green",null,"date: 2023-02-15<br />open: 25.82<br />date: 19403<br />close: 26.18<br />greenRed: Green","date: 2023-02-15<br />open: 25.82<br />date: 19403<br />close: 26.18<br />greenRed: Green",null,"date: 2023-02-21<br />open: 25.99<br />date: 19409<br />close: 26.06<br />greenRed: Green","date: 2023-02-21<br />open: 25.99<br />date: 19409<br />close: 26.06<br />greenRed: Green",null,"date: 2023-02-22<br />open: 25.93<br />date: 19410<br />close: 26.02<br />greenRed: Green","date: 2023-02-22<br />open: 25.93<br />date: 19410<br />close: 26.02<br />greenRed: Green",null,"date: 2023-02-24<br />open: 25.29<br />date: 19412<br />close: 25.40<br />greenRed: Green","date: 2023-02-24<br />open: 25.29<br />date: 19412<br />close: 25.40<br />greenRed: Green",null,"date: 2023-02-28<br />open: 25.38<br />date: 19416<br />close: 25.38<br />greenRed: Green","date: 2023-02-28<br />open: 25.38<br />date: 19416<br />close: 25.38<br />greenRed: Green",null,"date: 2023-03-02<br />open: 24.84<br />date: 19418<br />close: 25.06<br />greenRed: Green","date: 2023-03-02<br />open: 24.84<br />date: 19418<br />close: 25.06<br />greenRed: Green",null,"date: 2023-03-06<br />open: 25.24<br />date: 19422<br />close: 25.24<br />greenRed: Green","date: 2023-03-06<br />open: 25.24<br />date: 19422<br />close: 25.24<br />greenRed: Green",null,"date: 2023-03-07<br />open: 24.94<br />date: 19423<br />close: 25.20<br />greenRed: Green","date: 2023-03-07<br />open: 24.94<br />date: 19423<br />close: 25.20<br />greenRed: Green",null,"date: 2023-03-16<br />open: 23.90<br />date: 19432<br />close: 24.42<br />greenRed: Green","date: 2023-03-16<br />open: 23.90<br />date: 19432<br />close: 24.42<br />greenRed: Green",null,"date: 2023-03-17<br />open: 23.81<br />date: 19433<br />close: 24.25<br />greenRed: Green","date: 2023-03-17<br />open: 23.81<br />date: 19433<br />close: 24.25<br />greenRed: Green",null,"date: 2023-03-23<br />open: 25.17<br />date: 19439<br />close: 25.45<br />greenRed: Green","date: 2023-03-23<br />open: 25.17<br />date: 19439<br />close: 25.45<br />greenRed: Green"],"type":"scatter","mode":"lines","line":{"width":11.3385826771654,"color":"rgba(34,139,34,1)","dash":"solid"},"hoveron":"points","name":"Green","legendgroup":"Green","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[19360,19360,null,19368,19368,null,19369,19369,null,19375,19375,null,19380,19380,null,19381,19381,null,19382,19382,null,19383,19383,null,19390,19390,null,19395,19395,null,19401,19401,null,19404,19404,null,19405,19405,null,19411,19411,null,19415,19415,null,19417,19417,null,19419,19419,null,19424,19424,null,19425,19425,null,19426,19426,null,19429,19429,null,19430,19430,null,19431,19431,null,19436,19436,null,19437,19437,null,19438,19438,null,19440,19440],"y":[25.639999,25.6,null,26.200001,26.18,null,26.34,26.08,null,26.620001,26.610001,null,26.629999,25.84,null,26.360001,25.9,null,26.870001,26.68,null,27.23,26.799999,null,27.09,26.6,null,27.09,26.889999,null,26.620001,26.32,null,26.17,26.08,null,26.379999,25.860001,null,25.559999,25.48,null,25.77,25.43,null,25.23,25.1,null,25.01,24.969999,null,25.049999,24.860001,null,24.58,24.370001,null,24.360001,24.299999,null,23.940001,23.65,null,24.24,23.77,null,23.76,23.530001,null,24.33,24.059999,null,24.610001,24.27,null,25.280001,24.940001,null,25.18,25.02],"text":["date: 2023-01-03<br />open: 25.64<br />date: 19360<br />close: 25.60<br />greenRed: Red","date: 2023-01-03<br />open: 25.64<br />date: 19360<br />close: 25.60<br />greenRed: Red",null,"date: 2023-01-11<br />open: 26.20<br />date: 19368<br />close: 26.18<br />greenRed: Red","date: 2023-01-11<br />open: 26.20<br />date: 19368<br />close: 26.18<br />greenRed: Red",null,"date: 2023-01-12<br />open: 26.34<br />date: 19369<br />close: 26.08<br />greenRed: Red","date: 2023-01-12<br />open: 26.34<br />date: 19369<br />close: 26.08<br />greenRed: Red",null,"date: 2023-01-18<br />open: 26.62<br />date: 19375<br />close: 26.61<br />greenRed: Red","date: 2023-01-18<br />open: 26.62<br />date: 19375<br />close: 26.61<br />greenRed: Red",null,"date: 2023-01-23<br />open: 26.63<br />date: 19380<br />close: 25.84<br />greenRed: Red","date: 2023-01-23<br />open: 26.63<br />date: 19380<br />close: 25.84<br />greenRed: Red",null,"date: 2023-01-24<br />open: 26.36<br />date: 19381<br />close: 25.90<br />greenRed: Red","date: 2023-01-24<br />open: 26.36<br />date: 19381<br />close: 25.90<br />greenRed: Red",null,"date: 2023-01-25<br />open: 26.87<br />date: 19382<br />close: 26.68<br />greenRed: Red","date: 2023-01-25<br />open: 26.87<br />date: 19382<br />close: 26.68<br />greenRed: Red",null,"date: 2023-01-26<br />open: 27.23<br />date: 19383<br />close: 26.80<br />greenRed: Red","date: 2023-01-26<br />open: 27.23<br />date: 19383<br />close: 26.80<br />greenRed: Red",null,"date: 2023-02-02<br />open: 27.09<br />date: 19390<br />close: 26.60<br />greenRed: Red","date: 2023-02-02<br />open: 27.09<br />date: 19390<br />close: 26.60<br />greenRed: Red",null,"date: 2023-02-07<br />open: 27.09<br />date: 19395<br />close: 26.89<br />greenRed: Red","date: 2023-02-07<br />open: 27.09<br />date: 19395<br />close: 26.89<br />greenRed: Red",null,"date: 2023-02-13<br />open: 26.62<br />date: 19401<br />close: 26.32<br />greenRed: Red","date: 2023-02-13<br />open: 26.62<br />date: 19401<br />close: 26.32<br />greenRed: Red",null,"date: 2023-02-16<br />open: 26.17<br />date: 19404<br />close: 26.08<br />greenRed: Red","date: 2023-02-16<br />open: 26.17<br />date: 19404<br />close: 26.08<br />greenRed: Red",null,"date: 2023-02-17<br />open: 26.38<br />date: 19405<br />close: 25.86<br />greenRed: Red","date: 2023-02-17<br />open: 26.38<br />date: 19405<br />close: 25.86<br />greenRed: Red",null,"date: 2023-02-23<br />open: 25.56<br />date: 19411<br />close: 25.48<br />greenRed: Red","date: 2023-02-23<br />open: 25.56<br />date: 19411<br />close: 25.48<br />greenRed: Red",null,"date: 2023-02-27<br />open: 25.77<br />date: 19415<br />close: 25.43<br />greenRed: Red","date: 2023-02-27<br />open: 25.77<br />date: 19415<br />close: 25.43<br />greenRed: Red",null,"date: 2023-03-01<br />open: 25.23<br />date: 19417<br />close: 25.10<br />greenRed: Red","date: 2023-03-01<br />open: 25.23<br />date: 19417<br />close: 25.10<br />greenRed: Red",null,"date: 2023-03-03<br />open: 25.01<br />date: 19419<br />close: 24.97<br />greenRed: Red","date: 2023-03-03<br />open: 25.01<br />date: 19419<br />close: 24.97<br />greenRed: Red",null,"date: 2023-03-08<br />open: 25.05<br />date: 19424<br />close: 24.86<br />greenRed: Red","date: 2023-03-08<br />open: 25.05<br />date: 19424<br />close: 24.86<br />greenRed: Red",null,"date: 2023-03-09<br />open: 24.58<br />date: 19425<br />close: 24.37<br />greenRed: Red","date: 2023-03-09<br />open: 24.58<br />date: 19425<br />close: 24.37<br />greenRed: Red",null,"date: 2023-03-10<br />open: 24.36<br />date: 19426<br />close: 24.30<br />greenRed: Red","date: 2023-03-10<br />open: 24.36<br />date: 19426<br />close: 24.30<br />greenRed: Red",null,"date: 2023-03-13<br />open: 23.94<br />date: 19429<br />close: 23.65<br />greenRed: Red","date: 2023-03-13<br />open: 23.94<br />date: 19429<br />close: 23.65<br />greenRed: Red",null,"date: 2023-03-14<br />open: 24.24<br />date: 19430<br />close: 23.77<br />greenRed: Red","date: 2023-03-14<br />open: 24.24<br />date: 19430<br />close: 23.77<br />greenRed: Red",null,"date: 2023-03-15<br />open: 23.76<br />date: 19431<br />close: 23.53<br />greenRed: Red","date: 2023-03-15<br />open: 23.76<br />date: 19431<br />close: 23.53<br />greenRed: Red",null,"date: 2023-03-20<br />open: 24.33<br />date: 19436<br />close: 24.06<br />greenRed: Red","date: 2023-03-20<br />open: 24.33<br />date: 19436<br />close: 24.06<br />greenRed: Red",null,"date: 2023-03-21<br />open: 24.61<br />date: 19437<br />close: 24.27<br />greenRed: Red","date: 2023-03-21<br />open: 24.61<br />date: 19437<br />close: 24.27<br />greenRed: Red",null,"date: 2023-03-22<br />open: 25.28<br />date: 19438<br />close: 24.94<br />greenRed: Red","date: 2023-03-22<br />open: 25.28<br />date: 19438<br />close: 24.94<br />greenRed: Red",null,"date: 2023-03-24<br />open: 25.18<br />date: 19440<br />close: 25.02<br />greenRed: Red","date: 2023-03-24<br />open: 25.18<br />date: 19440<br />close: 25.02<br />greenRed: Red"],"type":"scatter","mode":"lines","line":{"width":11.3385826771654,"color":"rgba(255,0,0,1)","dash":"solid"},"hoveron":"points","name":"Red","legendgroup":"Red","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[19361,19361,null,19362,19362,null,19363,19363,null,19366,19366,null,19367,19367,null,19370,19370,null,19374,19374,null,19376,19376,null,19377,19377,null,19384,19384,null,19387,19387,null,19388,19388,null,19389,19389,null,19391,19391,null,19394,19394,null,19396,19396,null,19397,19397,null,19398,19398,null,19402,19402,null,19403,19403,null,19409,19409,null,19410,19410,null,19412,19412,null,19416,19416,null,19418,19418,null,19422,19422,null,19423,19423,null,19432,19432,null,19433,19433,null,19439,19439],"y":[25.76,24.969999,null,25.91,25.280001,null,26.299999,26.040001,null,26.959999,26.219999,null,26.26,25.76,null,26.469999,26.16,null,26.780001,26.34,null,26.35,26,null,26.540001,25.940001,null,27.459999,27.309999,null,27.25,26.950001,null,27.209999,27.209999,null,27.530001,26.98,null,27.16,26.709999,null,27.24,26.75,null,27.35,27,null,27.459999,27.18,null,27.43,26.870001,null,26.57,26.030001,null,26.25,25.66,null,26.129999,25.790001,null,26.049999,25.700001,null,25.559999,25.290001,null,25.41,25.379999,null,25.120001,24.809999,null,25.4,25.1,null,25.200001,24.780001,null,24.42,23.74,null,24.25,23.65,null,25.450001,25.08],"text":["date: 2023-01-04<br />high: 25.76<br />date: 19361<br />low: 24.97<br />greenRed: Green","date: 2023-01-04<br />high: 25.76<br />date: 19361<br />low: 24.97<br />greenRed: Green",null,"date: 2023-01-05<br />high: 25.91<br />date: 19362<br />low: 25.28<br />greenRed: Green","date: 2023-01-05<br />high: 25.91<br />date: 19362<br />low: 25.28<br />greenRed: Green",null,"date: 2023-01-06<br />high: 26.30<br />date: 19363<br />low: 26.04<br />greenRed: Green","date: 2023-01-06<br />high: 26.30<br />date: 19363<br />low: 26.04<br />greenRed: Green",null,"date: 2023-01-09<br />high: 26.96<br />date: 19366<br />low: 26.22<br />greenRed: Green","date: 2023-01-09<br />high: 26.96<br />date: 19366<br />low: 26.22<br />greenRed: Green",null,"date: 2023-01-10<br />high: 26.26<br />date: 19367<br />low: 25.76<br />greenRed: Green","date: 2023-01-10<br />high: 26.26<br />date: 19367<br />low: 25.76<br />greenRed: Green",null,"date: 2023-01-13<br />high: 26.47<br />date: 19370<br />low: 26.16<br />greenRed: Green","date: 2023-01-13<br />high: 26.47<br />date: 19370<br />low: 26.16<br />greenRed: Green",null,"date: 2023-01-17<br />high: 26.78<br />date: 19374<br />low: 26.34<br />greenRed: Green","date: 2023-01-17<br />high: 26.78<br />date: 19374<br />low: 26.34<br />greenRed: Green",null,"date: 2023-01-19<br />high: 26.35<br />date: 19376<br />low: 26.00<br />greenRed: Green","date: 2023-01-19<br />high: 26.35<br />date: 19376<br />low: 26.00<br />greenRed: Green",null,"date: 2023-01-20<br />high: 26.54<br />date: 19377<br />low: 25.94<br />greenRed: Green","date: 2023-01-20<br />high: 26.54<br />date: 19377<br />low: 25.94<br />greenRed: Green",null,"date: 2023-01-27<br />high: 27.46<br />date: 19384<br />low: 27.31<br />greenRed: Green","date: 2023-01-27<br />high: 27.46<br />date: 19384<br />low: 27.31<br />greenRed: Green",null,"date: 2023-01-30<br />high: 27.25<br />date: 19387<br />low: 26.95<br />greenRed: Green","date: 2023-01-30<br />high: 27.25<br />date: 19387<br />low: 26.95<br />greenRed: Green",null,"date: 2023-01-31<br />high: 27.21<br />date: 19388<br />low: 27.21<br />greenRed: Green","date: 2023-01-31<br />high: 27.21<br />date: 19388<br />low: 27.21<br />greenRed: Green",null,"date: 2023-02-01<br />high: 27.53<br />date: 19389<br />low: 26.98<br />greenRed: Green","date: 2023-02-01<br />high: 27.53<br />date: 19389<br />low: 26.98<br />greenRed: Green",null,"date: 2023-02-03<br />high: 27.16<br />date: 19391<br />low: 26.71<br />greenRed: Green","date: 2023-02-03<br />high: 27.16<br />date: 19391<br />low: 26.71<br />greenRed: Green",null,"date: 2023-02-06<br />high: 27.24<br />date: 19394<br />low: 26.75<br />greenRed: Green","date: 2023-02-06<br />high: 27.24<br />date: 19394<br />low: 26.75<br />greenRed: Green",null,"date: 2023-02-08<br />high: 27.35<br />date: 19396<br />low: 27.00<br />greenRed: Green","date: 2023-02-08<br />high: 27.35<br />date: 19396<br />low: 27.00<br />greenRed: Green",null,"date: 2023-02-09<br />high: 27.46<br />date: 19397<br />low: 27.18<br />greenRed: Green","date: 2023-02-09<br />high: 27.46<br />date: 19397<br />low: 27.18<br />greenRed: Green",null,"date: 2023-02-10<br />high: 27.43<br />date: 19398<br />low: 26.87<br />greenRed: Green","date: 2023-02-10<br />high: 27.43<br />date: 19398<br />low: 26.87<br />greenRed: Green",null,"date: 2023-02-14<br />high: 26.57<br />date: 19402<br />low: 26.03<br />greenRed: Green","date: 2023-02-14<br />high: 26.57<br />date: 19402<br />low: 26.03<br />greenRed: Green",null,"date: 2023-02-15<br />high: 26.25<br />date: 19403<br />low: 25.66<br />greenRed: Green","date: 2023-02-15<br />high: 26.25<br />date: 19403<br />low: 25.66<br />greenRed: Green",null,"date: 2023-02-21<br />high: 26.13<br />date: 19409<br />low: 25.79<br />greenRed: Green","date: 2023-02-21<br />high: 26.13<br />date: 19409<br />low: 25.79<br />greenRed: Green",null,"date: 2023-02-22<br />high: 26.05<br />date: 19410<br />low: 25.70<br />greenRed: Green","date: 2023-02-22<br />high: 26.05<br />date: 19410<br />low: 25.70<br />greenRed: Green",null,"date: 2023-02-24<br />high: 25.56<br />date: 19412<br />low: 25.29<br />greenRed: Green","date: 2023-02-24<br />high: 25.56<br />date: 19412<br />low: 25.29<br />greenRed: Green",null,"date: 2023-02-28<br />high: 25.41<br />date: 19416<br />low: 25.38<br />greenRed: Green","date: 2023-02-28<br />high: 25.41<br />date: 19416<br />low: 25.38<br />greenRed: Green",null,"date: 2023-03-02<br />high: 25.12<br />date: 19418<br />low: 24.81<br />greenRed: Green","date: 2023-03-02<br />high: 25.12<br />date: 19418<br />low: 24.81<br />greenRed: Green",null,"date: 2023-03-06<br />high: 25.40<br />date: 19422<br />low: 25.10<br />greenRed: Green","date: 2023-03-06<br />high: 25.40<br />date: 19422<br />low: 25.10<br />greenRed: Green",null,"date: 2023-03-07<br />high: 25.20<br />date: 19423<br />low: 24.78<br />greenRed: Green","date: 2023-03-07<br />high: 25.20<br />date: 19423<br />low: 24.78<br />greenRed: Green",null,"date: 2023-03-16<br />high: 24.42<br />date: 19432<br />low: 23.74<br />greenRed: Green","date: 2023-03-16<br />high: 24.42<br />date: 19432<br />low: 23.74<br />greenRed: Green",null,"date: 2023-03-17<br />high: 24.25<br />date: 19433<br />low: 23.65<br />greenRed: Green","date: 2023-03-17<br />high: 24.25<br />date: 19433<br />low: 23.65<br />greenRed: Green",null,"date: 2023-03-23<br />high: 25.45<br />date: 19439<br />low: 25.08<br />greenRed: Green","date: 2023-03-23<br />high: 25.45<br />date: 19439<br />low: 25.08<br />greenRed: Green"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(34,139,34,1)","dash":"solid"},"hoveron":"points","name":"Green","legendgroup":"Green","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[19360,19360,null,19368,19368,null,19369,19369,null,19375,19375,null,19380,19380,null,19381,19381,null,19382,19382,null,19383,19383,null,19390,19390,null,19395,19395,null,19401,19401,null,19404,19404,null,19405,19405,null,19411,19411,null,19415,19415,null,19417,19417,null,19419,19419,null,19424,19424,null,19425,19425,null,19426,19426,null,19429,19429,null,19430,19430,null,19431,19431,null,19436,19436,null,19437,19437,null,19438,19438,null,19440,19440],"y":[25.799999,24.73,null,26.33,25.85,null,26.34,25.92,null,26.620001,26.200001,null,26.790001,25.84,null,26.360001,25.9,null,27,26.68,null,27.23,26.799999,null,27.09,26.6,null,27.27,26.889999,null,26.620001,26.32,null,26.17,25.690001,null,26.379999,25.860001,null,25.67,25.4,null,25.77,25.43,null,25.469999,24.879999,null,25.08,24.85,null,25.049999,24.66,null,25.059999,24.370001,null,24.719999,24.24,null,24.42,23.65,null,24.370001,23.77,null,24.02,23.530001,null,24.33,24.059999,null,24.860001,24.27,null,25.280001,24.940001,null,25.18,24.93],"text":["date: 2023-01-03<br />high: 25.80<br />date: 19360<br />low: 24.73<br />greenRed: Red","date: 2023-01-03<br />high: 25.80<br />date: 19360<br />low: 24.73<br />greenRed: Red",null,"date: 2023-01-11<br />high: 26.33<br />date: 19368<br />low: 25.85<br />greenRed: Red","date: 2023-01-11<br />high: 26.33<br />date: 19368<br />low: 25.85<br />greenRed: Red",null,"date: 2023-01-12<br />high: 26.34<br />date: 19369<br />low: 25.92<br />greenRed: Red","date: 2023-01-12<br />high: 26.34<br />date: 19369<br />low: 25.92<br />greenRed: Red",null,"date: 2023-01-18<br />high: 26.62<br />date: 19375<br />low: 26.20<br />greenRed: Red","date: 2023-01-18<br />high: 26.62<br />date: 19375<br />low: 26.20<br />greenRed: Red",null,"date: 2023-01-23<br />high: 26.79<br />date: 19380<br />low: 25.84<br />greenRed: Red","date: 2023-01-23<br />high: 26.79<br />date: 19380<br />low: 25.84<br />greenRed: Red",null,"date: 2023-01-24<br />high: 26.36<br />date: 19381<br />low: 25.90<br />greenRed: Red","date: 2023-01-24<br />high: 26.36<br />date: 19381<br />low: 25.90<br />greenRed: Red",null,"date: 2023-01-25<br />high: 27.00<br />date: 19382<br />low: 26.68<br />greenRed: Red","date: 2023-01-25<br />high: 27.00<br />date: 19382<br />low: 26.68<br />greenRed: Red",null,"date: 2023-01-26<br />high: 27.23<br />date: 19383<br />low: 26.80<br />greenRed: Red","date: 2023-01-26<br />high: 27.23<br />date: 19383<br />low: 26.80<br />greenRed: Red",null,"date: 2023-02-02<br />high: 27.09<br />date: 19390<br />low: 26.60<br />greenRed: Red","date: 2023-02-02<br />high: 27.09<br />date: 19390<br />low: 26.60<br />greenRed: Red",null,"date: 2023-02-07<br />high: 27.27<br />date: 19395<br />low: 26.89<br />greenRed: Red","date: 2023-02-07<br />high: 27.27<br />date: 19395<br />low: 26.89<br />greenRed: Red",null,"date: 2023-02-13<br />high: 26.62<br />date: 19401<br />low: 26.32<br />greenRed: Red","date: 2023-02-13<br />high: 26.62<br />date: 19401<br />low: 26.32<br />greenRed: Red",null,"date: 2023-02-16<br />high: 26.17<br />date: 19404<br />low: 25.69<br />greenRed: Red","date: 2023-02-16<br />high: 26.17<br />date: 19404<br />low: 25.69<br />greenRed: Red",null,"date: 2023-02-17<br />high: 26.38<br />date: 19405<br />low: 25.86<br />greenRed: Red","date: 2023-02-17<br />high: 26.38<br />date: 19405<br />low: 25.86<br />greenRed: Red",null,"date: 2023-02-23<br />high: 25.67<br />date: 19411<br />low: 25.40<br />greenRed: Red","date: 2023-02-23<br />high: 25.67<br />date: 19411<br />low: 25.40<br />greenRed: Red",null,"date: 2023-02-27<br />high: 25.77<br />date: 19415<br />low: 25.43<br />greenRed: Red","date: 2023-02-27<br />high: 25.77<br />date: 19415<br />low: 25.43<br />greenRed: Red",null,"date: 2023-03-01<br />high: 25.47<br />date: 19417<br />low: 24.88<br />greenRed: Red","date: 2023-03-01<br />high: 25.47<br />date: 19417<br />low: 24.88<br />greenRed: Red",null,"date: 2023-03-03<br />high: 25.08<br />date: 19419<br />low: 24.85<br />greenRed: Red","date: 2023-03-03<br />high: 25.08<br />date: 19419<br />low: 24.85<br />greenRed: Red",null,"date: 2023-03-08<br />high: 25.05<br />date: 19424<br />low: 24.66<br />greenRed: Red","date: 2023-03-08<br />high: 25.05<br />date: 19424<br />low: 24.66<br />greenRed: Red",null,"date: 2023-03-09<br />high: 25.06<br />date: 19425<br />low: 24.37<br />greenRed: Red","date: 2023-03-09<br />high: 25.06<br />date: 19425<br />low: 24.37<br />greenRed: Red",null,"date: 2023-03-10<br />high: 24.72<br />date: 19426<br />low: 24.24<br />greenRed: Red","date: 2023-03-10<br />high: 24.72<br />date: 19426<br />low: 24.24<br />greenRed: Red",null,"date: 2023-03-13<br />high: 24.42<br />date: 19429<br />low: 23.65<br />greenRed: Red","date: 2023-03-13<br />high: 24.42<br />date: 19429<br />low: 23.65<br />greenRed: Red",null,"date: 2023-03-14<br />high: 24.37<br />date: 19430<br />low: 23.77<br />greenRed: Red","date: 2023-03-14<br />high: 24.37<br />date: 19430<br />low: 23.77<br />greenRed: Red",null,"date: 2023-03-15<br />high: 24.02<br />date: 19431<br />low: 23.53<br />greenRed: Red","date: 2023-03-15<br />high: 24.02<br />date: 19431<br />low: 23.53<br />greenRed: Red",null,"date: 2023-03-20<br />high: 24.33<br />date: 19436<br />low: 24.06<br />greenRed: Red","date: 2023-03-20<br />high: 24.33<br />date: 19436<br />low: 24.06<br />greenRed: Red",null,"date: 2023-03-21<br />high: 24.86<br />date: 19437<br />low: 24.27<br />greenRed: Red","date: 2023-03-21<br />high: 24.86<br />date: 19437<br />low: 24.27<br />greenRed: Red",null,"date: 2023-03-22<br />high: 25.28<br />date: 19438<br />low: 24.94<br />greenRed: Red","date: 2023-03-22<br />high: 25.28<br />date: 19438<br />low: 24.94<br />greenRed: Red",null,"date: 2023-03-24<br />high: 25.18<br />date: 19440<br />low: 24.93<br />greenRed: Red","date: 2023-03-24<br />high: 25.18<br />date: 19440<br />low: 24.93<br />greenRed: Red"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(255,0,0,1)","dash":"solid"},"hoveron":"points","name":"Red","legendgroup":"Red","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":25.5707762557078,"l":22.648401826484},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(44,62,80,1)","family":"","size":14.6118721461187},"title":{"text":"DBSDF (2023-01-01 - 2023-03-25)","font":{"color":"rgba(44,62,80,1)","family":"","size":17.5342465753425},"x":0.5,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[19356,19444],"tickmode":"array","ticktext":["Jan","Feb","Mar"],"tickvals":[19358,19389,19417],"categoryorder":"array","categoryarray":["Jan","Feb","Mar"],"nticks":null,"ticks":"outside","tickcolor":"rgba(204,204,204,1)","ticklen":3.65296803652968,"tickwidth":0.22139200221392,"showticklabels":true,"tickfont":{"color":"rgba(44,62,80,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(204,204,204,1)","gridwidth":0.22139200221392,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":null,"family":null,"size":0}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[23.330001,27.730001],"tickmode":"array","ticktext":["24","25","26","27"],"tickvals":[24,25,26,27],"categoryorder":"array","categoryarray":["24","25","26","27"],"nticks":null,"ticks":"outside","tickcolor":"rgba(204,204,204,1)","ticklen":3.65296803652968,"tickwidth":0.22139200221392,"showticklabels":true,"tickfont":{"color":"rgba(44,62,80,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(204,204,204,1)","gridwidth":0.22139200221392,"zeroline":false,"anchor":"x","title":{"text":"","font":{"color":null,"family":null,"size":0}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(44,62,80,1)","width":0.33208800332088,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(44,62,80,1)","family":"","size":11.689497716895}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"3b7cc6267dc":{"x":{},"y":{},"xend":{},"yend":{},"colour":{},"type":"scatter"},"3b7c3c73445e":{"x":{},"y":{},"xend":{},"yend":{},"colour":{}}},"cur_data":"3b7cc6267dc","visdat":{"3b7cc6267dc":["function (y) ","x"],"3b7c3c73445e":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
